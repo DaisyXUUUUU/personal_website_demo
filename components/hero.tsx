@@ -136,8 +136,11 @@ export function Hero() {
           </div>
 
           {/* Center — pinned portrait on pink circle (never moves) */}
-          <div className="order-1 flex h-full justify-center self-end lg:order-2">
-            <div className="relative flex h-full min-h-[520px] w-full max-w-3xl items-end justify-center">
+          {/* overflow-hidden clips the portrait so it never bleeds into the marquee */}
+          <div className="order-1 flex h-full justify-center self-end overflow-hidden lg:order-2">
+            {/* inner wrapper stops 72 px above the viewport bottom — marquee height */}
+            <div className="relative flex w-full max-w-3xl items-end justify-center"
+              style={{ height: 'calc(100% - 72px)' }}>
               <div className="hero-anim-circle absolute left-1/2 top-1/2 aspect-square w-[80%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-hero-pink [animation-delay:0.1s]" />
               <div className="hero-anim-rise absolute bottom-0 left-1/2 z-10 h-full w-[132%] -translate-x-1/2 [animation-delay:0.5s]">
                 <Image
