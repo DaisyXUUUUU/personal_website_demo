@@ -45,17 +45,17 @@ export function Hero() {
 
         {/* Center — portrait layered ON TOP of a pink circle (circle is just a backdrop) */}
         <div className="order-1 flex justify-center self-end lg:order-2 lg:h-full">
-          <div className="relative flex h-full w-full max-w-3xl items-end justify-center">
-            {/* pink circle backdrop, sitting behind the head/upper body */}
-            <div className="hero-anim-circle absolute left-1/2 top-[14%] aspect-square w-[78%] -translate-x-1/2 rounded-full bg-hero-pink [animation-delay:0.1s]" />
-            {/* portrait cutout, bottom-anchored & enlarged so the head reaches the top and body runs to the bottom */}
-            <div className="hero-anim-rise relative z-10 h-full w-full [animation-delay:0.5s]">
+          <div className="relative flex h-full min-h-[520px] w-full max-w-3xl items-end justify-center">
+            {/* pink circle backdrop — centered in the column */}
+            <div className="hero-anim-circle absolute left-1/2 top-1/2 aspect-square w-[80%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-hero-pink [animation-delay:0.1s]" />
+            {/* portrait cutout, bottom-anchored & enlarged: head rises above the circle to About-Me level, body runs to the bottom */}
+            <div className="hero-anim-rise absolute bottom-0 left-1/2 z-10 h-full w-[132%] -translate-x-1/2 [animation-delay:0.5s]">
               <Image
                 src="/ziyue-portrait.png"
                 alt="Portrait of Ziyue Xu"
                 fill
                 priority
-                className="scale-[1.3] object-contain object-bottom lg:scale-[1.45]"
+                className="object-contain object-bottom"
                 sizes="(max-width: 1024px) 95vw, 65vw"
               />
             </div>
