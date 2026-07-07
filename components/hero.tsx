@@ -73,10 +73,10 @@ export function Hero() {
       <span id="about" className="absolute top-[100vh]" aria-hidden="true" />
 
       {/* pinned viewport */}
-      <div className="sticky top-0 h-screen pt-24 md:pt-28">
+      <div className="sticky top-0 h-screen overflow-hidden pt-24 md:pt-28">
         <div className="mx-auto grid h-[calc(100vh-6rem)] max-w-[1600px] items-center gap-8 px-5 md:px-10 lg:grid-cols-[0.7fr_1.6fr_0.7fr] lg:gap-2">
           {/* Left column — two panels: About Me → Education */}
-          <div className="relative order-2 h-full overflow-visible lg:order-1">
+          <div className="relative order-2 h-full overflow-hidden lg:order-1">
             <div className="flex h-[200%] flex-col" style={slide}>
               {/* Panel 1 — About Me */}
               <div className="flex h-1/2 flex-col justify-center">
@@ -87,7 +87,7 @@ export function Hero() {
                     </span>
                     <span className="h-px flex-1 bg-hero-pink/40" />
                   </div>
-                  <h1 className="text-balance text-4xl font-black uppercase leading-[0.9] tracking-tighter text-hero-pink md:text-5xl lg:text-6xl">
+                  <h1 className="text-balance text-5xl font-black uppercase leading-[0.9] tracking-tighter text-hero-pink md:text-6xl lg:text-7xl">
                     Global
                     <br />
                     thinking.
@@ -96,7 +96,7 @@ export function Hero() {
                     <br />
                     rigor.
                   </h1>
-                  <div className="mt-6 max-w-md space-y-3 pb-20 text-base leading-relaxed text-hero-muted lg:text-lg">
+                  <div className="mt-6 max-w-md space-y-3 text-base leading-relaxed text-hero-muted lg:text-lg">
                     <p>
                       Hi, I&apos;m Ziyue Xu — a First-Class Honours applied mathematician who turns
                       uncertainty into decisions.
@@ -136,13 +136,8 @@ export function Hero() {
           </div>
 
           {/* Center — pinned portrait on pink circle (never moves) */}
-          {/* overflow-hidden clips the portrait so it never bleeds into the marquee */}
-          <div className="order-1 flex h-full justify-center self-end overflow-hidden lg:order-2">
-            {/* inner wrapper stops 72 px above the viewport bottom — marquee height */}
-            <div
-              className="relative flex w-full max-w-3xl items-end justify-center overflow-hidden"
-              style={{ height: 'calc(100% - 72px)' }}
-            >
+          <div className="order-1 flex h-full justify-center self-end lg:order-2">
+            <div className="relative flex h-full min-h-[520px] w-full max-w-3xl items-end justify-center">
               <div className="hero-anim-circle absolute left-1/2 top-1/2 aspect-square w-[80%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-hero-pink [animation-delay:0.1s]" />
               <div className="hero-anim-rise absolute bottom-0 left-1/2 z-10 h-full w-[132%] -translate-x-1/2 [animation-delay:0.5s]">
                 <Image
@@ -158,7 +153,7 @@ export function Hero() {
           </div>
 
           {/* Right column — two panels: Tagline → Skills & Tools */}
-          <div className="relative order-3 h-full overflow-visible">
+          <div className="relative order-3 h-full overflow-hidden">
             <div className="flex h-[200%] flex-col" style={slide}>
               {/* Panel 1 — Tagline */}
               <div className="flex h-1/2 flex-col justify-center">
@@ -166,7 +161,7 @@ export function Hero() {
                   {TAGLINE.map((word) => (
                     <span
                       key={word}
-                      className="bg-hero-pink px-3 py-1 text-4xl font-black uppercase leading-none tracking-tighter text-hero-ink md:text-5xl lg:text-6xl"
+                      className="bg-hero-pink px-4 py-1 text-5xl font-black uppercase leading-none tracking-tighter text-hero-ink md:text-6xl lg:text-7xl"
                     >
                       {word}
                     </span>
