@@ -136,4 +136,41 @@
   .cursor-blink {
     animation: blink 1s step-end infinite;
   }
+
+  /* Hero staggered entrance: circle scales/fades in, portrait & text push up + fade in */
+  @keyframes hero-circle-in {
+    from {
+      opacity: 0;
+      transform: scale(0.82);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  @keyframes hero-rise-in {
+    from {
+      opacity: 0;
+      transform: translateY(28px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .hero-anim-circle {
+    opacity: 0;
+    animation: hero-circle-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+  .hero-anim-rise {
+    opacity: 0;
+    animation: hero-rise-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-anim-circle,
+    .hero-anim-rise {
+      opacity: 1;
+      animation: none;
+    }
+  }
 }

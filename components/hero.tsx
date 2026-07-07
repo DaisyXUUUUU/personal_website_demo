@@ -12,7 +12,7 @@ export function Hero() {
     >
       <div className="mx-auto grid max-w-[1600px] items-center gap-10 px-5 pb-20 pt-8 md:px-10 lg:grid-cols-[1fr_0.9fr_0.8fr] lg:gap-6 lg:pb-8">
         {/* Left — about me copy */}
-        <div className="order-2 lg:order-1">
+        <div className="hero-anim-rise order-2 [animation-delay:0.8s] lg:order-1">
           <div className="mb-6 flex items-center gap-4">
             <span className="text-sm font-bold uppercase tracking-[0.25em] text-hero-pink">
               About Me
@@ -43,25 +43,28 @@ export function Hero() {
           </div>
         </div>
 
-        {/* Center — portrait on pink circle */}
+        {/* Center — portrait framed in a pink circle, cropped to chest */}
         <div className="order-1 flex justify-center lg:order-2">
-          <div className="relative flex aspect-square w-full max-w-md items-end justify-center">
-            <div className="absolute inset-x-4 bottom-0 top-4 rounded-full bg-hero-pink" />
-            <div className="relative h-[115%] w-full">
-              <Image
-                src="/ziyue-portrait.png"
-                alt="Portrait of Ziyue Xu"
-                fill
-                priority
-                className="object-contain object-bottom"
-                sizes="(max-width: 1024px) 90vw, 40vw"
-              />
+          <div className="hero-anim-circle relative aspect-square w-full max-w-lg [animation-delay:0.1s]">
+            {/* pink disc */}
+            <div className="absolute inset-0 overflow-hidden rounded-full bg-hero-pink">
+              <div className="hero-anim-rise absolute inset-0 [animation-delay:0.5s]">
+                <Image
+                  src="/ziyue-portrait.png"
+                  alt="Portrait of Ziyue Xu"
+                  fill
+                  priority
+                  className="scale-[1.35] object-cover object-top"
+                  style={{ objectPosition: '50% 12%' }}
+                  sizes="(max-width: 1024px) 90vw, 42vw"
+                />
+              </div>
             </div>
           </div>
         </div>
 
         {/* Right — tagline blocks */}
-        <div className="order-3 flex flex-col items-start gap-2 lg:items-end">
+        <div className="hero-anim-rise order-3 flex flex-col items-start gap-2 [animation-delay:0.95s] lg:items-end">
           {TAGLINE.map((word) => (
             <span
               key={word}
