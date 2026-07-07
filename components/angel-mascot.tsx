@@ -89,13 +89,13 @@ export function AngelMascot({ active }: { active: boolean }) {
     >
       <div
         ref={boxRef}
-        className="relative w-[min(96vw,1040px)] drop-shadow-[0_0_60px_rgba(233,75,125,0.4)]"
+        className="relative drop-shadow-[0_0_60px_rgba(233,75,125,0.4)]"
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/images/angel-mascot.png"
           alt=""
-          className="block h-auto w-full select-none"
+          className="block h-[30vh] w-auto max-w-[96vw] select-none"
           draggable={false}
         />
 
