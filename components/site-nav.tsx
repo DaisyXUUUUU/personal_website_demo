@@ -62,14 +62,34 @@ export function SiteNav() {
           })}
         </ul>
 
-        <button
-          type="button"
-          onClick={toggle}
-          aria-label="Toggle language"
-          className="rounded-full border border-primary-foreground/70 px-4 py-1 text-sm font-bold text-primary-foreground transition-colors hover:bg-primary-foreground hover:text-primary"
-        >
-          {lang === 'en' ? 'EN' : '中'}
-        </button>
+        <div className="flex items-center gap-1 rounded-full border border-primary-foreground/70 p-0.5 text-sm font-bold">
+          <button
+            type="button"
+            onClick={() => lang !== 'en' && toggle()}
+            aria-label="Switch to English"
+            aria-pressed={lang === 'en'}
+            className={`rounded-full px-3 py-0.5 transition-colors ${
+              lang === 'en'
+                ? 'bg-primary-foreground text-primary'
+                : 'text-primary-foreground/60 hover:text-primary-foreground'
+            }`}
+          >
+            EN
+          </button>
+          <button
+            type="button"
+            onClick={() => lang !== 'zh' && toggle()}
+            aria-label="Switch to Chinese"
+            aria-pressed={lang === 'zh'}
+            className={`rounded-full px-3 py-0.5 transition-colors ${
+              lang === 'zh'
+                ? 'bg-primary-foreground text-primary'
+                : 'text-primary-foreground/60 hover:text-primary-foreground'
+            }`}
+          >
+            中
+          </button>
+        </div>
       </nav>
     </header>
   )
