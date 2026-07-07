@@ -10,7 +10,7 @@ export function Hero() {
       id="top"
       className="relative min-h-screen overflow-hidden bg-hero-bg pt-24 text-hero-ink md:pt-28"
     >
-      <div className="mx-auto grid max-w-[1600px] items-center gap-10 px-5 pb-20 pt-8 md:px-10 lg:grid-cols-[1fr_0.9fr_0.8fr] lg:gap-6 lg:pb-8">
+      <div className="mx-auto grid max-w-[1600px] items-center gap-10 px-5 pb-20 pt-8 md:px-10 lg:grid-cols-[0.8fr_1.25fr_0.72fr] lg:gap-4 lg:pb-8">
         {/* Left — about me copy */}
         <div className="hero-anim-rise order-2 [animation-delay:0.8s] lg:order-1">
           <div className="mb-6 flex items-center gap-4">
@@ -43,22 +43,21 @@ export function Hero() {
           </div>
         </div>
 
-        {/* Center — portrait framed in a pink circle, cropped to chest */}
-        <div className="order-1 flex justify-center lg:order-2">
-          <div className="hero-anim-circle relative aspect-square w-full max-w-lg [animation-delay:0.1s]">
-            {/* pink disc */}
-            <div className="absolute inset-0 overflow-hidden rounded-full bg-hero-pink">
-              <div className="hero-anim-rise absolute inset-0 [animation-delay:0.5s]">
-                <Image
-                  src="/ziyue-portrait.png"
-                  alt="Portrait of Ziyue Xu"
-                  fill
-                  priority
-                  className="scale-[1.35] object-cover object-top"
-                  style={{ objectPosition: '50% 12%' }}
-                  sizes="(max-width: 1024px) 90vw, 42vw"
-                />
-              </div>
+        {/* Center — portrait layered ON TOP of a pink circle (circle is just a backdrop) */}
+        <div className="order-1 flex justify-center self-end lg:order-2">
+          <div className="relative flex w-full max-w-xl items-end justify-center">
+            {/* pink circle backdrop */}
+            <div className="hero-anim-circle absolute left-1/2 top-0 aspect-square w-[88%] -translate-x-1/2 rounded-full bg-hero-pink [animation-delay:0.1s]" />
+            {/* portrait cutout, overflowing the circle */}
+            <div className="hero-anim-rise relative z-10 aspect-[3/4] w-full [animation-delay:0.5s]">
+              <Image
+                src="/ziyue-portrait.png"
+                alt="Portrait of Ziyue Xu"
+                fill
+                priority
+                className="object-contain object-bottom"
+                sizes="(max-width: 1024px) 90vw, 46vw"
+              />
             </div>
           </div>
         </div>
