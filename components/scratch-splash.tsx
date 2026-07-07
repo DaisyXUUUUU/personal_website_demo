@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { PartyPopper } from 'lucide-react'
+import { AngelMascot } from '@/components/angel-mascot'
 
 const SPLASH_PINK = '#e94b7d'
 const UNLOCK_THRESHOLD = 20 // percent scratched required to unlock
@@ -225,6 +226,9 @@ export function ScratchSplash({ onEnter }: { onEnter: () => void }) {
             {'\u2193'} Enter Website {'\u2193'}
           </button>
         </div>
+
+        {/* Cute pink angel blob mascot peeking from the bottom */}
+        <AngelMascot active={phase === 'unlocked' || phase === 'entering'} />
       </div>
 
       {/* Typing intro (DOM) — visible before the scratch canvas is painted */}
