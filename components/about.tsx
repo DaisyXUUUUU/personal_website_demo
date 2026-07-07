@@ -1,17 +1,19 @@
 'use client'
 
+import Image from 'next/image'
+
 const EDUCATION = [
   {
     year: '2021 — 2025',
     school: 'University of Nottingham',
     detail:
-      'BSc Mathematics with Applied Mathematics · First-Class Honours · GPA 3.9/4.0 (76/100, UK) · Ningbo China & Nottingham UK',
+      'BSc Mathematics with Applied Mathematics · First-Class Honours · GPA 3.9/4.0 · Ningbo CN & Nottingham UK',
   },
   {
     year: 'Coursework',
-    school: 'Applied & Computational Focus',
+    school: 'Applied & Computational',
     detail:
-      'Probability Models & Methods · Statistical Models & Methods · Optimization · Scientific Computation & Numerical Analysis · Data Modelling & Analysis',
+      'Probability Models · Statistical Methods · Optimization · Scientific Computation & Numerical Analysis · Data Modelling',
   },
 ]
 
@@ -26,68 +28,75 @@ const SKILLS = [
 
 export function About() {
   return (
-    <section id="about" className="scroll-mt-24 border-t border-border py-20 md:py-28">
-      <div className="mx-auto max-w-[1400px] px-5 md:px-10">
-        <SectionHeader index="01" title="About" />
-
-        <div className="grid gap-16 md:grid-cols-2">
-          {/* Bio + education */}
-          <div>
-            <p className="mb-10 text-pretty text-xl leading-relaxed md:text-2xl">
-              I&apos;m Ziyue Xu, an applied mathematician who builds models that hold up under
-              uncertainty. My work spans stochastic-process modeling, queueing &amp; risk analytics,
-              and large-scale optimization — always paired with clean, reproducible Python so the
-              math actually ships into decisions.
-            </p>
-
-            <h3 className="mb-5 font-mono text-xs uppercase tracking-widest text-primary">
-              [ Education ]
-            </h3>
-            <ul className="divide-y divide-border border-y border-border">
-              {EDUCATION.map((edu) => (
-                <li key={edu.school} className="grid gap-1 py-4 md:grid-cols-[160px_1fr]">
-                  <span className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
-                    {edu.year}
-                  </span>
-                  <div>
-                    <p className="text-lg font-bold uppercase tracking-tight">{edu.school}</p>
-                    <p className="text-sm text-muted-foreground">{edu.detail}</p>
-                  </div>
-                </li>
-              ))}
-            </ul>
+    <section
+      id="about"
+      className="relative min-h-screen overflow-hidden border-t border-hero-pink/20 bg-hero-bg py-20 text-hero-ink"
+    >
+      <div className="mx-auto grid max-w-[1600px] items-center gap-8 px-5 md:px-10 lg:min-h-[calc(100vh-10rem)] lg:grid-cols-[0.8fr_1.5fr_0.8fr] lg:gap-2">
+        {/* Left — Education */}
+        <div className="hero-anim-rise order-2 [animation-delay:0.8s] lg:order-1">
+          <div className="mb-8 flex items-center gap-4">
+            <span className="text-sm font-bold uppercase tracking-[0.25em] text-hero-pink">
+              Education
+            </span>
+            <span className="h-px flex-1 bg-hero-pink/40" />
           </div>
 
-          {/* Skills */}
-          <div>
-            <h3 className="mb-5 font-mono text-xs uppercase tracking-widest text-primary">
-              [ Skills / Python-first ]
-            </h3>
-            <div className="space-y-6">
-              {SKILLS.map((skill) => (
-                <div key={skill.name}>
-                  <div className="mb-2 flex items-baseline justify-between font-mono text-xs uppercase tracking-widest">
-                    <span className="text-foreground">{skill.name}</span>
-                    <span className="text-muted-foreground">{skill.level}%</span>
-                  </div>
-                  <div className="h-2 w-full bg-secondary">
-                    <div className="h-full bg-primary" style={{ width: `${skill.level}%` }} />
-                  </div>
-                </div>
-              ))}
-            </div>
+          <ul className="space-y-8">
+            {EDUCATION.map((edu) => (
+              <li key={edu.school}>
+                <span className="font-mono text-xs uppercase tracking-widest text-hero-pink">
+                  {edu.year}
+                </span>
+                <p className="mt-1 text-2xl font-black uppercase leading-tight tracking-tight text-hero-ink md:text-3xl">
+                  {edu.school}
+                </p>
+                <p className="mt-2 text-sm leading-relaxed text-hero-muted">{edu.detail}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
 
-            <pre className="mt-10 overflow-x-auto border border-border bg-card p-5 font-mono text-xs leading-relaxed text-muted-foreground">
-              <code>{`>>> import ziyue as z
->>> z.role
-'Applied Mathematician · Data Scientist'
->>> z.methods
-['CTMC', 'PH-distributions', 'VaR/CVaR', 'VRP/CVRP', 'ARIMA']
->>> z.gre, z.gpa
-(333, 3.9)
->>> z.status
-'open to research & grad roles'`}</code>
-            </pre>
+        {/* Center — portrait layered ON TOP of a pink circle (shared with Hero) */}
+        <div className="order-1 flex justify-center self-end lg:order-2 lg:h-full">
+          <div className="relative flex h-full min-h-[520px] w-full max-w-3xl items-end justify-center">
+            <div className="hero-anim-circle absolute left-1/2 top-1/2 aspect-square w-[80%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-hero-pink [animation-delay:0.1s]" />
+            <div className="hero-anim-rise absolute bottom-0 left-1/2 z-10 h-full w-[132%] -translate-x-1/2 [animation-delay:0.5s]">
+              <Image
+                src="/ziyue-portrait.png"
+                alt="Portrait of Ziyue Xu"
+                fill
+                className="object-contain object-bottom"
+                sizes="(max-width: 1024px) 95vw, 60vw"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Right — Skills & Tools */}
+        <div className="hero-anim-rise order-3 [animation-delay:0.95s] lg:text-right">
+          <div className="mb-8 flex items-center gap-4 lg:flex-row-reverse">
+            <span className="text-sm font-bold uppercase tracking-[0.25em] text-hero-pink">
+              Skills &amp; Tools
+            </span>
+            <span className="h-px flex-1 bg-hero-pink/40" />
+          </div>
+
+          <div className="space-y-5">
+            {SKILLS.map((skill) => (
+              <div key={skill.name}>
+                <div className="mb-2 flex items-baseline justify-between font-mono text-xs uppercase tracking-widest">
+                  <span className="font-bold text-hero-ink">{skill.name}</span>
+                  <span className="text-hero-muted">{skill.level}%</span>
+                </div>
+                <div className="h-2 w-full overflow-hidden rounded-full bg-hero-pink/20">
+                  <div
+                    className="h-full rounded-full bg-hero-pink"
+                    style={{ width: `${skill.level}%` }}
+                  />
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
