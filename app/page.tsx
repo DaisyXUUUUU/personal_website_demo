@@ -7,20 +7,23 @@ import { Experience } from '@/components/experience'
 import { Human } from '@/components/human'
 import { Contact } from '@/components/contact'
 import { SiteFooter } from '@/components/site-footer'
+import { SplashGate } from '@/components/splash-gate'
 
 export default function Page() {
   return (
-    <LanguageProvider>
-      <SiteNav />
-      <LanguageBanner />
-      <main>
-        <Hero />
-        <About />
-        <Experience />
-        <Human />
-        <Contact />
-      </main>
-      <SiteFooter />
-    </LanguageProvider>
+    <SplashGate>
+      <LanguageProvider>
+        <SiteNav />
+        <LanguageBanner />
+        <main>
+          <Hero />
+          <About />
+          <Experience />
+          <Human />
+          <Contact />
+        </main>
+        <SiteFooter />
+      </LanguageProvider>
+    </SplashGate>
   )
 }
