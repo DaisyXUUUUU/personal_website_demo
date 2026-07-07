@@ -201,7 +201,7 @@ export function ScratchSplash({ onEnter }: { onEnter: () => void }) {
       aria-label="Intro scratch card"
     >
       {/* Bottom layer: the reveal (black) */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center">
+      <div className="absolute inset-0 flex flex-col items-center justify-start px-6 pt-[10vh] text-center md:pt-[12vh]">
         <div
           className={`flex flex-col items-center transition-all duration-700 ${
             phase === 'unlocked' || phase === 'entering'
