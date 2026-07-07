@@ -33,6 +33,10 @@
   --color-secondary: var(--secondary);
   --color-primary-foreground: var(--primary-foreground);
   --color-primary: var(--primary);
+  --color-hero-bg: var(--hero-bg);
+  --color-hero-ink: var(--hero-ink);
+  --color-hero-muted: var(--hero-muted);
+  --color-hero-pink: var(--hero-pink);
   --color-popover-foreground: var(--popover-foreground);
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
@@ -83,6 +87,11 @@
   --sidebar-accent-foreground: oklch(0.96 0.01 340);
   --sidebar-border: oklch(0.3 0.02 340);
   --sidebar-ring: rgb(222 89 143);
+  /* Light-pink "About Me" hero surface — matches design */
+  --hero-bg: rgb(251 224 235);
+  --hero-ink: rgb(24 14 20);
+  --hero-muted: rgb(92 72 82);
+  --hero-pink: rgb(222 89 143);
 }
 
 @layer base {

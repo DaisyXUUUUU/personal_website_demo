@@ -4,57 +4,71 @@ import { useEffect, useState } from 'react'
 import { useLanguage } from './language-provider'
 
 const LINKS = [
-  { label: 'About', href: '#about' },
-  { label: 'Experience', href: '#experience' },
-  { label: 'Human', href: '#human' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'About', href: '#top', id: 'top' },
+  { label: 'Experience', href: '#experience', id: 'experience' },
+  { label: 'Human behind CV', href: '#human', id: 'human' },
+  { label: 'Contact', href: '#contact', id: 'contact' },
 ]
 
 export function SiteNav() {
   const { lang, toggle } = useLanguage()
-  const [scrolled, setScrolled] = useState(false)
+  const [active, setActive] = useState('top')
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24)
-    onScroll()
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
+    const ids = LINKS.map((l) => l.id)
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActive(entry.target.id)
+        })
+      },
+      { rootMargin: '-45% 0px -50% 0px', threshold: 0 },
+    )
+    ids.forEach((id) => {
+      const el = document.getElementById(id)
+      if (el) observer.observe(el)
+    })
+    return () => observer.disconnect()
   }, [])
 
   return (
-    <header
-      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
-        scrolled ? 'border-b border-border bg-background/85 backdrop-blur' : 'border-b border-transparent'
-      }`}
-    >
-      <nav className="mx-auto flex max-w-[1400px] items-center justify-between px-5 py-4 md:px-10">
-        <a href="#top" className="group flex items-baseline gap-2 font-mono text-sm tracking-tight">
-          <span className="font-sans text-lg font-black tracking-tighter text-foreground">ziyue</span>
-          <span className="text-primary">®</span>
+    <header className="fixed inset-x-0 top-0 z-50 bg-primary text-primary-foreground">
+      <nav className="mx-auto flex max-w-[1600px] items-center justify-between gap-4 px-5 py-4 md:px-10">
+        <a
+          href="#top"
+          className="text-lg font-black uppercase tracking-tight text-primary-foreground md:text-xl"
+        >
+          Ziyue Xu
         </a>
 
-        <ul className="hidden items-center gap-8 font-mono text-xs uppercase tracking-widest md:flex">
-          {LINKS.map((link) => (
-            <li key={link.href}>
-              <a
-                href={link.href}
-                className="text-muted-foreground transition-colors hover:text-foreground"
-              >
-                [ {link.label} ]
-              </a>
-            </li>
-          ))}
+        <ul className="hidden items-center gap-2 md:flex">
+          {LINKS.map((link) => {
+            const isActive = active === link.id
+            return (
+              <li key={link.href}>
+                <a
+                  href={link.href}
+                  aria-current={isActive ? 'page' : undefined}
+                  className={`rounded-full px-4 py-1.5 text-sm font-bold transition-colors ${
+                    isActive
+                      ? 'bg-primary-foreground/95 text-primary'
+                      : 'text-primary-foreground/90 hover:text-primary-foreground'
+                  }`}
+                >
+                  {link.label}
+                </a>
+              </li>
+            )
+          })}
         </ul>
 
         <button
           type="button"
           onClick={toggle}
           aria-label="Toggle language"
-          className="flex items-center gap-1 border border-border px-2 py-1 font-mono text-xs uppercase tracking-widest transition-colors hover:border-primary"
+          className="rounded-full border border-primary-foreground/70 px-4 py-1 text-sm font-bold text-primary-foreground transition-colors hover:bg-primary-foreground hover:text-primary"
         >
-          <span className={lang === 'en' ? 'text-primary' : 'text-muted-foreground'}>EN</span>
-          <span className="text-muted-foreground">/</span>
-          <span className={lang === 'zh' ? 'text-primary' : 'text-muted-foreground'}>中</span>
+          {lang === 'en' ? 'EN' : '中'}
         </button>
       </nav>
     </header>

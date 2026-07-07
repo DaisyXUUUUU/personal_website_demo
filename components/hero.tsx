@@ -1,168 +1,86 @@
 'use client'
 
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
-import { X } from 'lucide-react'
+
+const TAGLINE = ['From', 'Insight', 'To', 'Impact']
 
 export function Hero() {
-  const [eggOpen, setEggOpen] = useState(false)
-
-  useEffect(() => {
-    if (!eggOpen) return
-    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setEggOpen(false)
-    window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
-  }, [eggOpen])
-
   return (
-    <section id="top" className="relative overflow-hidden pt-28 md:pt-32">
-      <div className="mx-auto max-w-[1400px] px-5 md:px-10">
-        {/* Status row */}
-        <div className="mb-6 flex flex-wrap items-center justify-between gap-3 border-b border-border pb-4 font-mono text-xs uppercase tracking-widest text-muted-foreground">
-          <span className="flex items-center gap-2">
-            <span className="inline-block size-2 animate-pulse rounded-full bg-primary" />
-            Status [ open to 2026 grad & research roles ]
-          </span>
-          <span>Ningbo, China · GMT+8</span>
-          <span>© {new Date().getFullYear()}</span>
-        </div>
-
-        {/* Giant headline */}
-        <h1 className="text-balance font-black uppercase leading-[0.86] tracking-tighter">
-          <span className="block text-[15vw] md:text-[11vw] lg:text-[9.5rem]">Hi, it&apos;s me</span>
-          <span className="block text-[15vw] md:text-[11vw] lg:text-[9.5rem]">
-            <span className="text-primary">ziyue</span>
-            <button
-              type="button"
-              onClick={() => setEggOpen(true)}
-              aria-label="A little secret"
-              title="psst… click me"
-              className="align-super text-[4vw] text-muted-foreground transition-colors hover:text-primary md:text-[2.5vw] lg:text-3xl"
-            >
-              ®
-            </button>
-          </span>
-          <span className="block text-outline text-[13vw] md:text-[10vw] lg:text-[8.5rem]">
-            Applied Math
-          </span>
-        </h1>
-
-        {/* Sub row: image + blurb */}
-        <div className="mt-10 grid gap-8 border-t border-border pt-8 md:grid-cols-[1.1fr_1fr] md:gap-12">
-          <div className="relative aspect-[4/5] w-full max-w-md overflow-hidden bg-card md:aspect-[3/4]">
-            <Image
-              src="/hero-portrait.png"
-              alt="Editorial portrait of Ziyue Xu"
-              fill
-              priority
-              className="object-cover grayscale transition-all duration-700 hover:grayscale-0"
-              sizes="(max-width: 768px) 100vw, 40vw"
-            />
-            <span className="absolute bottom-3 left-3 font-mono text-[10px] uppercase tracking-widest text-primary-foreground mix-blend-difference">
-              [ fig.01 — the mathematician ]
+    <section
+      id="top"
+      className="relative min-h-screen overflow-hidden bg-hero-bg pt-24 text-hero-ink md:pt-28"
+    >
+      <div className="mx-auto grid max-w-[1600px] items-center gap-10 px-5 pb-20 pt-8 md:px-10 lg:grid-cols-[1fr_0.9fr_0.8fr] lg:gap-6 lg:pb-8">
+        {/* Left — about me copy */}
+        <div className="order-2 lg:order-1">
+          <div className="mb-6 flex items-center gap-4">
+            <span className="text-sm font-bold uppercase tracking-[0.25em] text-hero-pink">
+              About Me
             </span>
+            <span className="h-px flex-1 bg-hero-pink/40" />
           </div>
 
-          <div className="flex flex-col justify-between gap-8">
-            <p className="text-pretty text-2xl font-medium leading-tight md:text-3xl">
-              First-Class Honours mathematician turning{' '}
-              <span className="text-primary">uncertainty into decisions</span> — stochastic
-              modeling, tail-risk analytics and optimization for real operational systems.
+          <h1 className="text-balance text-6xl font-black uppercase leading-[0.9] tracking-tighter text-hero-pink md:text-7xl lg:text-[5.5rem]">
+            Global
+            <br />
+            thinking.
+            <br />
+            Applied
+            <br />
+            rigor.
+          </h1>
+
+          <div className="mt-8 max-w-md space-y-4 text-lg leading-relaxed text-hero-muted">
+            <p>
+              Hi, I&apos;m Ziyue Xu — a First-Class Honours applied mathematician who turns
+              uncertainty into decisions.
             </p>
-            <div className="grid grid-cols-2 gap-4 font-mono text-xs uppercase tracking-widest text-muted-foreground">
-              <div>
-                <p className="mb-1 text-foreground">Focus</p>
-                <p>Stochastic Modeling</p>
-                <p>Risk & Optimization</p>
-              </div>
-              <div>
-                <p className="mb-1 text-foreground">Toolkit</p>
-                <p>Python · SQL · R</p>
-                <p>MATLAB · Tableau</p>
-              </div>
-            </div>
-            <a
-              href="#contact"
-              className="group inline-flex w-fit items-center gap-3 bg-primary px-6 py-3 font-mono text-sm font-bold uppercase tracking-widest text-primary-foreground transition-transform hover:-translate-y-0.5"
-            >
-              Let&apos;s talk
-              <span className="transition-transform group-hover:translate-x-1">→</span>
-            </a>
+            <p>
+              With a background spanning the UK and China, I specialize in stochastic modeling,
+              tail-risk analytics and large-scale optimization — always paired with clean,
+              reproducible Python so the math ships into the real world.
+            </p>
           </div>
         </div>
-      </div>
 
-      {/* Marquee */}
-      <div className="mt-14 overflow-hidden border-y border-border py-4">
-        <div className="marquee-track flex w-max whitespace-nowrap">
-          {Array.from({ length: 2 }).map((_, i) => (
-            <span key={i} className="flex items-center" aria-hidden={i === 1}>
-              {['Stochastic Modeling', 'Tail-Risk Analytics', 'Optimization', 'Monte Carlo', 'Data Science'].map(
-                (word) => (
-                  <span key={word} className="flex items-center">
-                    <span className="px-6 text-4xl font-black uppercase tracking-tighter text-outline md:text-6xl">
-                      {word}
-                    </span>
-                    <span className="text-primary">✦</span>
-                  </span>
-                ),
-              )}
+        {/* Center — portrait on pink circle */}
+        <div className="order-1 flex justify-center lg:order-2">
+          <div className="relative flex aspect-square w-full max-w-md items-end justify-center">
+            <div className="absolute inset-x-4 bottom-0 top-4 rounded-full bg-hero-pink" />
+            <div className="relative h-[115%] w-full">
+              <Image
+                src="/ziyue-portrait.png"
+                alt="Portrait of Ziyue Xu"
+                fill
+                priority
+                className="object-contain object-bottom"
+                sizes="(max-width: 1024px) 90vw, 40vw"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Right — tagline blocks */}
+        <div className="order-3 flex flex-col items-start gap-2 lg:items-end">
+          {TAGLINE.map((word) => (
+            <span
+              key={word}
+              className="bg-hero-pink px-4 py-1 text-6xl font-black uppercase leading-none tracking-tighter text-hero-ink md:text-7xl lg:text-8xl"
+            >
+              {word}
             </span>
           ))}
         </div>
       </div>
 
-      {/* Easter egg dialog */}
-      {eggOpen && (
-        <div
-          className="fixed inset-0 z-[60] flex items-center justify-center bg-background/80 p-5 backdrop-blur-sm"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="egg-title"
-          onClick={() => setEggOpen(false)}
-        >
-          <div
-            className="relative w-full max-w-lg border-2 border-primary bg-card p-8 shadow-2xl"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button
-              type="button"
-              onClick={() => setEggOpen(false)}
-              aria-label="Close"
-              className="absolute right-4 top-4 text-muted-foreground transition-colors hover:text-foreground"
-            >
-              <X className="size-5" />
-            </button>
-            <p className="mb-3 font-mono text-xs uppercase tracking-widest text-primary">
-              [ secret unlocked ]
-            </p>
-            <h2 id="egg-title" className="mb-4 text-3xl font-black uppercase leading-none tracking-tighter">
-              Are you a <span className="text-primary">PhD advisor or recruiter?</span>
-            </h2>
-            <p className="mb-6 text-pretty leading-relaxed text-muted-foreground">
-              You found the hidden button. If you work on stochastic systems, operations research
-              or data-driven decision-making — and you&apos;re looking for a rigorous mathematician
-              who ships — let&apos;s talk. GRE 333 · GPA 3.9/4.0 · First-Class Honours.
-            </p>
-            <div className="flex flex-wrap gap-3">
-              <a
-                href="#contact"
-                onClick={() => setEggOpen(false)}
-                className="bg-primary px-5 py-2.5 font-mono text-xs font-bold uppercase tracking-widest text-primary-foreground"
-              >
-                Get in touch →
-              </a>
-              <button
-                type="button"
-                onClick={() => setEggOpen(false)}
-                className="border border-border px-5 py-2.5 font-mono text-xs uppercase tracking-widest text-muted-foreground transition-colors hover:text-foreground"
-              >
-                Just browsing
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Scroll indicator */}
+      <a
+        href="#experience"
+        aria-label="Scroll to experience"
+        className="absolute bottom-6 left-1/2 flex size-10 -translate-x-1/2 items-center justify-center rounded-full border-2 border-hero-pink"
+      >
+        <span className="size-2.5 animate-bounce rounded-full bg-hero-pink" />
+      </a>
     </section>
   )
 }
