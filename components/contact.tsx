@@ -1,7 +1,8 @@
 'use client'
 
-import { useState, type FormEvent } from 'react'
+import { useRef, useState, type FormEvent } from 'react'
 import Image from 'next/image'
+import { motion, useScroll, useTransform } from 'framer-motion'
 
 type Status = 'idle' | 'sending' | 'done'
 
@@ -40,24 +41,81 @@ const CHANNELS: Channel[] = [
 ]
 
 export function Contact() {
+  const sectionRef = useRef<HTMLElement>(null)
   const [status, setStatus] = useState<Status>('idle')
   const [form, setForm] = useState({ name: '', email: '', message: '' })
+  const [errorMessage, setErrorMessage] = useState('')
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start end', 'end start'] })
 
-  const handleSubmit = (e: FormEvent) => {
+  const titleReveal = useTransform(scrollYProgress, [0.08, 0.28], ['inset(0 100% 0 0)', 'inset(0 0% 0 0)'])
+  const titleOpacity = useTransform(scrollYProgress, [0.08, 0.26], [0, 1])
+  const titleY = useTransform(scrollYProgress, [0.08, 0.26], [28, 0])
+  const terminalX = useTransform(scrollYProgress, [0.16, 0.42], [120, 0])
+  const terminalOpacity = useTransform(scrollYProgress, [0.16, 0.42], [0, 1])
+  const terminalScale = useTransform(scrollYProgress, [0.16, 0.42], [0.95, 1])
+  const bootLine1 = useTransform(scrollYProgress, [0.2, 0.34], [0, 1])
+  const bootLine2 = useTransform(scrollYProgress, [0.26, 0.4], [0, 1])
+  const bootLine3 = useTransform(scrollYProgress, [0.32, 0.46], [0, 1])
+  const bootLine1Y = useTransform(bootLine1, [0, 1], [10, 0])
+  const bootLine2Y = useTransform(bootLine2, [0, 1], [10, 0])
+  const bootLine3Y = useTransform(bootLine3, [0, 1], [10, 0])
+
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     if (status === 'sending') return
+
+    const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID
+    const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID
+    const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
+
+    if (!serviceId || !templateId || !publicKey) {
+      setStatus('idle')
+      setErrorMessage('Email service is not configured. Please set EmailJS environment variables.')
+      return
+    }
+
     setStatus('sending')
-    setTimeout(() => setStatus('done'), 1200)
+    setErrorMessage('')
+
+    try {
+      const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          service_id: serviceId,
+          template_id: templateId,
+          user_id: publicKey,
+          template_params: {
+            name: form.name,
+            email: form.email,
+            message: form.message,
+          },
+        }),
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to send email')
+      }
+
+      setStatus('done')
+    } catch {
+      setStatus('idle')
+      setErrorMessage('Send failed. Please try again in a moment.')
+    }
   }
 
   const reset = () => {
     setForm({ name: '', email: '', message: '' })
     setStatus('idle')
+    setErrorMessage('')
   }
 
   return (
-    <section
+    <motion.section
       id="contact"
+      ref={sectionRef}
       className="scroll-mt-24 border-t-4 border-hero-pink bg-hero-ink py-20 text-hero-card md:py-28"
     >
       <div className="mx-auto max-w-[1400px] px-5 md:px-10">
@@ -69,9 +127,13 @@ export function Contact() {
           <span className="h-px flex-1 bg-hero-pink/60" aria-hidden />
         </div>
 
-        <h2 className="text-pretty text-5xl font-black tracking-tighter text-hero-pink md:text-7xl">
+        <motion.h2
+          className="text-pretty text-5xl font-black tracking-tighter text-hero-pink md:text-7xl"
+          style={{ clipPath: titleReveal, opacity: titleOpacity, y: titleY }}
+        >
           Let&apos;s build something.
-        </h2>
+          <span className="ml-1 inline-block w-[0.08em] animate-pulse text-hero-pink">|</span>
+        </motion.h2>
 
         <div className="mt-12 grid gap-10 lg:grid-cols-2 lg:gap-16">
           {/* Left — contact channels (hover to highlight pink) */}
@@ -85,16 +147,25 @@ export function Contact() {
             </p>
 
             <ul className="mt-10 flex flex-col gap-5">
-              {CHANNELS.map((c) => (
-                <li key={c.label}>
+              {CHANNELS.map((c, idx) => (
+                <motion.li
+                  key={c.label}
+                  initial={{ opacity: 0, x: -38 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, amount: 0.4 }}
+                  transition={{ duration: 0.38, delay: idx * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                >
                   <ChannelRow channel={c} />
-                </li>
+                </motion.li>
               ))}
             </ul>
           </div>
 
           {/* Right — terminal-style form → thank-you reply */}
-          <div className="overflow-hidden rounded-3xl border border-hero-pink/30 bg-hero-pink/25 shadow-2xl backdrop-blur">
+          <motion.div
+            className="overflow-hidden rounded-3xl border border-hero-pink/30 bg-hero-pink/25 shadow-2xl backdrop-blur"
+            style={{ x: terminalX, opacity: terminalOpacity, scale: terminalScale }}
+          >
             {/* title bar */}
             <div className="flex items-center gap-3 border-b border-hero-pink/20 px-5 py-4">
               <span className="flex gap-2" aria-hidden>
@@ -107,11 +178,15 @@ export function Contact() {
 
             <div className="p-5 font-mono md:p-6">
               <div className="space-y-1 text-sm leading-relaxed text-hero-card/90">
-                <p>
+                <motion.p style={{ opacity: bootLine1, y: bootLine1Y }}>
                   <span className="text-hero-card">$</span> ./contact-system init
-                </p>
-                <p>[INFO] Contact system initialized...</p>
-                <p>[INFO] Awaiting user input...</p>
+                </motion.p>
+                <motion.p style={{ opacity: bootLine2, y: bootLine2Y }}>
+                  [INFO] Contact system initialized...
+                </motion.p>
+                <motion.p style={{ opacity: bootLine3, y: bootLine3Y }}>
+                  [INFO] Awaiting user input...
+                </motion.p>
               </div>
 
               {status === 'done' ? (
@@ -157,7 +232,7 @@ export function Contact() {
                       value={form.message}
                       onChange={(e) => setForm((f) => ({ ...f, message: e.target.value }))}
                       placeholder="Hi, I'd love to chat..."
-                      className="w-full resize-none rounded-xl border border-hero-pink/30 bg-hero-pink/20 px-4 py-3 text-hero-card outline-none transition-colors placeholder:text-hero-card/50 focus:border-hero-card"
+                      className="w-full resize-none rounded-xl border border-hero-pink/30 bg-hero-pink/20 px-4 py-3 text-hero-card outline-none transition-colors placeholder:text-hero-card/50 focus:border-hero-card focus:shadow-[0_0_0_2px_rgba(222,89,143,0.35),0_0_24px_rgba(222,89,143,0.26)]"
                     />
                   </div>
 
@@ -174,13 +249,17 @@ export function Contact() {
                       <>$ Send Message</>
                     )}
                   </button>
+
+                  {errorMessage && (
+                    <p className="text-sm font-medium text-rose-300">[ERROR] {errorMessage}</p>
+                  )}
                 </form>
               )}
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
-    </section>
+    </motion.section>
   )
 }
 
@@ -237,7 +316,7 @@ function Field({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full rounded-xl border border-hero-pink/30 bg-hero-pink/20 px-4 py-3 text-hero-card outline-none transition-colors placeholder:text-hero-card/50 focus:border-hero-card"
+        className="w-full rounded-xl border border-hero-pink/30 bg-hero-pink/20 px-4 py-3 text-hero-card outline-none transition-colors placeholder:text-hero-card/50 focus:border-hero-card focus:shadow-[0_0_0_2px_rgba(222,89,143,0.35),0_0_24px_rgba(222,89,143,0.26)]"
       />
     </div>
   )

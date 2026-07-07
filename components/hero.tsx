@@ -2,9 +2,14 @@
 
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
+import { motion, useReducedMotion } from 'framer-motion'
 import { KeywordMarquee } from '@/components/keyword-marquee'
 
 const TAGLINE = ['From', 'Insight', 'To', 'Impact']
+const TITLE_LINES = ['Global', 'thinking.', 'Applied', 'rigor.']
+
+const EASE_OUT = [0.22, 1, 0.36, 1] as const
+const INTRO_HOLD_MS = 220
 
 const EDUCATION = [
   {
@@ -22,17 +27,26 @@ const EDUCATION = [
 ]
 
 const SKILLS = [
-  { name: 'Python', level: 95 },
-  { name: 'SQL', level: 85 },
-  { name: 'R', level: 82 },
-  { name: 'MATLAB', level: 80 },
-  { name: 'Tableau', level: 84 },
-  { name: 'C++ / LaTeX', level: 72 },
+  'Python',
+  'SQL',
+  'R',
+  'MATLAB',
+  'Tableau',
+  'C++',
+  'LaTeX',
+  'CTMC / PH',
+  'Queueing Systems',
+  'VRP / CVRP',
+  'Time-Series Modeling',
+  'Monte Carlo',
 ]
 
 export function Hero() {
   const sectionRef = useRef<HTMLElement>(null)
   const [progress, setProgress] = useState(0)
+  const [introReady, setIntroReady] = useState(false)
+  const [activeSkill, setActiveSkill] = useState('Python')
+  const reduceMotion = useReducedMotion()
 
   useEffect(() => {
     const section = sectionRef.current
@@ -60,8 +74,86 @@ export function Hero() {
     }
   }, [])
 
+  useEffect(() => {
+    if (reduceMotion) {
+      setIntroReady(true)
+      return
+    }
+
+    const timer = window.setTimeout(() => {
+      setIntroReady(true)
+    }, INTRO_HOLD_MS)
+
+    return () => window.clearTimeout(timer)
+  }, [reduceMotion])
+
   // Each side column holds two stacked full-height panels; slide up by one panel.
   const slide = { transform: `translateY(${-progress * 50}%)` }
+  const introState = reduceMotion ? 'show' : introReady ? 'show' : 'hidden'
+
+  const circleVariants = {
+    hidden: { opacity: 0, scale: 0.6 },
+    show: {
+      opacity: 1,
+      scale: 1,
+      transition: { duration: 0.46, ease: EASE_OUT, delay: 0.08 },
+    },
+  }
+
+  const portraitVariants = {
+    hidden: { opacity: 0, y: 60, filter: 'blur(8px)' },
+    show: {
+      opacity: 1,
+      y: 0,
+      filter: 'blur(0px)',
+      transition: { duration: 0.52, ease: EASE_OUT, delay: 0.26 },
+    },
+  }
+
+  const aboutLabelVariants = {
+    hidden: { opacity: 0, y: 12 },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.24, ease: EASE_OUT, delay: 0.48 },
+    },
+  }
+
+  const aboutLineVariants = {
+    hidden: { scaleX: 0, opacity: 0 },
+    show: {
+      scaleX: 1,
+      opacity: 1,
+      transition: { duration: 0.28, ease: EASE_OUT, delay: 0.56 },
+    },
+  }
+
+  const titleLineVariants = {
+    hidden: { opacity: 0, y: 26 },
+    show: (index: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.28, ease: EASE_OUT, delay: 0.64 + index * 0.08 },
+    }),
+  }
+
+  const introParagraphVariants = {
+    hidden: { opacity: 0, y: 16 },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.3, ease: EASE_OUT, delay: 1.02 },
+    },
+  }
+
+  const taglineVariants = {
+    hidden: { opacity: 0, x: 30 },
+    show: (index: number) => ({
+      opacity: 1,
+      x: 0,
+      transition: { duration: 0.3, ease: EASE_OUT, delay: 0.74 + index * 0.11 },
+    }),
+  }
 
   return (
     <section
@@ -76,27 +168,47 @@ export function Hero() {
       <div className="sticky top-0 h-screen overflow-hidden pt-24 md:pt-28">
         <div className="mx-auto grid h-[calc(100vh-6rem)] max-w-[1600px] items-center gap-8 px-5 md:px-10 lg:grid-cols-[0.7fr_1.6fr_0.7fr] lg:gap-2">
           {/* Left column — two panels: About Me → Education */}
-          <div className="relative order-2 h-full overflow-hidden lg:order-1">
+          <div className="relative order-2 h-full overflow-x-visible overflow-y-hidden lg:order-1">
             <div className="flex h-[200%] flex-col" style={slide}>
               {/* Panel 1 — About Me */}
               <div className="flex h-1/2 flex-col justify-center">
-                <div className="hero-anim-rise [animation-delay:0.8s]">
+                <div>
                   <div className="mb-6 flex items-center gap-4">
-                    <span className="text-sm font-bold uppercase tracking-[0.25em] text-hero-pink">
+                    <motion.span
+                      initial="hidden"
+                      animate={introState}
+                      variants={aboutLabelVariants}
+                      className="text-sm font-bold uppercase tracking-[0.25em] text-hero-pink"
+                    >
                       About Me
-                    </span>
-                    <span className="h-px flex-1 bg-hero-pink/40" />
+                    </motion.span>
+                    <motion.span
+                      initial="hidden"
+                      animate={introState}
+                      variants={aboutLineVariants}
+                      className="h-px flex-1 origin-left bg-hero-pink/40"
+                    />
                   </div>
-                  <h1 className="text-balance text-5xl font-black uppercase leading-[0.9] tracking-tighter text-hero-pink md:text-6xl lg:text-7xl">
-                    Global
-                    <br />
-                    thinking.
-                    <br />
-                    Applied
-                    <br />
-                    rigor.
+                  <h1 className="text-balance text-5xl font-black uppercase leading-[0.9] tracking-tighter text-hero-pink md:text-6xl xl:text-7xl">
+                    {TITLE_LINES.map((line, index) => (
+                      <motion.span
+                        key={line}
+                        custom={index}
+                        initial="hidden"
+                        animate={introState}
+                        variants={titleLineVariants}
+                        className="block"
+                      >
+                        {line}
+                      </motion.span>
+                    ))}
                   </h1>
-                  <div className="mt-6 max-w-md space-y-3 text-base leading-relaxed text-hero-muted lg:text-lg">
+                  <motion.div
+                    initial="hidden"
+                    animate={introState}
+                    variants={introParagraphVariants}
+                    className="mt-6 max-w-md space-y-3 text-base leading-relaxed text-hero-muted lg:text-lg"
+                  >
                     <p>
                       Hi, I&apos;m Ziyue Xu — a First-Class Honours applied mathematician who turns
                       uncertainty into decisions.
@@ -106,7 +218,7 @@ export function Hero() {
                       analytics and large-scale optimization — always shipped as clean,
                       reproducible Python.
                     </p>
-                  </div>
+                  </motion.div>
                 </div>
               </div>
 
@@ -138,8 +250,18 @@ export function Hero() {
           {/* Center — pinned portrait on pink circle (never moves) */}
           <div className="order-1 flex h-full justify-center self-end lg:order-2">
             <div className="relative flex h-full min-h-[520px] w-full max-w-3xl items-end justify-center">
-              <div className="hero-anim-circle absolute left-1/2 top-1/2 aspect-square w-[80%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-hero-pink [animation-delay:0.1s]" />
-              <div className="hero-anim-rise absolute bottom-0 left-1/2 z-10 h-full w-[132%] -translate-x-1/2 [animation-delay:0.5s]">
+              <motion.div
+                initial="hidden"
+                animate={introState}
+                variants={circleVariants}
+                className="absolute left-1/2 top-1/2 aspect-square w-[80%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-hero-pink"
+              />
+              <motion.div
+                initial="hidden"
+                animate={introState}
+                variants={portraitVariants}
+                className="absolute bottom-0 left-1/2 z-10 h-full w-[132%] -translate-x-1/2"
+              >
                 <Image
                   src="/ziyue-portrait.png"
                   alt="Portrait of Ziyue Xu"
@@ -148,23 +270,27 @@ export function Hero() {
                   className="object-contain object-bottom"
                   sizes="(max-width: 1024px) 95vw, 65vw"
                 />
-              </div>
+              </motion.div>
             </div>
           </div>
 
           {/* Right column — two panels: Tagline → Skills & Tools */}
-          <div className="relative order-3 h-full overflow-hidden">
+          <div className="relative order-3 h-full overflow-x-visible overflow-y-hidden">
             <div className="flex h-[200%] flex-col" style={slide}>
               {/* Panel 1 — Tagline */}
               <div className="flex h-1/2 flex-col justify-center">
-                <div className="hero-anim-rise flex flex-col items-start gap-2 [animation-delay:0.95s] lg:items-end">
-                  {TAGLINE.map((word) => (
-                    <span
+                <div className="flex flex-col items-start gap-2 lg:items-end">
+                  {TAGLINE.map((word, index) => (
+                    <motion.span
                       key={word}
+                      custom={index}
+                      initial="hidden"
+                      animate={introState}
+                      variants={taglineVariants}
                       className="bg-hero-pink px-4 py-1 text-5xl font-black uppercase leading-none tracking-tighter text-hero-ink md:text-6xl lg:text-7xl"
                     >
                       {word}
-                    </span>
+                    </motion.span>
                   ))}
                 </div>
               </div>
@@ -177,21 +303,26 @@ export function Hero() {
                   </span>
                   <span className="h-px flex-1 bg-hero-pink/40" />
                 </div>
-                <div className="space-y-5">
-                  {SKILLS.map((skill) => (
-                    <div key={skill.name}>
-                      <div className="mb-2 flex items-baseline justify-between font-mono text-xs uppercase tracking-widest">
-                        <span className="font-bold text-hero-ink">{skill.name}</span>
-                        <span className="text-hero-muted">{skill.level}%</span>
-                      </div>
-                      <div className="h-2 w-full overflow-hidden rounded-full bg-hero-pink/20">
-                        <div
-                          className="h-full rounded-full bg-hero-pink"
-                          style={{ width: `${skill.level}%` }}
-                        />
-                      </div>
-                    </div>
-                  ))}
+                <div className="flex flex-wrap gap-2.5 lg:justify-end">
+                  {SKILLS.map((skill) => {
+                    const isActive = activeSkill === skill
+                    return (
+                      <button
+                        key={skill}
+                        type="button"
+                        onMouseEnter={() => setActiveSkill(skill)}
+                        onFocus={() => setActiveSkill(skill)}
+                        aria-pressed={isActive}
+                        className={`rounded-full border px-3.5 py-1.5 font-mono text-sm font-semibold transition-all duration-200 ${
+                          isActive
+                            ? 'border-hero-pink bg-hero-pink text-hero-card shadow-[0_8px_20px_rgba(222,89,143,0.28)]'
+                            : 'border-hero-pink/70 bg-transparent text-hero-pink hover:-translate-y-0.5 hover:border-hero-pink hover:bg-hero-pink/12'
+                        }`}
+                      >
+                        {skill}
+                      </button>
+                    )
+                  })}
                 </div>
               </div>
             </div>

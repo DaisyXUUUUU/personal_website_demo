@@ -1,9 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import Image from 'next/image'
 import { ChevronLeft, ChevronRight, Martini, Snowflake, Camera, Utensils, Trophy } from 'lucide-react'
-import { SectionHeader } from './about'
+import { motion, useMotionValueEvent, useScroll, useTransform } from 'framer-motion'
 
 type Hobby = {
   title: string
@@ -46,8 +46,31 @@ const HOBBIES: Hobby[] = [
 ]
 
 export function Human() {
+  const sectionRef = useRef<HTMLElement>(null)
   const [active, setActive] = useState(2)
+  const [collapseProgress, setCollapseProgress] = useState(0)
   const count = HOBBIES.length
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start end', 'end start'] })
+
+  useMotionValueEvent(scrollYProgress, 'change', (latest) => {
+    const collapse = Math.min(1, Math.max(0, (latest - 0.72) / 0.26))
+    setCollapseProgress(collapse)
+  })
+
+  const sectionBg = useTransform(
+    scrollYProgress,
+    [0, 0.62, 1],
+    ['rgb(255 248 240)', 'rgb(255 248 240)', 'rgb(18 10 16)'],
+  )
+  const titleReveal = useTransform(scrollYProgress, [0.1, 0.28], ['inset(0 100% 0 0)', 'inset(0 0% 0 0)'])
+  const subtitleOpacity = useTransform(scrollYProgress, [0.2, 0.33], [0, 1])
+  const stageScale = useTransform(scrollYProgress, [0.72, 0.97], [1, 0.84])
+  const stageOpacity = useTransform(scrollYProgress, [0.72, 0.98], [1, 0.18])
+  const stageY = useTransform(scrollYProgress, [0.72, 0.98], [0, -26])
+  const darkOverlayOpacity = useTransform(scrollYProgress, [0.72, 1], [0, 0.92])
+  const spotlight = useTransform(scrollYProgress, [0.72, 1], [72, 12])
+  const titleFadeOut = useTransform(scrollYProgress, [0.72, 0.96], [1, 0])
+  const titleY = useTransform(scrollYProgress, [0.72, 0.96], [0, -34])
 
   const go = (dir: number) => {
     setActive((prev) => (prev + dir + count) % count)
@@ -62,25 +85,50 @@ export function Human() {
   }
 
   return (
-    <section
+    <motion.section
       id="human"
-      className="scroll-mt-24 border-t-2 border-hero-pink/30 bg-hero-bg-3 py-20 text-hero-ink md:py-28"
+      ref={sectionRef}
+      className="relative scroll-mt-24 overflow-hidden border-t-2 border-hero-pink/30 bg-hero-bg-3 py-20 text-hero-ink md:py-28"
+      style={{ backgroundColor: sectionBg }}
     >
+      <motion.div
+        className="pointer-events-none absolute inset-0 z-0"
+        style={{
+          opacity: darkOverlayOpacity,
+          background: useTransform(
+            spotlight,
+            (v) => `radial-gradient(circle at 50% 45%, rgba(18,10,16,0) ${v}px, rgba(18,10,16,0.88) ${v + 170}px)`,
+          ),
+        }}
+        aria-hidden="true"
+      />
       <div className="mx-auto max-w-[1400px] px-5 md:px-10">
-        <SectionHeader index="03" title="The Human behind the CV" />
+        <motion.div className="mb-10 flex items-center gap-6" style={{ opacity: titleFadeOut, y: titleY }}>
+          <span className="font-mono text-sm font-semibold uppercase tracking-[0.25em] text-hero-pink">
+            The Human behind the CV
+          </span>
+          <span className="h-px flex-1 bg-hero-pink/60" aria-hidden />
+        </motion.div>
 
-        <div className="mb-4 max-w-2xl">
-          <h3 className="text-pretty text-4xl font-black tracking-tight text-hero-pink md:text-5xl">
+        <motion.div className="mb-4 max-w-2xl" style={{ opacity: titleFadeOut, y: titleY }}>
+          <motion.h3
+            className="text-pretty text-5xl font-black tracking-tighter text-hero-pink md:text-7xl"
+            style={{ clipPath: titleReveal }}
+          >
             Work is what I Do
-          </h3>
-          <p className="mt-2 text-2xl font-semibold text-hero-pink/80 md:text-3xl">
+          </motion.h3>
+          <motion.p
+            className="mt-2 text-2xl font-semibold text-hero-pink/80 md:text-3xl"
+            style={{ opacity: subtitleOpacity }}
+          >
             This is who I am.
-          </p>
-        </div>
+          </motion.p>
+        </motion.div>
 
         {/* Fan / coverflow stage */}
-        <div
+        <motion.div
           className="relative mx-auto flex h-[520px] w-full items-center justify-center [perspective:1400px]"
+          style={{ scale: stageScale, opacity: stageOpacity, y: stageY }}
           onMouseMove={onMove}
           role="group"
           aria-label="Hobbies carousel"
@@ -99,7 +147,7 @@ export function Human() {
                 aria-current={isCenter}
                 className="group absolute left-1/2 top-1/2 h-[420px] w-[340px] origin-center transition-all duration-500 ease-out focus:outline-none"
                 style={{
-                  transform: `translate(-50%, -50%) translateX(${offset * 210}px) translateY(${abs * 24}px) rotate(${offset * 7}deg) scale(${isCenter ? 1.06 : 0.86})`,
+                  transform: `translate(-50%, -50%) translateX(${offset * (210 * (1 - collapseProgress * 0.32))}px) translateY(${abs * (24 * (1 - collapseProgress * 0.4))}px) rotate(${offset * (7 * (1 - collapseProgress * 0.45))}deg) scale(${isCenter ? 1.06 : 0.86})`,
                   zIndex: 20 - abs,
                   opacity: hidden ? 0 : 1,
                   pointerEvents: hidden ? 'none' : 'auto',
@@ -109,7 +157,7 @@ export function Human() {
               </button>
             )
           })}
-        </div>
+        </motion.div>
 
         {/* Controls */}
         <div className="mt-2 flex items-center justify-center gap-3">
@@ -146,7 +194,7 @@ export function Human() {
           </button>
         </div>
       </div>
-    </section>
+    </motion.section>
   )
 }
 

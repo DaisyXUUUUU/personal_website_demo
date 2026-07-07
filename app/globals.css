@@ -100,6 +100,16 @@
   --hero-bg-3: rgb(255 248 240); /* warm cream — Human (breaks the all-pink monotony; vivid pink cards pop) */
 }
 
+::selection {
+  background: rgb(222 89 143 / 40%);
+  color: rgb(35 14 25 / 95%);
+}
+
+::-moz-selection {
+  background: rgb(222 89 143 / 40%);
+  color: rgb(35 14 25 / 95%);
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -107,9 +117,105 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  /* Use custom cursor only on fine pointers, keep native cursor on touch devices. */
+  @media (hover: hover) and (pointer: fine) {
+    html,
+    body,
+    a,
+    button,
+    [role='button'],
+    input,
+    select,
+    textarea,
+    label,
+    summary,
+    [tabindex]:not([tabindex='-1']) {
+      cursor: none !important;
+    }
+  }
 }
 
 @layer utilities {
+  .custom-cursor {
+    position: fixed;
+    left: 0;
+    top: 0;
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0;
+    transform: translate3d(-100px, -100px, 0);
+    transition:
+      opacity 180ms ease,
+      transform 180ms ease;
+    will-change: transform, opacity;
+  }
+
+  .custom-cursor.is-visible {
+    opacity: 1;
+  }
+
+  .custom-cursor-dot {
+    width: 8px;
+    height: 8px;
+    margin-left: -4px;
+    margin-top: -4px;
+    border-radius: 999px;
+    background: rgb(255 111 177 / 95%);
+    box-shadow:
+      0 0 8px rgb(255 111 177 / 65%),
+      0 0 16px rgb(255 111 177 / 35%);
+    transition: opacity 140ms ease;
+  }
+
+  .custom-cursor-ring {
+    width: 30px;
+    height: 30px;
+    margin-left: -15px;
+    margin-top: -15px;
+    border-radius: 999px;
+    border: 1px solid rgb(255 111 177 / 55%);
+    background: rgb(255 111 177 / 10%);
+    box-shadow: 0 0 18px rgb(255 111 177 / 26%);
+    transition:
+      opacity 200ms ease,
+      transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .custom-cursor-ring.is-hovering {
+    --cursor-ring-scale: 1.35;
+  }
+
+  .custom-cursor-burst-layer {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1001;
+  }
+
+  .custom-cursor-spark {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    margin-left: -2px;
+    margin-top: -2px;
+    border-radius: 999px;
+    background: rgb(255 133 188 / 85%);
+    box-shadow: 0 0 8px rgb(255 133 188 / 45%);
+    animation: cursor-spark-burst 300ms ease-out forwards;
+  }
+
+  @keyframes cursor-spark-burst {
+    from {
+      opacity: 0.72;
+      transform: translate3d(0, 0, 0) scale(0.85);
+    }
+    to {
+      opacity: 0;
+      transform: translate3d(var(--spark-x, 0), var(--spark-y, 0), 0) scale(0.25);
+    }
+  }
+
   .text-outline {
     -webkit-text-stroke: 1.5px var(--foreground);
     color: transparent;
@@ -172,7 +278,71 @@
     opacity: 0;
     animation: hero-rise-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   }
+
+  /* Portrait entrance: circle pops first, then portrait lifts with a subtle settle. */
+  @keyframes hero-circle-pop {
+    0% {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.74);
+      filter: saturate(0.9);
+    }
+    62% {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1.06);
+      filter: saturate(1);
+    }
+    100% {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+      filter: saturate(1);
+    }
+  }
+
+  @keyframes hero-portrait-enter {
+    0% {
+      opacity: 0;
+      transform: translate(-50%, 44px) scale(0.965);
+      filter: blur(7px);
+    }
+    70% {
+      opacity: 1;
+      transform: translate(-50%, -7px) scale(1.01);
+      filter: blur(0);
+    }
+    100% {
+      opacity: 1;
+      transform: translate(-50%, 0) scale(1);
+      filter: blur(0);
+    }
+  }
+
+  .hero-circle-pop {
+    opacity: 0;
+    animation: hero-circle-pop 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    will-change: transform, opacity;
+  }
+
+  .hero-portrait-enter {
+    opacity: 0;
+    animation: hero-portrait-enter 0.95s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    will-change: transform, opacity, filter;
+  }
+
   @media (prefers-reduced-motion: reduce) {
+    .custom-cursor-ring,
+    .custom-cursor-spark {
+      animation: none;
+      transition: none;
+    }
+
+    .hero-circle-pop,
+    .hero-portrait-enter {
+      opacity: 1;
+      animation: none;
+      transform: translate(-50%, 0);
+      filter: none;
+    }
+
     .hero-anim-circle,
     .hero-anim-rise {
       opacity: 1;

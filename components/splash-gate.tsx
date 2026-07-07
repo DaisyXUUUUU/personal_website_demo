@@ -9,7 +9,7 @@ export function SplashGate({ children }: { children: React.ReactNode }) {
   return (
     <>
       {!entered && <ScratchSplash onEnter={() => setEntered(true)} />}
-      {children}
+      {entered ? children : null}
     </>
   )
 }

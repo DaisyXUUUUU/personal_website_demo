@@ -1,9 +1,9 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import { ArrowUpRight, X } from 'lucide-react'
-import { SectionHeader } from './about'
+import { motion, useMotionValueEvent, useReducedMotion, useScroll, useTransform } from 'framer-motion'
 
 type Item = {
   id: string
@@ -130,30 +130,72 @@ const ITEMS: Item[] = [
 const YEARS = Array.from(new Set(ITEMS.map((i) => i.year))).sort((a, b) => Number(b) - Number(a))
 
 export function Experience() {
+  const sectionRef = useRef<HTMLElement>(null)
   const [activeId, setActiveId] = useState<string | null>(null)
+  const [scrollPhase, setScrollPhase] = useState(0)
+  const reduceMotion = useReducedMotion()
   const active = ITEMS.find((i) => i.id === activeId) ?? null
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start end', 'end start'] })
+
+  useMotionValueEvent(scrollYProgress, 'change', (latest) => {
+    setScrollPhase(latest)
+  })
+
+  const introLift = useTransform(scrollYProgress, [0.06, 0.24], [88, 0])
+  const introOpacity = useTransform(scrollYProgress, [0.04, 0.22], [0, 1])
+  const timelineDraw = useTransform(scrollYProgress, [0.08, 0.34], [0, 1])
+  const timelineFade = useTransform(scrollYProgress, [0.74, 0.96], [1, 0])
+  const timelineRise = useTransform(scrollYProgress, [0.74, 0.96], [0, -34])
+  const bgColor = useTransform(
+    scrollYProgress,
+    [0, 0.72, 1],
+    ['rgb(245 188 212)', 'rgb(245 188 212)', 'rgb(255 247 239)'],
+  )
+
+  const scatterProgress = reduceMotion ? 0 : Math.min(1, Math.max(0, (scrollPhase - 0.76) / 0.24))
 
   return (
-    <section
+    <motion.section
       id="experience"
+      ref={sectionRef}
       className="scroll-mt-24 border-t-2 border-hero-pink/30 bg-hero-bg-2 py-20 text-hero-ink md:py-28"
+      style={{ backgroundColor: bgColor }}
     >
       <div className="mx-auto max-w-[1400px] px-5 md:px-10">
-        <SectionHeader index="02" title="Experience" />
+        <motion.div className="mb-10 flex items-center gap-6" style={{ opacity: introOpacity }}>
+          <motion.span
+            className="font-mono text-sm font-semibold uppercase tracking-[0.25em] text-hero-pink"
+            style={{ y: introLift }}
+          >
+            Experience
+          </motion.span>
+          <span className="h-px flex-1 bg-hero-pink/60" aria-hidden />
+        </motion.div>
+
+        <motion.h2
+          className="text-pretty text-5xl font-black tracking-tighter text-hero-pink md:text-7xl"
+          style={{ y: introLift, opacity: introOpacity }}
+        >
+          What I&apos;ve built.
+        </motion.h2>
 
         {/* Reverse-chronological groups. Each group pairs a sticky year label with its cards,
             so the year follows the scroll until that group's cards have scrolled away. */}
-        <div className="relative">
+        <div className="relative mt-12">
           {/* continuous vertical rail behind the sticky dots */}
-          <div
+          <motion.div
             className="absolute left-3 top-0 hidden h-full w-px bg-hero-pink/40 md:block"
+            style={{ scaleY: timelineDraw, opacity: timelineFade, y: timelineRise, transformOrigin: 'top' }}
             aria-hidden
           />
 
           {YEARS.map((year) => (
             <div key={year} className="flex gap-6 md:gap-10">
               {/* Left — sticky year that follows the scroll within this group */}
-              <div className="relative hidden shrink-0 md:block">
+              <motion.div
+                className="relative hidden shrink-0 md:block"
+                style={{ opacity: timelineFade, y: timelineRise }}
+              >
                 <div className="sticky top-24 pb-10 pl-10">
                   <span
                     className="absolute left-1 top-4 size-4 rounded-full border-2 border-hero-pink bg-hero-card"
@@ -163,7 +205,7 @@ export function Experience() {
                     {year}
                   </span>
                 </div>
-              </div>
+              </motion.div>
 
               {/* Right — project cards for this year */}
               <div className="mb-10 flex-1">
@@ -171,8 +213,14 @@ export function Experience() {
                   {year}
                 </span>
                 <div className="grid gap-5 sm:grid-cols-2">
-                  {ITEMS.filter((i) => i.year === year).map((item) => (
-                    <ProjectCard key={item.id} item={item} onOpen={() => setActiveId(item.id)} />
+                  {ITEMS.filter((i) => i.year === year).map((item, idx) => (
+                    <ProjectCard
+                      key={item.id}
+                      item={item}
+                      cardIndex={idx + ITEMS.findIndex((entry) => entry.id === item.id)}
+                      scatterProgress={scatterProgress}
+                      onOpen={() => setActiveId(item.id)}
+                    />
                   ))}
                 </div>
               </div>
@@ -182,23 +230,49 @@ export function Experience() {
       </div>
 
       {active && <ProjectModal item={active} onClose={() => setActiveId(null)} />}
-    </section>
+    </motion.section>
   )
 }
 
-function ProjectCard({ item, onOpen }: { item: Item; onOpen: () => void }) {
+function ProjectCard({
+  item,
+  cardIndex,
+  scatterProgress,
+  onOpen,
+}: {
+  item: Item
+  cardIndex: number
+  scatterProgress: number
+  onOpen: () => void
+}) {
+  const direction = cardIndex % 2 === 0 ? -1 : 1
+  const scatterX = direction * (58 + (cardIndex % 3) * 22) * scatterProgress
+  const scatterY = (18 + (cardIndex % 4) * 11) * scatterProgress
+  const scatterRotate = direction * (5 + (cardIndex % 3) * 2.5) * scatterProgress
+
   return (
-    <button
+    <motion.button
       type="button"
       onClick={onOpen}
-      className="group flex flex-col overflow-hidden rounded-3xl border border-hero-pink/40 bg-hero-card p-4 text-left text-hero-ink transition-all duration-300 hover:-translate-y-1 hover:border-hero-ink hover:bg-hero-ink hover:text-hero-card hover:shadow-xl"
+      initial={{ opacity: 0, y: 34 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      whileHover={{ y: -6, scale: 1.02 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.45, delay: Math.min(cardIndex * 0.05, 0.28), ease: [0.22, 1, 0.36, 1] }}
+      style={{
+        x: scatterX,
+        y: scatterY,
+        rotate: scatterRotate,
+        scale: 1 - scatterProgress * 0.08,
+      }}
+      className="group flex flex-col overflow-hidden rounded-3xl border border-hero-pink/40 bg-hero-card p-4 text-left text-hero-ink transition-all duration-300 hover:border-hero-pink hover:bg-hero-ink hover:text-hero-card hover:shadow-[0_24px_48px_rgba(222,89,143,0.22)]"
     >
       <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl">
         <Image
           src={item.image || '/placeholder.svg'}
           alt={`${item.org} preview`}
           fill
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
+          className="object-cover transition-transform duration-500 group-hover:translate-y-[-4px] group-hover:scale-[1.08]"
           sizes="(max-width: 640px) 90vw, 40vw"
         />
       </div>
@@ -219,7 +293,7 @@ function ProjectCard({ item, onOpen }: { item: Item; onOpen: () => void }) {
           <ArrowUpRight className="size-4" />
         </span>
       </div>
-    </button>
+    </motion.button>
   )
 }
 
