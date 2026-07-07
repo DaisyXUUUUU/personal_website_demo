@@ -21,9 +21,9 @@ export function Hero() {
         <div className="mb-6 flex flex-wrap items-center justify-between gap-3 border-b border-border pb-4 font-mono text-xs uppercase tracking-widest text-muted-foreground">
           <span className="flex items-center gap-2">
             <span className="inline-block size-2 animate-pulse rounded-full bg-primary" />
-            Status [ available for work ]
+            Status [ open to 2026 grad & research roles ]
           </span>
-          <span>Shanghai · GMT+8</span>
+          <span>Ningbo, China · GMT+8</span>
           <span>© {new Date().getFullYear()}</span>
         </div>
 
@@ -43,7 +43,7 @@ export function Hero() {
             </button>
           </span>
           <span className="block text-outline text-[13vw] md:text-[10vw] lg:text-[8.5rem]">
-            AI Designer
+            Applied Math
           </span>
         </h1>
 
@@ -52,33 +52,33 @@ export function Hero() {
           <div className="relative aspect-[4/5] w-full max-w-md overflow-hidden bg-card md:aspect-[3/4]">
             <Image
               src="/hero-portrait.png"
-              alt="Editorial portrait of ziyue"
+              alt="Editorial portrait of Ziyue Xu"
               fill
               priority
               className="object-cover grayscale transition-all duration-700 hover:grayscale-0"
               sizes="(max-width: 768px) 100vw, 40vw"
             />
             <span className="absolute bottom-3 left-3 font-mono text-[10px] uppercase tracking-widest text-primary-foreground mix-blend-difference">
-              [ fig.01 — the designer ]
+              [ fig.01 — the mathematician ]
             </span>
           </div>
 
           <div className="flex flex-col justify-between gap-8">
             <p className="text-pretty text-2xl font-medium leading-tight md:text-3xl">
-              I design and ship{' '}
-              <span className="text-primary">intelligent systems</span> — where interface, code
-              and machine learning meet. Placeholder intro, ready for your real story.
+              First-Class Honours mathematician turning{' '}
+              <span className="text-primary">uncertainty into decisions</span> — stochastic
+              modeling, tail-risk analytics and optimization for real operational systems.
             </p>
             <div className="grid grid-cols-2 gap-4 font-mono text-xs uppercase tracking-widest text-muted-foreground">
               <div>
                 <p className="mb-1 text-foreground">Focus</p>
-                <p>AI Product · UX</p>
-                <p>Design Engineering</p>
+                <p>Stochastic Modeling</p>
+                <p>Risk & Optimization</p>
               </div>
               <div>
                 <p className="mb-1 text-foreground">Toolkit</p>
-                <p>Figma · Python</p>
-                <p>Next.js · Models</p>
+                <p>Python · SQL · R</p>
+                <p>MATLAB · Tableau</p>
               </div>
             </div>
             <a
@@ -97,7 +97,7 @@ export function Hero() {
         <div className="marquee-track flex w-max whitespace-nowrap">
           {Array.from({ length: 2 }).map((_, i) => (
             <span key={i} className="flex items-center" aria-hidden={i === 1}>
-              {['Design Engineering', 'AI Interfaces', 'Prototyping', 'Systems Thinking', 'Creative Tech'].map(
+              {['Stochastic Modeling', 'Tail-Risk Analytics', 'Optimization', 'Monte Carlo', 'Data Science'].map(
                 (word) => (
                   <span key={word} className="flex items-center">
                     <span className="px-6 text-4xl font-black uppercase tracking-tighter text-outline md:text-6xl">
@@ -137,11 +137,12 @@ export function Hero() {
               [ secret unlocked ]
             </p>
             <h2 id="egg-title" className="mb-4 text-3xl font-black uppercase leading-none tracking-tighter">
-              Are you an <span className="text-primary">angel investor?</span>
+              Are you a <span className="text-primary">PhD advisor or recruiter?</span>
             </h2>
             <p className="mb-6 text-pretty leading-relaxed text-muted-foreground">
-              You found the hidden button. If you back bold ideas at the frontier of design and AI,
-              we should definitely talk. This is placeholder copy — swap it for your real pitch.
+              You found the hidden button. If you work on stochastic systems, operations research
+              or data-driven decision-making — and you&apos;re looking for a rigorous mathematician
+              who ships — let&apos;s talk. GRE 333 · GPA 3.9/4.0 · First-Class Honours.
             </p>
             <div className="flex flex-wrap gap-3">
               <a
@@ -149,7 +150,7 @@ export function Hero() {
                 onClick={() => setEggOpen(false)}
                 className="bg-primary px-5 py-2.5 font-mono text-xs font-bold uppercase tracking-widest text-primary-foreground"
               >
-                Fund the future →
+                Get in touch →
               </a>
               <button
                 type="button"

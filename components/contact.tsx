@@ -5,10 +5,10 @@ import { useState, type FormEvent } from 'react'
 type Status = 'idle' | 'sending' | 'done'
 
 const CHANNELS = [
-  { label: 'WeChat', value: 'ziyue_design', href: null },
-  { label: 'Email', value: 'hello@example.com', href: 'mailto:hello@example.com' },
-  { label: 'GitHub', value: 'github.com/ziyue', href: 'https://github.com' },
-  { label: 'LinkedIn', value: 'in/ziyue', href: 'https://linkedin.com' },
+  { label: 'Email', value: 'daisy.ziyue0526@outlook.com', href: 'mailto:daisy.ziyue0526@outlook.com' },
+  { label: 'Phone', value: '+86 139 5797 2965', href: 'tel:+8613957972965' },
+  { label: 'LinkedIn', value: 'in/ziyue-xu', href: 'https://www.linkedin.com' },
+  { label: 'WeChat', value: 'add via email first', href: null },
 ]
 
 export function Contact() {

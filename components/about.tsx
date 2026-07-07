@@ -2,23 +2,26 @@
 
 const EDUCATION = [
   {
-    year: '20XX — 20XX',
-    school: 'University Name',
-    detail: 'M.A. in Interaction / HCI · Placeholder degree line',
+    year: '2021 — 2025',
+    school: 'University of Nottingham',
+    detail:
+      'BSc Mathematics with Applied Mathematics · First-Class Honours · GPA 3.9/4.0 (76/100, UK) · Ningbo China & Nottingham UK',
   },
   {
-    year: '20XX — 20XX',
-    school: 'University Name',
-    detail: 'B.A. in Design · Placeholder degree line',
+    year: 'Coursework',
+    school: 'Applied & Computational Focus',
+    detail:
+      'Probability Models & Methods · Statistical Models & Methods · Optimization · Scientific Computation & Numerical Analysis · Data Modelling & Analysis',
   },
 ]
 
 const SKILLS = [
-  { name: 'Python', level: 92 },
-  { name: 'Machine Learning', level: 78 },
-  { name: 'Design Systems', level: 88 },
-  { name: 'Prototyping', level: 95 },
-  { name: 'Frontend / Next.js', level: 80 },
+  { name: 'Python', level: 95 },
+  { name: 'SQL', level: 85 },
+  { name: 'R', level: 82 },
+  { name: 'MATLAB', level: 80 },
+  { name: 'Tableau', level: 84 },
+  { name: 'C++ / LaTeX', level: 72 },
 ]
 
 export function About() {
@@ -31,8 +34,10 @@ export function About() {
           {/* Bio + education */}
           <div>
             <p className="mb-10 text-pretty text-xl leading-relaxed md:text-2xl">
-              A short paragraph about who you are, how you think, and what pulls you toward AI-driven
-              design. This is placeholder text — send me your real bio and I&apos;ll drop it in.
+              I&apos;m Ziyue Xu, an applied mathematician who builds models that hold up under
+              uncertainty. My work spans stochastic-process modeling, queueing &amp; risk analytics,
+              and large-scale optimization — always paired with clean, reproducible Python so the
+              math actually ships into decisions.
             </p>
 
             <h3 className="mb-5 font-mono text-xs uppercase tracking-widest text-primary">
@@ -75,11 +80,13 @@ export function About() {
             <pre className="mt-10 overflow-x-auto border border-border bg-card p-5 font-mono text-xs leading-relaxed text-muted-foreground">
               <code>{`>>> import ziyue as z
 >>> z.role
-'AI Designer'
->>> z.stack
-['python', 'design', 'ml', 'next.js']
+'Applied Mathematician · Data Scientist'
+>>> z.methods
+['CTMC', 'PH-distributions', 'VaR/CVaR', 'VRP/CVRP', 'ARIMA']
+>>> z.gre, z.gpa
+(333, 3.9)
 >>> z.status
-'shipping'`}</code>
+'open to research & grad roles'`}</code>
             </pre>
           </div>
         </div>

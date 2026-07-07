@@ -14,8 +14,8 @@ export function SiteFooter() {
           </a>
         </div>
         <div className="flex flex-col gap-2 pt-6 font-mono text-xs uppercase tracking-widest text-muted-foreground md:flex-row md:justify-between">
-          <span>© {new Date().getFullYear()} ziyue — AI Designer</span>
-          <span>Designed &amp; built with intent</span>
+          <span>© {new Date().getFullYear()} Ziyue Xu — Applied Mathematician</span>
+          <span>Built with intent · Ningbo, China</span>
         </div>
       </div>
     </footer>

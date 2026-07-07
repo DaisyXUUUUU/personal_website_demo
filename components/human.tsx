@@ -5,28 +5,38 @@ import { SectionHeader } from './about'
 
 const HOBBIES = [
   {
+    title: 'Squash',
+    tag: 'National Runner-up',
+    body: "Runner-up, Women's Team — National College Squash Championships, and a Level-3 Squash Instructor certified by the General Administration of Sport of China. Competitive by nature.",
+    image: undefined,
+    span: 'md:col-span-2',
+  },
+  {
     title: 'Cocktails',
     tag: 'Mixology',
-    body: 'Chasing the perfect balance of bitter, sweet and sour. Same obsession with balance I bring to design.',
+    body: 'Chasing the perfect balance of bitter, sweet and sour — the same obsession with balance I bring to a well-specified model.',
     image: '/hobby-cocktails.png',
     span: 'md:col-span-2 md:row-span-2',
   },
   {
-    title: 'Travel',
-    tag: 'Placeholder',
-    body: 'Send me your real interests — this card is a placeholder ready for your story.',
-    span: '',
-  },
-  {
-    title: 'Reading',
-    tag: 'Placeholder',
-    body: 'Send me your real interests — this card is a placeholder ready for your story.',
+    title: 'Skiing',
+    tag: 'On the slopes',
+    body: 'Fast lines, sharp turns, and a healthy respect for tail risk.',
+    image: undefined,
     span: '',
   },
   {
     title: 'Photography',
-    tag: 'Placeholder',
-    body: 'Send me your real interests — this card is a placeholder ready for your story.',
+    tag: 'Composition',
+    body: 'Framing the world one shot at a time — an eye for structure and light.',
+    image: undefined,
+    span: '',
+  },
+  {
+    title: 'Cooking',
+    tag: 'In the kitchen',
+    body: 'Recipes are just reproducible pipelines with better rewards. I love the experimenting.',
+    image: undefined,
     span: 'md:col-span-2',
   },
 ]

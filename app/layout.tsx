@@ -16,15 +16,15 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'ziyue — AI Designer',
+  title: 'Ziyue Xu — Applied Mathematician & Data Scientist',
   description:
-    'Portfolio of ziyue, an AI Designer working at the intersection of design, code and machine intelligence.',
+    'Portfolio of Ziyue Xu, a First-Class Honours applied mathematician working on stochastic modeling, tail-risk analytics and optimization — turning uncertainty into decisions.',
   generator: 'v0.app',
 }
 
 export const viewport: Viewport = {
   colorScheme: 'dark',
-  themeColor: '#1a1613',
+  themeColor: '#16110f',
 }
 
 export default function RootLayout({
