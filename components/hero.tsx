@@ -66,7 +66,7 @@ export function Hero() {
     <section
       id="top"
       ref={sectionRef}
-      className="relative h-[200vh] bg-gradient-to-b from-hero-bg to-hero-bg-2 text-hero-ink"
+      className="relative h-[200vh] bg-hero-bg text-hero-ink"
     >
       {/* nav anchor for the second (Education / Skills) view */}
       <span id="about" className="absolute top-[100vh]" aria-hidden="true" />

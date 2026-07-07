@@ -96,8 +96,8 @@
   --hero-muted: rgb(92 72 82);
   --hero-pink: rgb(222 89 143);
   --hero-card: rgb(255 250 252);
-  --hero-bg-2: rgb(246 199 220); /* deeper pink for Experience — top-to-bottom darkening */
-  --hero-bg-3: rgb(240 172 202); /* deepest pink for Human — continues the darkening */
+  --hero-bg-2: rgb(245 188 212); /* rose pink — Experience (near-white cards pop against it) */
+  --hero-bg-3: rgb(255 248 240); /* warm cream — Human (breaks the all-pink monotony; vivid pink cards pop) */
 }
 
 @layer base {
