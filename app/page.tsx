@@ -2,7 +2,6 @@ import { LanguageProvider } from '@/components/language-provider'
 import { LanguageBanner } from '@/components/language-banner'
 import { SiteNav } from '@/components/site-nav'
 import { Hero } from '@/components/hero'
-import { About } from '@/components/about'
 import { Experience } from '@/components/experience'
 import { Human } from '@/components/human'
 import { Contact } from '@/components/contact'
@@ -17,7 +16,6 @@ export default function Page() {
         <LanguageBanner />
         <main>
           <Hero />
-          <About />
           <Experience />
           <Human />
           <Contact />
