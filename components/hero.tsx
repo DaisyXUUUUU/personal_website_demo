@@ -10,7 +10,7 @@ export function Hero() {
       id="top"
       className="relative min-h-screen overflow-hidden bg-hero-bg pt-24 text-hero-ink md:pt-28"
     >
-      <div className="mx-auto grid max-w-[1600px] items-center gap-8 px-5 pb-20 pt-8 md:px-10 lg:grid-cols-[0.7fr_1.6fr_0.7fr] lg:gap-2 lg:pb-0">
+      <div className="mx-auto grid max-w-[1600px] items-center gap-8 px-5 pb-20 pt-8 md:px-10 lg:min-h-[calc(100vh-7rem)] lg:grid-cols-[0.7fr_1.6fr_0.7fr] lg:gap-2 lg:pb-0">
         {/* Left — about me copy */}
         <div className="hero-anim-rise order-2 [animation-delay:0.8s] lg:order-1">
           <div className="mb-6 flex items-center gap-4">
@@ -44,19 +44,19 @@ export function Hero() {
         </div>
 
         {/* Center — portrait layered ON TOP of a pink circle (circle is just a backdrop) */}
-        <div className="order-1 flex justify-center self-end lg:order-2">
-          <div className="relative flex w-full max-w-2xl items-end justify-center">
-            {/* pink circle backdrop */}
-            <div className="hero-anim-circle absolute left-1/2 top-0 aspect-square w-[92%] -translate-x-1/2 rounded-full bg-hero-pink [animation-delay:0.1s]" />
-            {/* portrait cutout, overflowing the circle */}
-            <div className="hero-anim-rise relative z-10 aspect-[4/5] w-full [animation-delay:0.5s]">
+        <div className="order-1 flex justify-center self-end lg:order-2 lg:h-full">
+          <div className="relative flex h-full w-full max-w-3xl items-end justify-center">
+            {/* pink circle backdrop, sitting behind the head/upper body */}
+            <div className="hero-anim-circle absolute left-1/2 top-[14%] aspect-square w-[78%] -translate-x-1/2 rounded-full bg-hero-pink [animation-delay:0.1s]" />
+            {/* portrait cutout, bottom-anchored & enlarged so the head reaches the top and body runs to the bottom */}
+            <div className="hero-anim-rise relative z-10 h-full w-full [animation-delay:0.5s]">
               <Image
                 src="/ziyue-portrait.png"
                 alt="Portrait of Ziyue Xu"
                 fill
                 priority
-                className="scale-105 object-contain object-bottom"
-                sizes="(max-width: 1024px) 95vw, 55vw"
+                className="scale-[1.3] object-contain object-bottom lg:scale-[1.45]"
+                sizes="(max-width: 1024px) 95vw, 65vw"
               />
             </div>
           </div>
