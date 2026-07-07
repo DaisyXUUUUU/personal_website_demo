@@ -1,173 +1,331 @@
 'use client'
 
-import { useState } from 'react'
-import { ArrowUpRight, Plus, Minus } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import Image from 'next/image'
+import { ArrowUpRight, X } from 'lucide-react'
 import { SectionHeader } from './about'
 
 type Item = {
   id: string
   year: string
+  period: string
   role: string
   org: string
   featured?: boolean
-  body: string
+  image: string
+  summary: string
+  bullets: string[]
   tags: string[]
+  skills: string[]
   link?: { label: string; href: string }
 }
 
 const ITEMS: Item[] = [
   {
     id: 'tail-risk',
-    year: '2025 — Now',
+    year: '2025',
+    period: '2025 — Now',
     role: 'Research Assistant · Dr. Liu Lei, NUBS China',
     org: 'Tail-Risk in Queueing Systems',
     featured: true,
-    body:
-      'Modeled multi-stage flow-shop systems as continuous-time Markov chains, using phase-type (PH) distributions to approximate heavy-tailed processing times with <3% fitting error. Quantified tail-risk exposure through 1,000+ Monte Carlo simulations with risk-averse measures (VaR, CVaR), revealing how rare but severe delays propagate downstream — then developed buffer-allocation and scheduling guidelines that minimize tail-risk rather than expected makespan.',
-    tags: ['CTMC', 'PH Distributions', 'VaR / CVaR', 'Monte Carlo'],
+    image: '/projects/network-optimization.png',
+    summary:
+      'Modeling multi-stage flow-shop systems as continuous-time Markov chains to quantify and minimize tail-risk.',
+    bullets: [
+      'Modeled multi-stage flow-shop systems as continuous-time Markov chains, using phase-type (PH) distributions to approximate heavy-tailed processing times with under 3% fitting error.',
+      'Quantified tail-risk exposure through 1,000+ Monte Carlo simulations with risk-averse measures (VaR, CVaR), revealing how rare but severe delays propagate downstream.',
+      'Developed buffer-allocation and scheduling guidelines that minimize tail-risk rather than expected makespan.',
+    ],
+    tags: ['Data', 'Optimization', 'Risk', 'Simulation'],
+    skills: ['CTMC / PH', 'VaR / CVaR', 'Monte Carlo', 'Queueing Systems', 'MATLAB'],
   },
   {
     id: 'ipsos',
-    year: '2025 — Now',
+    year: '2025',
+    period: 'Sep 2021 — Feb 2022',
     role: 'Data Analysis & Social Intelligence Intern · Healthcare',
     org: 'IPSOS China',
-    body:
-      'Processed 50,000+ TikTok/WeChat posts with SnowNLP and K-means clustering to map interaction patterns among KOLs, HCPs and patient communities, improving topic-classification accuracy by 22%. Built continuous state monitoring with Prophet and ARIMA to detect a 15% competitor-driven negative-sentiment cascade early, and designed Tableau decision dashboards that guided interventions and lifted engagement +12% MoM.',
-    tags: ['SnowNLP', 'K-means', 'Prophet / ARIMA', 'Tableau'],
+    image: '/projects/analytics-dashboard.png',
+    summary:
+      'Social intelligence pipelines and decision dashboards for healthcare KOL/HCP communities.',
+    bullets: [
+      'Processed 50,000+ TikTok/WeChat posts with SnowNLP and K-means clustering to map interaction patterns among KOLs, HCPs and patient communities, improving topic-classification accuracy by 22%.',
+      'Built continuous state monitoring with Prophet and ARIMA to detect a 15% competitor-driven negative-sentiment cascade early.',
+      'Designed Tableau decision dashboards that guided interventions and lifted engagement +12% MoM.',
+    ],
+    tags: ['Data', 'NLP', 'AI', 'Healthcare'],
+    skills: ['Python', 'SnowNLP', 'K-means', 'Prophet / ARIMA', 'Tableau'],
   },
   {
     id: 'vrp',
     year: '2025',
+    period: '2025',
     role: 'Undergraduate Researcher · Dr. Liu Lei, NUBS China',
     org: 'Cross-Border Routing Optimization',
-    body:
-      'Modeled a multi-node cross-border logistics network spanning 100+ factories, 8 ports and 3 distribution centers, formulating VRP/CVRP coordination strategies that cut transportation cost by 12% while improving delivery reliability. Built a Python data-quality framework to preprocess 10k+ shipment records and proposed feedback-driven reallocation policies for fleet and route scheduling.',
-    tags: ['VRP / CVRP', 'Python', 'Logistics', 'Optimization'],
+    image: '/projects/network-optimization.png',
+    summary:
+      'VRP/CVRP coordination strategies across a multi-node cross-border logistics network.',
+    bullets: [
+      'Modeled a multi-node cross-border logistics network spanning 100+ factories, 8 ports and 3 distribution centers, formulating VRP/CVRP coordination strategies that cut transportation cost by 12%.',
+      'Built a Python data-quality framework to preprocess 10k+ shipment records.',
+      'Proposed feedback-driven reallocation policies for fleet and route scheduling.',
+    ],
+    tags: ['Data', 'Logistics', 'Optimization'],
+    skills: ['VRP / CVRP', 'Python', 'Optimization'],
   },
   {
     id: 'pinpianyi',
     year: '2024',
+    period: '2024',
     role: 'Business Analysis Intern',
     org: 'Hangzhou Pinpianyi Tech',
-    body:
-      'Modeled a multi-region recycling logistics system by integrating 30+ municipal waste-management entities (Python + MySQL) and segmenting nodes with K-means. Built order-volume forecasting models over 500k+ monthly records, and shipped a Streamlit decision-support prototype that raised recycling throughput 8% and cut logistics cycle time 12% in a two-region pilot.',
-    tags: ['Python', 'MySQL', 'Forecasting', 'Streamlit'],
+    image: '/projects/analytics-dashboard.png',
+    summary:
+      'Recycling logistics modeling and a decision-support prototype across municipal waste entities.',
+    bullets: [
+      'Modeled a multi-region recycling logistics system by integrating 30+ municipal waste-management entities (Python + MySQL) and segmenting nodes with K-means.',
+      'Built order-volume forecasting models over 500k+ monthly records.',
+      'Shipped a Streamlit decision-support prototype that raised recycling throughput 8% and cut logistics cycle time 12% in a two-region pilot.',
+    ],
+    tags: ['Data', 'Forecasting', 'Business'],
+    skills: ['Python', 'MySQL', 'K-means', 'Streamlit'],
   },
   {
     id: 'turing',
     year: '2024',
+    period: '2024',
     role: 'Undergraduate Researcher · Prof. Mainul Haque, UNNC',
     org: 'Turing Patterns in Epidemics',
-    body:
-      'Developed nonlinear reaction–diffusion models with Allee effects and infection dynamics, demonstrating stable Turing pattern formation across >95% of parameter variations. Ran 1,000+ parameter-set simulations via Latin Hypercube Sampling to identify the critical diffusion–reaction ratios where the system transitions from homogeneous equilibrium to patterned instability.',
-    tags: ['Reaction–Diffusion', 'LHS', 'Bifurcation', 'Stability'],
+    image: '/projects/scientific-viz.png',
+    summary:
+      'Nonlinear reaction–diffusion models with Allee effects and infection dynamics.',
+    bullets: [
+      'Developed nonlinear reaction–diffusion models with Allee effects and infection dynamics, demonstrating stable Turing pattern formation across over 95% of parameter variations.',
+      'Ran 1,000+ parameter-set simulations via Latin Hypercube Sampling to identify critical diffusion–reaction ratios.',
+      'Characterized the transition from homogeneous equilibrium to patterned instability.',
+    ],
+    tags: ['Math', 'Simulation', 'Research'],
+    skills: ['Reaction–Diffusion', 'LHS', 'Bifurcation', 'Stability'],
   },
   {
     id: 'publication',
     year: '2023',
+    period: '2023',
     role: 'First Author · FTBM 2023',
     org: 'Publication — DTW & Trade',
-    body:
-      'Investigated the correlation between fluctuations in the U.S. stock industry index and U.S. import–export volume using the Dynamic Time Warping (DTW) method. Presented at the 2023 International Conference on Finance, Trade and Business Management.',
-    tags: ['DTW', 'Time Series', 'Econometrics'],
+    image: '/projects/scientific-viz.png',
+    summary:
+      'Correlation between U.S. stock industry indices and import–export volume via DTW.',
+    bullets: [
+      'Investigated the correlation between fluctuations in the U.S. stock industry index and U.S. import–export volume using the Dynamic Time Warping (DTW) method.',
+      'Presented at the 2023 International Conference on Finance, Trade and Business Management.',
+    ],
+    tags: ['Data', 'Finance', 'Time Series'],
+    skills: ['DTW', 'Time Series', 'Econometrics'],
     link: { label: 'View publication (DOI)', href: 'https://doi.org/10.2991/978-94-6463-298-9_42' },
   },
 ]
 
+// Reverse-chronological year groups (newest first)
+const YEARS = Array.from(new Set(ITEMS.map((i) => i.year))).sort((a, b) => Number(b) - Number(a))
+
 export function Experience() {
-  const [open, setOpen] = useState<string | null>('tail-risk')
+  const [activeId, setActiveId] = useState<string | null>(null)
+  const active = ITEMS.find((i) => i.id === activeId) ?? null
 
   return (
-    <section id="experience" className="scroll-mt-24 border-t border-border py-20 md:py-28">
+    <section
+      id="experience"
+      className="scroll-mt-24 bg-hero-bg py-20 text-hero-ink md:py-28"
+    >
       <div className="mx-auto max-w-[1400px] px-5 md:px-10">
         <SectionHeader index="02" title="Experience" />
 
-        <ul className="border-t border-border">
-          {ITEMS.map((item) => {
-            const isOpen = open === item.id
-            return (
-              <li key={item.id} className="border-b border-border">
-                <button
-                  type="button"
-                  onClick={() => setOpen(isOpen ? null : item.id)}
-                  aria-expanded={isOpen}
-                  className="group grid w-full grid-cols-[auto_1fr_auto] items-center gap-4 py-6 text-left md:gap-8 md:py-8"
-                >
+        <div className="flex gap-6 md:gap-10">
+          {/* Left — reverse-chronological timeline rail */}
+          <div className="relative hidden shrink-0 md:block">
+            <div className="absolute left-3 top-2 h-full w-px bg-hero-pink/40" aria-hidden />
+            <div className="flex flex-col gap-10">
+              {YEARS.map((year) => (
+                <div key={year} className="relative pl-10">
                   <span
-                    className={`font-mono text-sm tabular-nums tracking-widest md:text-base ${
-                      item.featured ? 'text-primary' : 'text-muted-foreground'
-                    }`}
-                  >
-                    {item.year}
+                    className="absolute left-1 top-4 size-4 rounded-full border-2 border-hero-pink bg-hero-card"
+                    aria-hidden
+                  />
+                  <span className="text-5xl font-black tracking-tighter text-hero-ink lg:text-6xl">
+                    {year}
                   </span>
-                  <span className="flex flex-col md:flex-row md:items-baseline md:gap-4">
-                    <span className="text-2xl font-black uppercase leading-none tracking-tighter transition-colors group-hover:text-primary md:text-4xl">
-                      {item.org}
-                    </span>
-                    <span className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
-                      {item.role}
-                    </span>
-                    {item.featured && (
-                      <span className="w-fit bg-primary px-2 py-0.5 font-mono text-[10px] font-bold uppercase tracking-widest text-primary-foreground">
-                        Featured
-                      </span>
-                    )}
-                  </span>
-                  <span className="text-muted-foreground transition-colors group-hover:text-foreground">
-                    {isOpen ? <Minus className="size-5" /> : <Plus className="size-5" />}
-                  </span>
-                </button>
-
-                <div
-                  className={`grid transition-all duration-300 ${
-                    isOpen ? 'grid-rows-[1fr] pb-8 opacity-100' : 'grid-rows-[0fr] opacity-0'
-                  }`}
-                >
-                  <div className="overflow-hidden">
-                    <div className="grid gap-6 md:grid-cols-[160px_1fr] md:gap-8">
-                      <div className="hidden md:block" />
-                      <div>
-                        <p className="max-w-2xl text-pretty leading-relaxed text-muted-foreground">
-                          {item.body}
-                        </p>
-                        <div className="mt-4 flex flex-wrap gap-2">
-                          {item.tags.map((tag) => (
-                            <span
-                              key={tag}
-                              className="border border-border px-3 py-1 font-mono text-[10px] uppercase tracking-widest text-muted-foreground"
-                            >
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-                        {item.link ? (
-                          <a
-                            href={item.link.href}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="mt-5 inline-flex items-center gap-1.5 font-mono text-xs font-bold uppercase tracking-widest text-primary"
-                          >
-                            {item.link.label}
-                            <ArrowUpRight className="size-4" />
-                          </a>
-                        ) : item.featured ? (
-                          <a
-                            href="#contact"
-                            className="mt-5 inline-flex items-center gap-1.5 font-mono text-xs font-bold uppercase tracking-widest text-primary"
-                          >
-                            Discuss this research
-                            <ArrowUpRight className="size-4" />
-                          </a>
-                        ) : null}
-                      </div>
-                    </div>
-                  </div>
+                  {/* spacer matching the card rows for this year */}
+                  <div
+                    aria-hidden
+                    style={{ height: `${ITEMS.filter((i) => i.year === year).length * 150}px` }}
+                  />
                 </div>
-              </li>
-            )
-          })}
-        </ul>
+              ))}
+            </div>
+          </div>
+
+          {/* Right — project cards grouped by year */}
+          <div className="flex-1">
+            {YEARS.map((year) => (
+              <div key={year} className="mb-10">
+                <span className="mb-4 block text-4xl font-black tracking-tighter text-hero-ink md:hidden">
+                  {year}
+                </span>
+                <div className="grid gap-5 sm:grid-cols-2">
+                  {ITEMS.filter((i) => i.year === year).map((item) => (
+                    <ProjectCard key={item.id} item={item} onOpen={() => setActiveId(item.id)} />
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
+
+      {active && <ProjectModal item={active} onClose={() => setActiveId(null)} />}
     </section>
+  )
+}
+
+function ProjectCard({ item, onOpen }: { item: Item; onOpen: () => void }) {
+  const dark = item.featured
+  return (
+    <button
+      type="button"
+      onClick={onOpen}
+      className={`group flex flex-col overflow-hidden rounded-3xl border p-4 text-left transition-all hover:-translate-y-1 hover:shadow-xl ${
+        dark
+          ? 'border-hero-ink bg-hero-ink text-hero-card'
+          : 'border-hero-pink/40 bg-hero-card text-hero-ink'
+      }`}
+    >
+      <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl">
+        <Image
+          src={item.image || '/placeholder.svg'}
+          alt={`${item.org} preview`}
+          fill
+          className="object-cover transition-transform duration-500 group-hover:scale-105"
+          sizes="(max-width: 640px) 90vw, 40vw"
+        />
+      </div>
+
+      <p className="mt-4 font-mono text-xs text-hero-pink">{item.period}</p>
+      <h3 className="mt-1 text-pretty text-xl font-black leading-tight tracking-tight">
+        {item.org}
+      </h3>
+      <p
+        className={`mt-2 line-clamp-2 text-sm leading-relaxed ${
+          dark ? 'text-hero-card/70' : 'text-hero-muted'
+        }`}
+      >
+        {item.summary}
+      </p>
+
+      <div className="mt-4 flex items-center justify-between gap-3">
+        <span className="rounded-full bg-hero-pink px-3 py-1 font-mono text-[11px] font-medium text-hero-card">
+          {item.tags.join(' | ')}
+        </span>
+        <span
+          className={`flex size-9 shrink-0 items-center justify-center rounded-full border transition-colors ${
+            dark
+              ? 'border-hero-card/40 text-hero-card group-hover:bg-hero-card group-hover:text-hero-ink'
+              : 'border-hero-pink text-hero-pink group-hover:bg-hero-pink group-hover:text-hero-card'
+          }`}
+        >
+          <ArrowUpRight className="size-4" />
+        </span>
+      </div>
+    </button>
+  )
+}
+
+function ProjectModal({ item, onClose }: { item: Item; onClose: () => void }) {
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose()
+    document.addEventListener('keydown', onKey)
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.removeEventListener('keydown', onKey)
+      document.body.style.overflow = ''
+    }
+  }, [onClose])
+
+  return (
+    <div
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8"
+      role="dialog"
+      aria-modal="true"
+      aria-label={item.org}
+    >
+      <div className="absolute inset-0 bg-hero-ink/50 backdrop-blur-sm" onClick={onClose} />
+
+      <div className="relative z-10 max-h-[88vh] w-full max-w-3xl overflow-y-auto rounded-3xl bg-hero-card text-hero-ink shadow-2xl">
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label="Close"
+          className="absolute right-4 top-4 z-10 flex size-9 items-center justify-center rounded-full border border-hero-pink bg-hero-card text-hero-pink transition-colors hover:bg-hero-pink hover:text-hero-card"
+        >
+          <X className="size-4" />
+        </button>
+
+        <div className="p-6 md:p-8">
+          <p className="font-mono text-sm text-hero-ink">{item.period}</p>
+          <h3 className="mt-1 text-pretty text-2xl font-black tracking-tight text-hero-pink md:text-3xl">
+            {item.org}
+          </h3>
+
+          <span className="mt-3 inline-block rounded-full bg-hero-pink px-4 py-1.5 font-mono text-xs font-medium text-hero-card">
+            {item.tags.join(' | ')}
+          </span>
+
+          <div className="relative mt-6 aspect-[16/9] w-full overflow-hidden rounded-2xl border border-hero-pink/20">
+            <Image
+              src={item.image || '/placeholder.svg'}
+              alt={`${item.org} preview`}
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 90vw, 700px"
+            />
+          </div>
+
+          <ul className="mt-6 space-y-4">
+            {item.bullets.map((b, idx) => (
+              <li key={idx} className="flex gap-3 text-pretty leading-relaxed text-hero-ink">
+                <span className="mt-2 size-1.5 shrink-0 rounded-full bg-hero-pink" aria-hidden />
+                <span>{b}</span>
+              </li>
+            ))}
+          </ul>
+
+          <div className="mt-8">
+            <h4 className="text-lg font-black tracking-tight text-hero-pink">Skills &amp; Tools</h4>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {item.skills.map((s) => (
+                <span
+                  key={s}
+                  className="rounded-full border border-hero-pink/60 px-3 py-1 font-mono text-xs text-hero-ink"
+                >
+                  {s}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {item.link && (
+            <a
+              href={item.link.href}
+              target="_blank"
+              rel="noreferrer"
+              className="mt-8 inline-flex items-center gap-1.5 font-mono text-xs font-bold uppercase tracking-widest text-hero-pink"
+            >
+              {item.link.label}
+              <ArrowUpRight className="size-4" />
+            </a>
+          )}
+        </div>
+      </div>
+    </div>
   )
 }
