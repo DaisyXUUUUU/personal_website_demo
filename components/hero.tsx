@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
+import { KeywordMarquee } from '@/components/keyword-marquee'
 
 const TAGLINE = ['From', 'Insight', 'To', 'Impact']
 
@@ -197,14 +198,19 @@ export function Hero() {
           </div>
         </div>
 
-        {/* progress dots */}
-        <div className="absolute bottom-6 left-1/2 flex -translate-x-1/2 gap-2">
+        {/* progress dots — lifted above the anchored marquee */}
+        <div className="absolute bottom-20 left-1/2 flex -translate-x-1/2 gap-2">
           <span
             className={`size-2.5 rounded-full transition-colors ${progress < 0.5 ? 'bg-hero-pink' : 'bg-hero-pink/30'}`}
           />
           <span
             className={`size-2.5 rounded-full transition-colors ${progress >= 0.5 ? 'bg-hero-pink' : 'bg-hero-pink/30'}`}
           />
+        </div>
+
+        {/* keyword ticker — anchored to the bottom of the pinned About viewport */}
+        <div className="absolute inset-x-0 bottom-0 z-20">
+          <KeywordMarquee />
         </div>
       </div>
     </section>
