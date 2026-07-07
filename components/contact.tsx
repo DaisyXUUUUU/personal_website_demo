@@ -58,7 +58,7 @@ export function Contact() {
   return (
     <section
       id="contact"
-      className="scroll-mt-24 border-t-4 border-hero-pink bg-hero-ink py-20 text-hero-card md:py-28"
+      className="tx-curtain scroll-mt-24 border-t-4 border-hero-pink bg-hero-ink py-20 text-hero-card md:py-28"
     >
       <div className="mx-auto max-w-[1400px] px-5 md:px-10">
         {/* Section label + pink rule */}
