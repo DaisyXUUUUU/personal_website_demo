@@ -136,7 +136,7 @@ export function Experience() {
   return (
     <section
       id="experience"
-      className="tx-reveal scroll-mt-24 border-t-2 border-hero-pink/30 bg-hero-bg-2 py-20 text-hero-ink md:py-28"
+      className="scroll-mt-24 border-t-2 border-hero-pink/30 bg-hero-bg-2 py-20 text-hero-ink md:py-28"
     >
       <div className="mx-auto max-w-[1400px] px-5 md:px-10">
         <SectionHeader index="02" title="Experience" />

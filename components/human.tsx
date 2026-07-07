@@ -64,7 +64,7 @@ export function Human() {
   return (
     <section
       id="human"
-      className="tx-scale scroll-mt-24 border-t-2 border-hero-pink/30 bg-hero-bg-3 py-20 text-hero-ink md:py-28"
+      className="scroll-mt-24 border-t-2 border-hero-pink/30 bg-hero-bg-3 py-20 text-hero-ink md:py-28"
     >
       <div className="mx-auto max-w-[1400px] px-5 md:px-10">
         <SectionHeader index="03" title="The Human behind the CV" />
