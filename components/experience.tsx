@@ -136,18 +136,25 @@ export function Experience() {
   return (
     <section
       id="experience"
-      className="scroll-mt-24 bg-hero-bg py-20 text-hero-ink md:py-28"
+      className="scroll-mt-24 bg-hero-bg-2 py-20 text-hero-ink md:py-28"
     >
       <div className="mx-auto max-w-[1400px] px-5 md:px-10">
         <SectionHeader index="02" title="Experience" />
 
-        <div className="flex gap-6 md:gap-10">
-          {/* Left — reverse-chronological timeline rail */}
-          <div className="relative hidden shrink-0 md:block">
-            <div className="absolute left-3 top-2 h-full w-px bg-hero-pink/40" aria-hidden />
-            <div className="flex flex-col gap-10">
-              {YEARS.map((year) => (
-                <div key={year} className="relative pl-10">
+        {/* Reverse-chronological groups. Each group pairs a sticky year label with its cards,
+            so the year follows the scroll until that group's cards have scrolled away. */}
+        <div className="relative">
+          {/* continuous vertical rail behind the sticky dots */}
+          <div
+            className="absolute left-3 top-0 hidden h-full w-px bg-hero-pink/40 md:block"
+            aria-hidden
+          />
+
+          {YEARS.map((year) => (
+            <div key={year} className="flex gap-6 md:gap-10">
+              {/* Left — sticky year that follows the scroll within this group */}
+              <div className="relative hidden shrink-0 md:block">
+                <div className="sticky top-24 pb-10 pl-10">
                   <span
                     className="absolute left-1 top-4 size-4 rounded-full border-2 border-hero-pink bg-hero-card"
                     aria-hidden
@@ -155,20 +162,11 @@ export function Experience() {
                   <span className="text-5xl font-black tracking-tighter text-hero-ink lg:text-6xl">
                     {year}
                   </span>
-                  {/* spacer matching the card rows for this year */}
-                  <div
-                    aria-hidden
-                    style={{ height: `${ITEMS.filter((i) => i.year === year).length * 150}px` }}
-                  />
                 </div>
-              ))}
-            </div>
-          </div>
+              </div>
 
-          {/* Right — project cards grouped by year */}
-          <div className="flex-1">
-            {YEARS.map((year) => (
-              <div key={year} className="mb-10">
+              {/* Right — project cards for this year */}
+              <div className="mb-10 flex-1">
                 <span className="mb-4 block text-4xl font-black tracking-tighter text-hero-ink md:hidden">
                   {year}
                 </span>
@@ -178,8 +176,8 @@ export function Experience() {
                   ))}
                 </div>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
       </div>
 
@@ -189,16 +187,11 @@ export function Experience() {
 }
 
 function ProjectCard({ item, onOpen }: { item: Item; onOpen: () => void }) {
-  const dark = item.featured
   return (
     <button
       type="button"
       onClick={onOpen}
-      className={`group flex flex-col overflow-hidden rounded-3xl border p-4 text-left transition-all hover:-translate-y-1 hover:shadow-xl ${
-        dark
-          ? 'border-hero-ink bg-hero-ink text-hero-card'
-          : 'border-hero-pink/40 bg-hero-card text-hero-ink'
-      }`}
+      className="group flex flex-col overflow-hidden rounded-3xl border border-hero-pink/40 bg-hero-card p-4 text-left text-hero-ink transition-all duration-300 hover:-translate-y-1 hover:border-hero-ink hover:bg-hero-ink hover:text-hero-card hover:shadow-xl"
     >
       <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl">
         <Image
@@ -214,11 +207,7 @@ function ProjectCard({ item, onOpen }: { item: Item; onOpen: () => void }) {
       <h3 className="mt-1 text-pretty text-xl font-black leading-tight tracking-tight">
         {item.org}
       </h3>
-      <p
-        className={`mt-2 line-clamp-2 text-sm leading-relaxed ${
-          dark ? 'text-hero-card/70' : 'text-hero-muted'
-        }`}
-      >
+      <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-hero-muted transition-colors duration-300 group-hover:text-hero-card/70">
         {item.summary}
       </p>
 
@@ -226,13 +215,7 @@ function ProjectCard({ item, onOpen }: { item: Item; onOpen: () => void }) {
         <span className="rounded-full bg-hero-pink px-3 py-1 font-mono text-[11px] font-medium text-hero-card">
           {item.tags.join(' | ')}
         </span>
-        <span
-          className={`flex size-9 shrink-0 items-center justify-center rounded-full border transition-colors ${
-            dark
-              ? 'border-hero-card/40 text-hero-card group-hover:bg-hero-card group-hover:text-hero-ink'
-              : 'border-hero-pink text-hero-pink group-hover:bg-hero-pink group-hover:text-hero-card'
-          }`}
-        >
+        <span className="flex size-9 shrink-0 items-center justify-center rounded-full border border-hero-pink text-hero-pink transition-colors duration-300 group-hover:border-hero-card group-hover:bg-hero-card group-hover:text-hero-ink">
           <ArrowUpRight className="size-4" />
         </span>
       </div>

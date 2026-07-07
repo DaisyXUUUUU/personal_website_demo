@@ -38,6 +38,7 @@
   --color-hero-muted: var(--hero-muted);
   --color-hero-pink: var(--hero-pink);
   --color-hero-card: var(--hero-card);
+  --color-hero-bg-2: var(--hero-bg-2);
   --color-popover-foreground: var(--popover-foreground);
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
@@ -94,6 +95,7 @@
   --hero-muted: rgb(92 72 82);
   --hero-pink: rgb(222 89 143);
   --hero-card: rgb(255 250 252);
+  --hero-bg-2: rgb(246 199 220); /* deeper pink for Experience — top-to-bottom darkening */
 }
 
 @layer base {
