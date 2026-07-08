@@ -156,7 +156,7 @@ export function Experience() {
 
   return (
     <motion.section
-      id="experience"
+      id="projects"
       ref={sectionRef}
       className="scroll-mt-24 border-t-2 border-hero-pink/30 bg-hero-bg-2 py-20 text-hero-ink md:py-28"
       style={{ backgroundColor: bgColor }}
@@ -167,7 +167,7 @@ export function Experience() {
             className="font-mono text-sm font-semibold uppercase tracking-[0.25em] text-hero-pink"
             style={{ y: introLift }}
           >
-            Experience
+            Projects
           </motion.span>
           <span className="h-px flex-1 bg-hero-pink/60" aria-hidden />
         </motion.div>
