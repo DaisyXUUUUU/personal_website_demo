@@ -189,7 +189,7 @@ export function Hero() {
                       className="h-px flex-1 origin-left bg-hero-pink/40"
                     />
                   </div>
-                  <h1 className="text-balance text-5xl font-black uppercase leading-[0.9] tracking-tighter text-hero-pink md:text-6xl xl:text-7xl">
+                  <h1 className="text-balance text-4xl font-black uppercase leading-[0.9] tracking-tighter text-hero-pink md:text-5xl xl:text-6xl">
                     {TITLE_LINES.map((line, index) => (
                       <motion.span
                         key={line}
