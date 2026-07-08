@@ -28,14 +28,14 @@ const CHANNELS: Channel[] = [
   },
   {
     label: 'WeChat',
-    value: 'daisy.ziyue0526@outlook.com',
+    value: 'Daisy_Xu0526',
     href: null,
     logo: '/brand/wechat.svg',
   },
   {
     label: 'LinkedIn',
-    value: 'daisy.ziyue0526@outlook.com',
-    href: 'https://www.linkedin.com',
+    value: 'Ziyue Xu',
+    href: 'https://www.linkedin.com/in/ziyue-xu-29b444379',
     logo: '/brand/linkedin.svg',
   },
 ]
