@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 import { KeywordMarquee } from '@/components/keyword-marquee'
 
-const TAGLINE = ['From', 'Messy', 'Data', 'To', 'Useful', 'Systems']
+const TAGLINE = ['From', 'Messy', 'Data', 'To', 'Useful', 'System']
 const TITLE_LINES = ['Curious', 'mind.', 'Data', 'hands.', 'Systems', 'heart.']
 
 const EASE_OUT = [0.22, 1, 0.36, 1] as const
