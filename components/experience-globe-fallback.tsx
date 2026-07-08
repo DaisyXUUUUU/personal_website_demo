@@ -8,7 +8,6 @@ export function ExperienceGlobeFallback() {
         <div className="globe-shell absolute inset-[6%] rounded-full" />
         <div className="globe-rim absolute inset-[6%] rounded-full" />
         <div className="globe-glow absolute inset-[6%] rounded-full" />
-        <div className="globe-shadow absolute inset-[6%] rounded-full" />
         <div className="globe-highlight absolute inset-[6%] rounded-full" />
 
         <div className="image-plate absolute inset-[8%] overflow-hidden rounded-full" aria-hidden>
@@ -22,17 +21,9 @@ export function ExperienceGlobeFallback() {
         <div className="absolute inset-[8%] rounded-full border border-white/10 shadow-[inset_24px_18px_48px_rgba(255,190,225,0.08),inset_-42px_-56px_80px_rgba(7,3,9,0.58)]" aria-hidden />
       </div>
 
-      <p className="mt-8 text-center font-mono text-xs uppercase tracking-[0.34em] text-hero-pink/80">
-        DRAG TO ROTATE GLOBE
-      </p>
-
       <style jsx>{`
         .globe-float {
           animation: globe-float 8s ease-in-out infinite;
-        }
-
-        .globe-float {
-          animation: globe-float 7.5s ease-in-out infinite;
         }
 
         .globe-shell {
@@ -62,10 +53,6 @@ export function ExperienceGlobeFallback() {
           opacity: 0.8;
         }
 
-        .globe-shadow {
-          background: radial-gradient(circle at 72% 78%, rgba(8, 4, 11, 0) 46%, rgba(6, 3, 8, 0.48) 78%, rgba(6, 3, 8, 0.74) 100%);
-        }
-
         .globe-highlight {
           background: radial-gradient(circle at 36% 26%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0) 26%);
           mix-blend-mode: screen;
@@ -81,16 +68,8 @@ export function ExperienceGlobeFallback() {
           animation: globe-bob 4.8s ease-in-out infinite;
           transform-origin: center;
           filter: drop-shadow(0 0 18px rgba(255, 123, 185, 0.26));
-        }
-
-        @keyframes globe-float {
-          0%,
-          100% {
-            transform: translateY(0px);
-          }
-          50% {
-            transform: translateY(-8px);
-          }
+          mix-blend-mode: screen;
+          opacity: 0.98;
         }
 
         @keyframes globe-bob {
@@ -126,7 +105,6 @@ export function ExperienceGlobeFallback() {
         }
 
         @media (prefers-reduced-motion: reduce) {
-          .globe-float,
           .globe-image,
           .globe-rim {
             animation: none !important;
