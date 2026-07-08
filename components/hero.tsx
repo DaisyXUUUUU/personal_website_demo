@@ -14,31 +14,32 @@ const INTRO_HOLD_MS = 220
 const EDUCATION = [
   {
     year: '2021 — 2025',
-    school: 'University of Nottingham Ningbo China',
+    school: 'University of Nottingham',
     detail:
-      'BSc Mathematics with Applied Mathematics · First-Class Honours · GPA 3.9/4.0 · Ningbo CN & Nottingham UK',
+      'BSc Mathematics with Applied Mathematics · First-Class Honours · GPA 3.9/4.0 · Ningbo China & Nottingham UK',
   },
   {
-    year: '2026 - 2028',
-    school: ' University of Pennsylvania',
+    year: '2026 — 2028',
+    school: 'University of Pennsylvania',
     detail:
-      'MSE in Systems Engineering · Philadelphia USA',
+      'MSE in Systems Engineering · Focused on AI, data-driven systems, and real-world problem solving · Philadelphia USA',
   },
 ]
 
 const SKILLS = [
   'Python',
   'SQL',
-  'R',
-  'MATLAB',
+  'Machine Learning',
+  'NLP',
+  'Forecasting',
+  'Data Visualization',
+  'Streamlit',
   'Tableau',
-  'C++',
-  'LaTeX',
-  'CTMC / PH',
-  'Queueing Systems',
-  'VRP / CVRP',
-  'Time-Series Modeling',
-  'Monte Carlo',
+  'PyTorch',
+  'scikit-learn',
+  'Optimization',
+  'RAG Evaluation',
+  'Git',
 ]
 
 export function Hero() {
