@@ -1,11 +1,6 @@
 'use client'
 
-import dynamic from 'next/dynamic'
-
-const ExperienceGlobe3D = dynamic(
-  () => import('@/components/ExperienceGlobe3D').then((mod) => mod.ExperienceGlobe3D),
-  { ssr: false },
-)
+import { ExperienceGlobeFallback } from '@/components/experience-globe-fallback'
 
 type WorkItem = {
   id: string
@@ -114,7 +109,7 @@ export function WorkExperience() {
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(65%_55%_at_52%_52%,rgba(222,89,143,0.22),rgba(18,11,18,0)_72%)]" aria-hidden />
           <div className="pointer-events-none absolute inset-0 opacity-30 [background-image:repeating-linear-gradient(90deg,rgba(255,255,255,0.02)_0,rgba(255,255,255,0.02)_1px,transparent_1px,transparent_18px)]" aria-hidden />
           <div className="relative w-full max-w-[620px]">
-            <ExperienceGlobe3D />
+            <ExperienceGlobeFallback />
           </div>
         </div>
       </div>
