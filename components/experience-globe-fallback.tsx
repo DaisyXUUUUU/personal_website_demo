@@ -11,30 +11,90 @@ export function ExperienceGlobeFallback() {
         <div className="globe-shadow absolute inset-[6%] rounded-full" />
         <div className="globe-highlight absolute inset-[6%] rounded-full" />
 
-        <div className="map-drift absolute inset-[8%] rounded-full" aria-hidden>
-          <div className="map-layer map-layer-main absolute inset-0 rounded-full" />
-          <div className="map-layer map-layer-secondary absolute inset-0 rounded-full" />
-          <div className="map-layer map-layer-depth absolute inset-0 rounded-full" />
+        <div className="map-frame absolute inset-[8%] rounded-full" aria-hidden>
+          <svg className="map-svg absolute inset-0 h-full w-full" viewBox="0 0 100 100" role="img" aria-label="Simplified East Asia dotted map">
+            <defs>
+              <radialGradient id="eastAsiaDotGlow" cx="50%" cy="50%" r="70%">
+                <stop offset="0%" stopColor="#ffb1da" stopOpacity="0.92" />
+                <stop offset="100%" stopColor="#f1609a" stopOpacity="0.28" />
+              </radialGradient>
+              <radialGradient id="eastAsiaDepth" cx="50%" cy="50%" r="70%">
+                <stop offset="0%" stopColor="#ffbfe3" stopOpacity="0.18" />
+                <stop offset="100%" stopColor="#f1609a" stopOpacity="0.04" />
+              </radialGradient>
+
+              <pattern id="dotPatternMain" width="4.2" height="4.2" patternUnits="userSpaceOnUse">
+                <circle cx="1.4" cy="1.3" r="0.8" fill="url(#eastAsiaDotGlow)" />
+              </pattern>
+              <pattern id="dotPatternSecondary" width="5.2" height="5.2" patternUnits="userSpaceOnUse">
+                <circle cx="1.2" cy="1.1" r="0.72" fill="#f48f63" fillOpacity="0.78" />
+              </pattern>
+              <pattern id="dotPatternAccent" width="6" height="6" patternUnits="userSpaceOnUse">
+                <circle cx="1.7" cy="1.3" r="0.66" fill="#8b5cf6" fillOpacity="0.78" />
+              </pattern>
+
+              <clipPath id="chinaMainClip" clipPathUnits="userSpaceOnUse">
+                <path d="M32 30 L39 25 L47 23 L55 24 L60 28 L64 34 L65 40 L64 46 L62 51 L58 55 L53 59 L47 62 L42 64 L37 65 L33 62 L30 57 L29 51 L28 45 L29 38 L30 33 Z" />
+              </clipPath>
+              <clipPath id="eastCoastClip" clipPathUnits="userSpaceOnUse">
+                <path d="M56 28 L62 30 L65 35 L66 40 L65 45 L63 49 L61 53 L58 56 L55 58 L53 56 L54 50 L55 44 L55 38 L55 33 Z" />
+              </clipPath>
+              <clipPath id="koreaJapanClip" clipPathUnits="userSpaceOnUse">
+                <path d="M67 29 L71 28 L74 31 L75 35 L73 38 L71 40 L69 42 L67 40 L66 36 L66 32 Z M76 36 L80 37 L82 40 L81 43 L78 45 L76 43 L75 40 Z" />
+              </clipPath>
+              <clipPath id="seaClip" clipPathUnits="userSpaceOnUse">
+                <path d="M46 61 L51 60 L56 61 L60 64 L62 69 L61 73 L58 76 L53 77 L48 75 L45 71 L44 66 Z" />
+              </clipPath>
+            </defs>
+
+            <circle cx="50" cy="50" r="44" fill="url(#eastAsiaDepth)" opacity="0.5" />
+
+            <g opacity="0.95">
+              <rect x="0" y="0" width="100" height="100" fill="url(#dotPatternMain)" clipPath="url(#chinaMainClip)" />
+              <rect x="0" y="0" width="100" height="100" fill="url(#dotPatternSecondary)" opacity="0.78" clipPath="url(#eastCoastClip)" />
+              <rect x="0" y="0" width="100" height="100" fill="url(#dotPatternAccent)" opacity="0.78" clipPath="url(#koreaJapanClip)" />
+              <rect x="0" y="0" width="100" height="100" fill="url(#dotPatternSecondary)" opacity="0.38" clipPath="url(#seaClip)" />
+            </g>
+
+            <path
+              d="M32 30 L39 25 L47 23 L55 24 L60 28 L64 34 L65 40 L64 46 L62 51 L58 55 L53 59 L47 62 L42 64 L37 65 L33 62 L30 57 L29 51 L28 45 L29 38 L30 33 Z"
+              fill="none"
+              stroke="rgba(255,170,214,0.18)"
+              strokeWidth="0.8"
+            />
+            <path
+              d="M67 29 L71 28 L74 31 L75 35 L73 38 L71 40 L69 42 L67 40 L66 36 L66 32 Z M76 36 L80 37 L82 40 L81 43 L78 45 L76 43 L75 40 Z"
+              fill="none"
+              stroke="rgba(255,170,214,0.14)"
+              strokeWidth="0.8"
+            />
+            <path
+              d="M46 61 L51 60 L56 61 L60 64 L62 69 L61 73 L58 76 L53 77 L48 75 L45 71 L44 66 Z"
+              fill="none"
+              stroke="rgba(255,170,214,0.1)"
+              strokeWidth="0.8"
+            />
+          </svg>
         </div>
 
         <div className="absolute inset-[8%] rounded-full border border-white/10 shadow-[inset_24px_18px_48px_rgba(255,190,225,0.08),inset_-42px_-56px_80px_rgba(7,3,9,0.58)]" aria-hidden />
 
-        <div className="location-label location-ningbo">
-          <span className="location-pin location-pin-ningbo" />
-          <span className="location-line" />
-          <span className="location-pill location-pill-ningbo">Ningbo</span>
+        <div className="city-label city-shanghai" style={{ ['--city-color' as string]: '#f48f63' }}>
+          <span className="city-pin" />
+          <span className="city-line" />
+          <span className="city-pill">Shanghai</span>
         </div>
 
-        <div className="location-label location-shanghai">
-          <span className="location-pin location-pin-shanghai" />
-          <span className="location-line" />
-          <span className="location-pill location-pill-shanghai">Shanghai</span>
+        <div className="city-label city-ningbo" style={{ ['--city-color' as string]: '#f1609a' }}>
+          <span className="city-pin" />
+          <span className="city-line" />
+          <span className="city-pill">Ningbo</span>
         </div>
 
-        <div className="location-label location-hangzhou">
-          <span className="location-pin location-pin-hangzhou" />
-          <span className="location-line" />
-          <span className="location-pill location-pill-hangzhou">Hangzhou</span>
+        <div className="city-label city-hangzhou" style={{ ['--city-color' as string]: '#8b5cf6' }}>
+          <span className="city-pin" />
+          <span className="city-line" />
+          <span className="city-pill">Hangzhou</span>
         </div>
       </div>
 
@@ -83,50 +143,25 @@ export function ExperienceGlobeFallback() {
           mix-blend-mode: screen;
         }
 
-        .map-drift {
-          animation: map-drift 24s ease-in-out infinite;
-          transform-origin: 50% 50%;
+        .map-frame {
+          overflow: hidden;
+          border-radius: 9999px;
         }
 
-        .map-layer {
-          opacity: 0.95;
-          background-repeat: repeat;
-          background-size: 10px 10px;
-          filter: drop-shadow(0 0 2px rgba(255, 115, 180, 0.14));
+        .map-svg {
+          filter: drop-shadow(0 0 4px rgba(255, 115, 180, 0.16));
         }
 
-        .map-layer-main {
-          background-image: radial-gradient(circle, rgba(255, 138, 198, 0.86) 0 1.35px, transparent 1.85px);
-          -webkit-clip-path: polygon(17% 19%, 25% 15%, 31% 11%, 39% 13%, 47% 16%, 54% 21%, 59% 28%, 63% 36%, 63% 44%, 60% 49%, 56% 54%, 50% 58%, 44% 63%, 39% 68%, 34% 76%, 31% 84%, 25% 81%, 21% 73%, 19% 64%, 17% 56%, 16% 46%, 15% 35%);
-          clip-path: polygon(17% 19%, 25% 15%, 31% 11%, 39% 13%, 47% 16%, 54% 21%, 59% 28%, 63% 36%, 63% 44%, 60% 49%, 56% 54%, 50% 58%, 44% 63%, 39% 68%, 34% 76%, 31% 84%, 25% 81%, 21% 73%, 19% 64%, 17% 56%, 16% 46%, 15% 35%);
-        }
-
-        .map-layer-secondary {
-          background-image: radial-gradient(circle, rgba(255, 117, 182, 0.82) 0 1.25px, transparent 1.8px);
-          background-size: 11px 11px;
-          opacity: 0.82;
-          -webkit-clip-path: polygon(55% 71%, 61% 68%, 66% 69%, 70% 73%, 72% 79%, 71% 85%, 68% 90%, 63% 93%, 57% 92%, 53% 87%, 51% 81%);
-          clip-path: polygon(55% 71%, 61% 68%, 66% 69%, 70% 73%, 72% 79%, 71% 85%, 68% 90%, 63% 93%, 57% 92%, 53% 87%, 51% 81%);
-        }
-
-        .map-layer-depth {
-          background-image: radial-gradient(circle, rgba(255, 164, 216, 0.26) 0 1.2px, transparent 1.8px);
-          background-size: 14px 14px;
-          opacity: 0.55;
-          -webkit-clip-path: polygon(24% 24%, 34% 20%, 44% 19%, 52% 24%, 58% 32%, 59% 42%, 56% 51%, 49% 58%, 40% 63%, 32% 65%, 26% 60%, 22% 51%, 21% 41%, 22% 31%);
-          clip-path: polygon(24% 24%, 34% 20%, 44% 19%, 52% 24%, 58% 32%, 59% 42%, 56% 51%, 49% 58%, 40% 63%, 32% 65%, 26% 60%, 22% 51%, 21% 41%, 22% 31%);
-        }
-
-        .location-label {
+        .city-label {
           position: absolute;
           z-index: 20;
           display: flex;
           align-items: center;
-          gap: 0.5rem;
+          gap: 0.45rem;
           transform: translate(-50%, -50%);
         }
 
-        .location-label::before {
+        .city-label::before {
           content: '';
           position: absolute;
           inset: -0.8rem -1rem;
@@ -136,31 +171,41 @@ export function ExperienceGlobeFallback() {
           z-index: -1;
         }
 
-        .location-label::after {
+        .city-pin {
+          width: 0.58rem;
+          height: 0.58rem;
+          border-radius: 9999px;
+          flex: 0 0 auto;
+          background: var(--city-color);
+          box-shadow: 0 0 0 0.18rem rgba(255, 255, 255, 0.05), 0 0 18px var(--city-color);
+          animation: pin-pulse 2.5s ease-in-out infinite;
+          position: relative;
+        }
+
+        .city-pin::after {
           content: '';
           position: absolute;
-          width: 0.35rem;
-          height: 0.35rem;
-          border-radius: 9999px;
-          background: currentColor;
-          box-shadow: 0 0 12px currentColor;
+          left: 50%;
           top: 50%;
-          left: 0;
+          width: 0.24rem;
+          height: 0.24rem;
           transform: translate(-50%, -50%);
-        }
-
-        .location-line {
-          width: clamp(1.5rem, 4vw, 2.75rem);
-          height: 1px;
-          background: linear-gradient(90deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.56), rgba(255, 255, 255, 0.02));
-          box-shadow: 0 0 8px rgba(255, 255, 255, 0.18);
-        }
-
-        .location-pill {
           border-radius: 9999px;
-          padding: 0.55rem 1.05rem;
-          color: rgba(255, 255, 255, 0.96);
-          font-size: clamp(0.9rem, 1.7vw, 1.05rem);
+          background: rgba(255, 255, 255, 0.92);
+        }
+
+        .city-line {
+          width: clamp(1.2rem, 2.6vw, 2rem);
+          height: 1px;
+          background: linear-gradient(90deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.04));
+          box-shadow: 0 0 8px rgba(255, 255, 255, 0.12);
+        }
+
+        .city-pill {
+          border-radius: 9999px;
+          padding: 0.5rem 1rem;
+          color: rgba(255, 255, 255, 0.97);
+          font-size: clamp(0.88rem, 1.5vw, 1.03rem);
           font-weight: 900;
           line-height: 1;
           letter-spacing: 0.01em;
@@ -168,57 +213,25 @@ export function ExperienceGlobeFallback() {
           backdrop-filter: blur(12px);
           -webkit-backdrop-filter: blur(12px);
           border: 1px solid rgba(255, 255, 255, 0.14);
+          background: linear-gradient(180deg, color-mix(in srgb, var(--city-color) 95%, white 5%), color-mix(in srgb, var(--city-color) 78%, black 22%));
         }
 
-        .location-pin {
-          width: 0.58rem;
-          height: 0.58rem;
-          border-radius: 9999px;
-          flex: 0 0 auto;
-          box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.05), 0 0 18px currentColor;
-          animation: pin-pulse 2.5s ease-in-out infinite;
+        .city-shanghai {
+          left: 72%;
+          top: 41.5%;
+          --city-color: #f48f63;
         }
 
-        .location-pin-ningbo,
-        .location-pill-ningbo {
-          color: #f1609a;
-          background: linear-gradient(180deg, rgba(241, 96, 154, 0.98), rgba(190, 56, 118, 0.94));
+        .city-ningbo {
+          left: 73%;
+          top: 46%;
+          --city-color: #f1609a;
         }
 
-        .location-pin-shanghai,
-        .location-pill-shanghai {
-          color: #f48f63;
-          background: linear-gradient(180deg, rgba(244, 143, 99, 0.98), rgba(189, 94, 56, 0.94));
-        }
-
-        .location-pin-hangzhou,
-        .location-pill-hangzhou {
-          color: #8b5cf6;
-          background: linear-gradient(180deg, rgba(139, 92, 246, 0.98), rgba(100, 65, 198, 0.94));
-        }
-
-        .location-ningbo {
-          left: 68%;
-          top: 42%;
-          color: #f1609a;
-        }
-
-        .location-shanghai {
-          left: 69%;
-          top: 50%;
-          color: #f48f63;
-        }
-
-        .location-hangzhou {
-          left: 68%;
-          top: 58%;
-          color: #8b5cf6;
-        }
-
-        .location-ningbo .location-pill,
-        .location-shanghai .location-pill,
-        .location-hangzhou .location-pill {
-          backdrop-filter: blur(10px);
+        .city-hangzhou {
+          left: 71%;
+          top: 50.8%;
+          --city-color: #8b5cf6;
         }
 
         @keyframes globe-float {
@@ -228,18 +241,6 @@ export function ExperienceGlobeFallback() {
           }
           50% {
             transform: translateY(-8px);
-          }
-        }
-
-        @keyframes map-drift {
-          0% {
-            transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
-          }
-          50% {
-            transform: translate3d(0.5%, -0.4%, 0) rotate(1.8deg) scale(1.012);
-          }
-          100% {
-            transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
           }
         }
 
@@ -267,27 +268,23 @@ export function ExperienceGlobeFallback() {
 
         @media (prefers-reduced-motion: reduce) {
           .globe-float,
-          .map-drift,
-          .location-pin,
+          .city-pin,
           .globe-rim {
             animation: none !important;
           }
         }
 
         @media (max-width: 768px) {
-          .location-ningbo {
-            left: 64%;
-            top: 40%;
+          .city-shanghai {
+            left: 70.5%;
           }
 
-          .location-shanghai {
-            left: 66%;
-            top: 50%;
+          .city-ningbo {
+            left: 71.5%;
           }
 
-          .location-hangzhou {
-            left: 65%;
-            top: 60%;
+          .city-hangzhou {
+            left: 69.5%;
           }
         }
       `}</style>
