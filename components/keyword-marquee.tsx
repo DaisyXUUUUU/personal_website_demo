@@ -8,7 +8,6 @@ const KEYWORDS = [
   'Optimization',
   'Systems Engineering',
   'Reproducible Python',
-  'UK × China',
 ]
 
 export function KeywordMarquee() {
