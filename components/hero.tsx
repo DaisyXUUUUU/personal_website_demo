@@ -5,8 +5,8 @@ import { useEffect, useRef, useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 import { KeywordMarquee } from '@/components/keyword-marquee'
 
-const TAGLINE = ['From', 'Insight', 'To', 'Impact']
-const TITLE_LINES = ['Global', 'thinking.', 'Applied', 'rigor.']
+const TAGLINE = ['From', 'Messy', 'Data', 'To', 'Useful', 'Systems']
+const TITLE_LINES = ['Curious', 'mind.', 'Data', 'hands.', 'Systems', 'heart.']
 
 const EASE_OUT = [0.22, 1, 0.36, 1] as const
 const INTRO_HOLD_MS = 220
@@ -210,13 +210,13 @@ export function Hero() {
                     className="mt-6 max-w-md space-y-3 text-base leading-relaxed text-hero-muted lg:text-lg"
                   >
                     <p>
-                      Hi, I&apos;m Ziyue Xu — a First-Class Honours applied mathematician who turns
-                      uncertainty into decisions.
+                      Hi, I&apos;m Ziyue Xu — an AI and data science explorer with a background in
+                      applied mathematics and systems engineering.
                     </p>
                     <p>
-                      Spanning the UK and China, I specialize in stochastic modeling, tail-risk
-                      analytics and large-scale optimization — always shipped as clean,
-                      reproducible Python.
+                      I build analytical workflows, machine learning models, and visual prototypes
+                      that connect technical depth with real-world execution — from healthcare
+                      intelligence to logistics optimization.
                     </p>
                   </motion.div>
                 </div>
