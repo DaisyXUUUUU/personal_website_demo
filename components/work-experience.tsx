@@ -1,7 +1,6 @@
 'use client'
 
-import { motion, useAnimationFrame, useMotionValue } from 'framer-motion'
-import { useState } from 'react'
+import { WorkGlobe } from '@/components/work-globe'
 
 type WorkItem = {
   id: string
@@ -55,22 +54,7 @@ const WORK_ITEMS: WorkItem[] = [
   },
 ]
 
-const LOCATION_MARKERS = [
-  { label: 'Ningbo', top: '32%', left: '66%', tone: 'bg-[#f1609a]' },
-  { label: 'Shanghai', top: '38%', left: '69%', tone: 'bg-[#f48f63]' },
-  { label: 'Hangzhou', top: '42%', left: '64%', tone: 'bg-[#9f63f4]' },
-]
-
 export function WorkExperience() {
-  const rotateX = useMotionValue(-12)
-  const rotateY = useMotionValue(12)
-  const [dragging, setDragging] = useState(false)
-
-  useAnimationFrame((_, delta) => {
-    if (dragging) return
-    rotateY.set(rotateY.get() + delta * 0.007)
-  })
-
   return (
     <section id="experience" className="scroll-mt-24 border-t-2 border-hero-pink/30 bg-[#120b12] py-20 text-hero-card md:py-28">
       <div className="mx-auto grid max-w-[1500px] gap-12 px-5 md:px-10 lg:grid-cols-[1.3fr_0.9fr] lg:gap-8">
@@ -121,69 +105,11 @@ export function WorkExperience() {
           </div>
         </div>
 
-        <div className="flex min-h-[520px] items-center justify-center">
-          <div className="relative w-full max-w-[460px]">
-            <div className="pointer-events-none absolute inset-0 rounded-full bg-hero-pink/20 blur-3xl" aria-hidden />
-
-            <motion.div
-              drag
-              dragMomentum={false}
-              onDragStart={() => setDragging(true)}
-              onDragEnd={() => setDragging(false)}
-              onDrag={(_, info) => {
-                rotateY.set(rotateY.get() + info.delta.x * 0.35)
-                rotateX.set(Math.max(-32, Math.min(22, rotateX.get() - info.delta.y * 0.28)))
-              }}
-              className="relative mx-auto aspect-square w-[84%] cursor-grab active:cursor-grabbing"
-              style={{ perspective: 1200 }}
-              aria-label="Draggable globe with work locations"
-            >
-              <motion.div
-                className="relative h-full w-full"
-                style={{ rotateX, rotateY, transformStyle: 'preserve-3d' }}
-              >
-                <div className="absolute inset-0 rounded-full border border-white/12 bg-[radial-gradient(circle_at_35%_30%,rgba(255,255,255,0.24),rgba(255,255,255,0.05)_45%,rgba(0,0,0,0.12)_100%)] shadow-[inset_-18px_-24px_40px_rgba(0,0,0,0.35),0_30px_60px_rgba(0,0,0,0.4)]" />
-
-                <div
-                  className="absolute left-[16%] top-[16%] h-[34%] w-[33%] rounded-[44%_52%_46%_58%/42%_58%_45%_55%]"
-                  style={{
-                    transform: 'translateZ(2px)',
-                    backgroundImage:
-                      'radial-gradient(circle, rgba(255,184,219,0.8) 0 1px, transparent 1.8px)',
-                    backgroundSize: '6px 6px',
-                    opacity: 0.65,
-                  }}
-                />
-                <div
-                  className="absolute left-[57%] top-[33%] h-[39%] w-[24%] rounded-[46%_58%_48%_52%/49%_44%_56%_51%]"
-                  style={{
-                    transform: 'translateZ(2px)',
-                    backgroundImage:
-                      'radial-gradient(circle, rgba(255,184,219,0.8) 0 1px, transparent 1.8px)',
-                    backgroundSize: '6px 6px',
-                    opacity: 0.65,
-                  }}
-                />
-
-                {LOCATION_MARKERS.map((marker) => (
-                  <div
-                    key={marker.label}
-                    className="absolute"
-                    style={{
-                      top: marker.top,
-                      left: marker.left,
-                      transform: 'translate(-50%, -50%) translateZ(28px)',
-                    }}
-                  >
-                    <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-bold text-white shadow-lg ${marker.tone}`}>
-                      <span className="size-1.5 rounded-full bg-white/90" aria-hidden />
-                      {marker.label}
-                    </span>
-                  </div>
-                ))}
-              </motion.div>
-            </motion.div>
-
+        <div className="relative flex min-h-[520px] items-center justify-center overflow-hidden">
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(65%_55%_at_52%_52%,rgba(222,89,143,0.22),rgba(18,11,18,0)_72%)]" aria-hidden />
+          <div className="pointer-events-none absolute inset-0 opacity-30 [background-image:repeating-linear-gradient(90deg,rgba(255,255,255,0.02)_0,rgba(255,255,255,0.02)_1px,transparent_1px,transparent_18px)]" aria-hidden />
+          <div className="relative w-full max-w-[620px]">
+            <WorkGlobe />
             <p className="mt-6 text-center font-mono text-xs uppercase tracking-widest text-hero-pink/75">
               Drag to rotate globe
             </p>
