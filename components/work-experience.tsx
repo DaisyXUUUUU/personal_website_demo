@@ -11,45 +11,61 @@ type WorkItem = {
   summary: string
   details: string[]
 }
-
 const WORK_ITEMS: WorkItem[] = [
   {
     id: 'tail-risk-ra',
-    period: '2025 — Present',
+    period: 'Jul 2025 to Apr 2026',
     role: 'Research Assistant',
-    org: 'NUBS China · Dr. Liu Lei',
+    org: 'NUBS China · Advisor: Dr. Liu Lei',
     location: 'Ningbo, China',
-    summary: 'Queueing tail-risk modeling, PH approximation, and risk-averse optimization research.',
+    summary:
+      'Risk aware optimization and deep reinforcement learning research for stochastic scheduling systems.',
     details: [
-      'Built CTMC and PH-based models for heavy-tailed queueing systems and stress-tested with simulations.',
-      'Analyzed VaR and CVaR behavior under congestion scenarios to support robust operational decisions.',
-      'Translated research insights into reproducible computational workflows for manuscript preparation.',
+      'Developed CTMC and phase type distribution models to represent uncertain processing times in multi stage flow shop scheduling systems.',
+      'Built Python and C++ workflows for state space construction, risk evaluation, simulation experiments, and visualization across multiple job and machine settings.',
+      'Designed a Transformer based PPO policy for schedule construction, achieving a 0.73% average CVaR reduction and 2.4x inference speedup compared with iterated greedy benchmarks.',
     ],
   },
   {
     id: 'ipsos-intern',
-    period: '2021 — 2022',
+    period: 'Sep 2025 to Dec 2025',
     role: 'Data Analysis & Social Intelligence Intern',
-    org: 'IPSOS China',
-    location: 'Shanghai, China',
-    summary: 'Healthcare social-intelligence analytics with NLP clustering and dashboard delivery.',
+    org: 'IPSOS China · Healthcare Team',
+    location: 'Remote, China',
+    summary:
+      'NLP driven healthcare social intelligence workflows for sentiment tracking, topic discovery, and client ready dashboards.',
     details: [
-      'Processed large-scale social content and mapped KOL/HCP dynamics with NLP and clustering pipelines.',
-      'Built sentiment monitoring with forecasting signals for early anomaly detection.',
-      'Delivered Tableau dashboards used by teams for communication and engagement planning.',
+      'Built Python based NLP pipelines to collect, clean, and structure 50,000+ posts from TikTok, WeChat, and Xiaohongshu.',
+      'Applied sentiment analysis, keyword extraction, and K means clustering to classify healthcare content themes and user discussion patterns, improving topic classification accuracy by 22%.',
+      'Designed Tableau dashboards to visualize sentiment trends, channel performance, competitor dynamics, and model outputs for consultant and client facing presentations.',
     ],
   },
   {
     id: 'pinpianyi-intern',
-    period: '2024',
+    period: 'Jun 2024 to Aug 2024',
     role: 'Business Analysis Intern',
-    org: 'Hangzhou Pinpianyi Tech',
+    org: 'Hangzhou Pinpianyi Network Technology',
     location: 'Hangzhou, China',
-    summary: 'Recycling logistics analytics and data-backed decision support prototyping.',
+    summary:
+      'Operational analytics, forecasting, and dashboard prototyping for recycling logistics and regional performance decisions.',
     details: [
-      'Integrated multi-region operational datasets and structured routing-related decision variables.',
-      'Built forecasting and scenario analysis routines for demand and throughput planning.',
-      'Shipped a Streamlit prototype supporting pilot-level decision workflows.',
+      'Processed 500,000+ operational records using Python, pandas, and MySQL to build standardized datasets for forecasting, retention analysis, and service efficiency evaluation.',
+      'Developed regression and time series models to forecast order volume and identify behavioral drivers of churn and customer retention.',
+      'Built Tableau dashboards and lightweight Streamlit prototypes to communicate predictive outputs and regional performance insights to non technical stakeholders.',
+    ],
+  },
+  {
+    id: 'changjiang-intern',
+    period: 'Jun 2023 to Aug 2023',
+    role: 'Capital Markets Data Intern',
+    org: 'Changjiang Financing Services Co., Ltd.',
+    location: 'Shanghai, China',
+    summary:
+      'Financial data analysis and visual reporting for capital markets research, investor communication, and market trend interpretation.',
+    details: [
+      'Processed and analyzed 15,000+ financial data points using Wind and iFinD Financial Services Terminals for a 90 page semi annual capital markets report.',
+      'Created statistical summaries and data visualizations covering macroeconomics, IPOs, equity refinancing, and bond markets.',
+      'Supported roadshow preparation by translating market data into clear materials for investment opportunity analysis and stakeholder communication.',
     ],
   },
 ]
@@ -67,7 +83,7 @@ export function WorkExperience() {
           </div>
 
           <h2 className="text-pretty text-5xl font-black tracking-tighter text-hero-pink md:text-7xl">
-            What I&apos;ve worked.
+            Where I&apos;ve built.
           </h2>
 
           <div className="mt-10 space-y-4">
