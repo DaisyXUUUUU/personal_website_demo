@@ -211,10 +211,10 @@ export function ScratchSplash({ onEnter }: { onEnter: () => void }) {
         >
           <PartyPopper className="mb-6 size-16 text-primary" aria-hidden="true" />
           <h2 className="text-balance text-4xl font-black tracking-tight text-primary md:text-6xl">
-            恭喜成为我的天使投资人
+            Congratulations on becoming my angel investor
           </h2>
           <p className="mt-3 text-pretty text-xl font-bold text-primary md:text-3xl">
-            Congratulations on becoming my angel investor
+            恭喜成为我的天使投资人
           </p>
           <button
             type="button"
