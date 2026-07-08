@@ -10,7 +10,7 @@ const BRUSH_RADIUS = 46
 
 type Phase = 'typing' | 'scratch' | 'unlocked' | 'entering'
 
-const TYPE_SEQUENCE = ['I\u2019m', 'ZIYUE XU', 'An Applied Mathematician'] as const
+const TYPE_SEQUENCE = ['I\u2019m', 'ZIYUE XU', 'AI & Data Science Builder'] as const
 
 export function ScratchSplash({ onEnter }: { onEnter: () => void }) {
   const [phase, setPhase] = useState<Phase>('typing')
@@ -107,11 +107,11 @@ export function ScratchSplash({ onEnter }: { onEnter: () => void }) {
     ctx.fillText('ZIYUE XU', cx, cy - 10 * scale)
 
     ctx.font = `700 ${58 * scale}px Geist, system-ui, sans-serif`
-    ctx.fillText('An Applied Mathematician', cx, cy + 80 * scale)
+    ctx.fillText('AI & Data Science Builder', cx, cy + 80 * scale)
 
     ctx.globalAlpha = 0.92
     ctx.font = `500 ${40 * scale}px Geist, system-ui, sans-serif`
-    ctx.fillText('Welcome to my personal website', cx, cy + 170 * scale)
+    ctx.fillText('Turning data, models, and ideas into real-world solutions', cx, cy + 170 * scale)
     ctx.globalAlpha = 1
   }, [])
 
@@ -250,7 +250,7 @@ export function ScratchSplash({ onEnter }: { onEnter: () => void }) {
               showSub ? 'opacity-100' : 'opacity-0'
             }`}
           >
-            Welcome to my personal website
+            Turning data, models, and ideas into real-world solutions
           </span>
         </div>
       )}
