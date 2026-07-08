@@ -1,11 +1,13 @@
 const KEYWORDS = [
-  'Stochastic Modeling',
-  'Tail-Risk Analytics',
-  'Large-Scale Optimization',
-  'Applied Mathematics',
+  'AI & Data Science',
+  'Machine Learning',
+  'Real-World AI Systems',
+  'Data → Decisions',
+  'NLP & Intelligent Analytics',
+  'Predictive Modeling',
+  'Optimization',
+  'Systems Engineering',
   'Reproducible Python',
-  'Uncertainty → Decisions',
-  'First-Class Honours',
   'UK × China',
 ]
 
