@@ -14,15 +14,15 @@ const INTRO_HOLD_MS = 220
 const EDUCATION = [
   {
     year: '2021 — 2025',
-    school: 'University of Nottingham',
+    school: 'University of Nottingham Ningbo China',
     detail:
       'BSc Mathematics with Applied Mathematics · First-Class Honours · GPA 3.9/4.0 · Ningbo CN & Nottingham UK',
   },
   {
-    year: 'Coursework',
-    school: 'Applied & Computational',
+    year: '2026 - 2028',
+    school: ' University of Pennsylvania',
     detail:
-      'Probability Models · Statistical Methods · Optimization · Scientific Computation & Numerical Analysis · Data Modelling',
+      'MSE in Systems Engineering · Philadelphia USA',
   },
 ]
 
