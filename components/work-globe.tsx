@@ -1,8 +1,8 @@
 'use client'
 
-import { Suspense, useMemo, useRef } from 'react'
-import { Canvas, useFrame } from '@react-three/fiber'
-import { Html, OrbitControls, Stars } from '@react-three/drei'
+import { Suspense, useMemo } from 'react'
+import { Canvas } from '@react-three/fiber'
+import { OrbitControls } from '@react-three/drei'
 import * as THREE from 'three'
 
 type Marker = {
@@ -28,27 +28,25 @@ function latLonToVec3(lat: number, lon: number, radius: number) {
 }
 
 function isLand(lat: number, lon: number) {
-  // Abstract continent masks for a dotted globe aesthetic.
-  const northAmerica = lat > 8 && lat < 72 && lon > -170 && lon < -50
-  const southAmerica = lat > -56 && lat < 14 && lon > -86 && lon < -32
-  const eurasia = lat > 6 && lat < 78 && lon > -12 && lon < 170
-  const africa = lat > -35 && lat < 37 && lon > -20 && lon < 52
-  const australia = lat > -44 && lat < -10 && lon > 112 && lon < 154
-  return northAmerica || southAmerica || eurasia || africa || australia
+  // Americas-focused procedural mask for a cleaner silhouette.
+  const naMain = ((lon + 102) ** 2) / (50 ** 2) + ((lat - 43) ** 2) / (30 ** 2) < 1
+  const naWest = ((lon + 130) ** 2) / (18 ** 2) + ((lat - 50) ** 2) / (16 ** 2) < 1
+  const naSouth = ((lon + 92) ** 2) / (22 ** 2) + ((lat - 22) ** 2) / (18 ** 2) < 1
+  const saMain = ((lon + 60) ** 2) / (18 ** 2) + ((lat + 17) ** 2) / (36 ** 2) < 1
+  const saSouth = ((lon + 67) ** 2) / (12 ** 2) + ((lat + 45) ** 2) / (14 ** 2) < 1
+  return naMain || naWest || naSouth || saMain || saSouth
 }
 
 function GlobeDots({ radius = 1.45 }: { radius?: number }) {
-  const pointsRef = useRef<THREE.Points>(null)
-
   const { positions, colors } = useMemo(() => {
     const pos: number[] = []
     const col: number[] = []
-    for (let lat = -80; lat <= 80; lat += 3) {
-      for (let lon = -180; lon <= 180; lon += 3) {
+    for (let lat = -78; lat <= 78; lat += 2.7) {
+      for (let lon = -180; lon <= 180; lon += 2.7) {
         if (!isLand(lat, lon)) continue
         const p = latLonToVec3(lat, lon, radius)
         pos.push(p.x, p.y, p.z)
-        const c = new THREE.Color(lat > 0 ? '#ff83c0' : '#ff6ca8')
+        const c = new THREE.Color(lat > 0 ? '#ff8bc7' : '#ff6eaf')
         col.push(c.r, c.g, c.b)
       }
     }
@@ -58,32 +56,20 @@ function GlobeDots({ radius = 1.45 }: { radius?: number }) {
     }
   }, [radius])
 
-  useFrame((_, delta) => {
-    if (!pointsRef.current) return
-    pointsRef.current.rotation.y += delta * 0.03
-  })
-
   return (
-    <points ref={pointsRef}>
+    <points>
       <bufferGeometry>
         <bufferAttribute attach="attributes-position" count={positions.length / 3} array={positions} itemSize={3} />
         <bufferAttribute attach="attributes-color" count={colors.length / 3} array={colors} itemSize={3} />
       </bufferGeometry>
-      <pointsMaterial size={0.02} vertexColors transparent opacity={0.95} sizeAttenuation depthWrite={false} />
+      <pointsMaterial size={0.017} vertexColors transparent opacity={0.98} sizeAttenuation depthWrite={false} />
     </points>
   )
 }
 
 function GlobeCore() {
-  const groupRef = useRef<THREE.Group>(null)
-
-  useFrame((_, delta) => {
-    if (!groupRef.current) return
-    groupRef.current.rotation.y += delta * 0.07
-  })
-
   return (
-    <group ref={groupRef}>
+    <group rotation={[0.05, -0.48, 0]}>
       <mesh>
         <sphereGeometry args={[1.45, 96, 96]} />
         <meshPhysicalMaterial
@@ -102,49 +88,10 @@ function GlobeCore() {
 
       <mesh>
         <sphereGeometry args={[1.46, 96, 96]} />
-        <meshBasicMaterial color="#ff79ba" transparent opacity={0.25} />
+        <meshBasicMaterial color="#ff79ba" transparent opacity={0.22} />
       </mesh>
 
       <GlobeDots radius={1.455} />
-
-      {MARKERS.map((marker) => {
-        const anchor = latLonToVec3(marker.lat, marker.lon, 1.47)
-        const labelPos = anchor.clone().multiplyScalar(1.22)
-        return (
-          <group key={marker.label}>
-            <mesh position={anchor.toArray()}>
-              <sphereGeometry args={[0.03, 16, 16]} />
-              <meshBasicMaterial color={marker.color} />
-            </mesh>
-            <line>
-              <bufferGeometry>
-                <bufferAttribute
-                  attach="attributes-position"
-                  count={2}
-                  array={new Float32Array([
-                    anchor.x,
-                    anchor.y,
-                    anchor.z,
-                    labelPos.x,
-                    labelPos.y,
-                    labelPos.z,
-                  ])}
-                  itemSize={3}
-                />
-              </bufferGeometry>
-              <lineBasicMaterial color={marker.color} transparent opacity={0.65} />
-            </line>
-            <Html position={labelPos.toArray()} center distanceFactor={8} transform occlude={false}>
-              <span
-                className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-sm font-black text-white shadow-[0_8px_24px_rgba(0,0,0,0.45)]"
-                style={{ backgroundColor: marker.color }}
-              >
-                {marker.label}
-              </span>
-            </Html>
-          </group>
-        )
-      })}
     </group>
   )
 }
@@ -152,7 +99,7 @@ function GlobeCore() {
 export function WorkGlobe() {
   return (
     <div className="relative mx-auto aspect-square w-[92%] max-w-[560px]">
-      <div className="pointer-events-none absolute inset-0 rounded-full bg-[#f1609a]/25 blur-[80px]" aria-hidden />
+      <div className="pointer-events-none absolute inset-0 rounded-full bg-[#f1609a]/30 blur-[78px]" aria-hidden />
       <div className="pointer-events-none absolute inset-0 rounded-full border border-[#ff8ec7]/35" aria-hidden />
 
       <Canvas camera={{ position: [0, 0, 4.4], fov: 42 }} gl={{ antialias: true, alpha: true }}>
@@ -164,7 +111,6 @@ export function WorkGlobe() {
         <pointLight position={[-3, -1, 3]} intensity={0.9} color="#ff5ca9" />
 
         <Suspense fallback={null}>
-          <Stars radius={12} depth={20} count={500} factor={2.2} saturation={0} fade speed={0.4} />
           <GlobeCore />
         </Suspense>
 
@@ -173,13 +119,32 @@ export function WorkGlobe() {
           enableZoom={false}
           minPolarAngle={Math.PI * 0.28}
           maxPolarAngle={Math.PI * 0.72}
-          rotateSpeed={0.58}
+          rotateSpeed={0.65}
           autoRotate
-          autoRotateSpeed={0.4}
+          autoRotateSpeed={0.52}
           dampingFactor={0.08}
           enableDamping
         />
       </Canvas>
+
+      <div className="pointer-events-none absolute right-[4%] top-1/2 z-20 flex -translate-y-1/2 flex-col gap-5">
+        {MARKERS.map((marker) => (
+          <div key={marker.label} className="flex items-center gap-2.5">
+            <span
+              className="size-2 rounded-full"
+              style={{ backgroundColor: marker.color, boxShadow: `0 0 10px ${marker.color}` }}
+              aria-hidden
+            />
+            <span className="h-px w-7 bg-white/35" aria-hidden />
+            <span
+              className="inline-flex rounded-full px-4 py-2 text-[2.05rem] font-black leading-none text-white shadow-[0_10px_24px_rgba(0,0,0,0.45)] md:text-[2.15rem]"
+              style={{ backgroundColor: marker.color }}
+            >
+              {marker.label}
+            </span>
+          </div>
+        ))}
+      </div>
     </div>
   )
 }
