@@ -81,7 +81,7 @@ const ITEMS: Item[] = [
     period: 'Jan 2023 to May 2023',
     role: 'Researcher, Advisor: Prof. Zhang Jinting, National University of Singapore',
     org: 'Financial Time Series with DTW',
-    image: '/projects/scientific-viz.png',
+    image: '/projects/dtw-finance-publication.png',
     summary:
       'A published financial data analysis project using Dynamic Time Warping to study stock index and trade volume relationships.',
     bullets: [
