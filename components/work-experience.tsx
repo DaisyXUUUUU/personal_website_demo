@@ -16,7 +16,7 @@ const WORK_ITEMS: WorkItem[] = [
     id: 'tail-risk-ra',
     period: 'Jul 2025 to Apr 2026',
     role: 'Research Assistant',
-    org: 'NUBS China · Advisor: Dr. Liu Lei',
+    org: 'Nottingham University Business School China · Advisor: Dr. Liu Lei',
     location: 'Ningbo, China',
     summary:
       'Risk aware optimization and deep reinforcement learning research for stochastic scheduling systems.',
@@ -31,7 +31,7 @@ const WORK_ITEMS: WorkItem[] = [
     period: 'Sep 2025 to Dec 2025',
     role: 'Data Analysis & Social Intelligence Intern',
     org: 'IPSOS China · Healthcare Team',
-    location: 'Remote, China',
+    location: 'Shanghai & Remote, China',
     summary:
       'NLP driven healthcare social intelligence workflows for sentiment tracking, topic discovery, and client ready dashboards.',
     details: [
