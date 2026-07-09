@@ -19,6 +19,12 @@ const HOBBIES: Hobby[] = [
     image: '/hobby-squash.png',
     Icon: Trophy,
   },
+   {
+    title: 'Vinyl',
+    quote: '“Collecting timeless stories, one record at a time.”',
+    image: '/hobby-music.png',
+    Icon: Disc3,
+  },
   {
     title: 'Skiing',
     quote: '“Finding balance between speed, control, and the unknown.”',
