@@ -2,7 +2,7 @@
 
 import { useRef, useState } from 'react'
 import Image from 'next/image'
-import { ChevronLeft, ChevronRight, Martini, Snowflake, Camera, Utensils, Trophy } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Martini, Snowflake, Camera, Utensils, Trophy, Disc3 } from 'lucide-react'
 import { motion, useMotionValueEvent, useScroll, useTransform } from 'framer-motion'
 
 type Hobby = {
