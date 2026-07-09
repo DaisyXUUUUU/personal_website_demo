@@ -15,31 +15,31 @@ type Hobby = {
 const HOBBIES: Hobby[] = [
   {
     title: 'Squash',
-    quote: '“Chasing every ball — and a healthy respect for tail risk.”',
+    quote: '“Every rally is a lesson in patience, precision, and adaptation.”',
     image: '/hobby-squash.png',
     Icon: Trophy,
   },
   {
     title: 'Skiing',
-    quote: '“Fast lines, sharp turns, calculated risk.”',
+    quote: '“Finding balance between speed, control, and the unknown.”',
     image: '/hobby-skiing.png',
     Icon: Snowflake,
   },
   {
     title: 'Cocktails',
-    quote: '“Shaking up good vibes, one cocktail at a time.”',
+    quote: '“A little chemistry, a little creativity, and a story in every glass.”',
     image: '/hobby-cocktails.png',
     Icon: Martini,
   },
   {
     title: 'Photography',
-    quote: '“Framing the world one shot at a time.”',
+    quote: '“Collecting moments, perspectives, and stories through a lens.”',
     image: '/hobby-photography.png',
     Icon: Camera,
   },
   {
     title: 'Cooking',
-    quote: '“Recipes are reproducible pipelines with better rewards.”',
+    quote: '“Turning simple ingredients into something meaningful.”',
     image: '/hobby-cooking.png',
     Icon: Utensils,
   },
