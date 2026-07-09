@@ -25,7 +25,7 @@ const ITEMS: Item[] = [
     id: 'cross-border-logistics',
     year: '2025',
     period: 'May 2025 to Jul 2025',
-    role: 'Researcher, NUBS China and AOSOM E Commerce Inc.',
+    role: 'Researcher, Nottingham University Business School China and AOSOM E Commerce Inc.',
     org: 'Cross Border Logistics Optimization',
     image: '/projects/network-optimization.png',
     summary:
