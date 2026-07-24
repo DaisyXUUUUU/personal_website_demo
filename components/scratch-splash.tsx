@@ -98,7 +98,7 @@ export function ScratchSplash({ onEnter }: { onEnter: () => void }) {
     ctx.textAlign = 'center'
     const cx = w / 2
     const cy = h / 2
-    const scale = Math.min(w / 1440, 1)
+    const scale = Math.min(Math.max(w / 1440, 0.42), 1)
 
     ctx.font = `700 ${72 * scale}px Geist, system-ui, sans-serif`
     ctx.fillText('I\u2019m', cx, cy - 150 * scale)
@@ -111,7 +111,7 @@ export function ScratchSplash({ onEnter }: { onEnter: () => void }) {
 
     ctx.globalAlpha = 0.92
     ctx.font = `500 ${40 * scale}px Geist, system-ui, sans-serif`
-    ctx.fillText('Turning data, models, and ideas into real-world solutions', cx, cy + 170 * scale)
+    ctx.fillText('Turning data, models, and ideas into real-world solutions', cx, cy + 170 * scale, w - 40)
     ctx.globalAlpha = 1
   }, [])
 
@@ -195,13 +195,13 @@ export function ScratchSplash({ onEnter }: { onEnter: () => void }) {
 
   return (
     <div
-      className={`fixed inset-0 z-[100] overflow-hidden bg-background transition-opacity duration-500 ${
+      className={`min-screen-dynamic fixed inset-0 z-[100] overflow-hidden bg-background transition-opacity duration-500 ${
         phase === 'entering' ? 'pointer-events-none opacity-0' : 'opacity-100'
       }`}
       aria-label="Intro scratch card"
     >
       {/* Bottom layer: the reveal (black) */}
-      <div className="absolute inset-0 flex flex-col items-center justify-start px-6 pt-[22vh] text-center md:pt-[26vh]">
+      <div className="absolute inset-0 flex flex-col items-center justify-start px-5 pt-[14dvh] text-center sm:px-6 sm:pt-[20dvh] md:pt-[24dvh]">
         <div
           className={`flex flex-col items-center transition-all duration-700 ${
             phase === 'unlocked' || phase === 'entering'
@@ -209,17 +209,17 @@ export function ScratchSplash({ onEnter }: { onEnter: () => void }) {
               : 'translate-y-4 opacity-0'
           }`}
         >
-          <PartyPopper className="mb-6 size-16 text-primary" aria-hidden="true" />
-          <h2 className="text-balance text-4xl font-black tracking-tight text-primary md:text-6xl">
+          <PartyPopper className="mb-4 size-12 text-primary sm:mb-6 sm:size-16" aria-hidden="true" />
+          <h2 className="text-balance text-[clamp(2rem,8vw,3.75rem)] font-black leading-tight tracking-tight text-primary">
             Congratulations on becoming my angel investor
           </h2>
-          <p className="mt-3 text-pretty text-xl font-bold text-primary md:text-3xl">
+          <p className="mt-3 text-pretty text-[clamp(1.125rem,5vw,1.875rem)] font-bold text-primary">
             恭喜成为我的天使投资人
           </p>
           <button
             type="button"
             onClick={handleEnter}
-            className={`mt-12 bg-primary px-10 py-4 font-mono text-sm font-bold uppercase tracking-widest text-primary-foreground transition-transform hover:scale-105 ${
+            className={`mt-8 bg-primary px-7 py-3.5 font-mono text-xs font-bold uppercase tracking-widest text-primary-foreground transition-transform hover:scale-105 sm:mt-12 sm:px-10 sm:py-4 sm:text-sm ${
               phase === 'unlocked' ? 'animate-bounce' : ''
             }`}
           >
@@ -234,19 +234,19 @@ export function ScratchSplash({ onEnter }: { onEnter: () => void }) {
       {/* Typing intro (DOM) — visible before the scratch canvas is painted */}
       {phase === 'typing' && (
         <div
-          className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center"
+          className="absolute inset-0 flex flex-col items-center justify-center px-5 pb-[env(safe-area-inset-bottom)] pt-[env(safe-area-inset-top)] text-center sm:px-6"
           style={{ backgroundColor: SPLASH_PINK }}
         >
-          <span className="text-5xl font-bold text-white md:text-7xl">{typed[0]}</span>
-          <span className="mt-2 text-6xl font-extrabold leading-none tracking-tight text-white md:text-[9.5rem]">
+          <span className="text-[clamp(2rem,9vw,4.5rem)] font-bold text-white">{typed[0]}</span>
+          <span className="mt-2 text-[clamp(3.5rem,16vw,9.5rem)] font-extrabold leading-none tracking-tight text-white">
             {typed[1]}
             <span className="ml-1 inline-block w-[3px] animate-pulse self-stretch bg-white align-middle">
               &nbsp;
             </span>
           </span>
-          <span className="mt-4 text-3xl font-bold text-white md:text-5xl">{typed[2]}</span>
+          <span className="mt-4 text-[clamp(1.45rem,6vw,3rem)] font-bold text-white">{typed[2]}</span>
           <span
-            className={`mt-6 text-xl font-medium text-white/90 transition-opacity duration-500 md:text-3xl ${
+            className={`mt-5 max-w-3xl text-[clamp(1rem,4.2vw,1.875rem)] font-medium leading-snug text-white/90 transition-opacity duration-500 sm:mt-6 ${
               showSub ? 'opacity-100' : 'opacity-0'
             }`}
           >
@@ -278,9 +278,10 @@ export function ScratchSplash({ onEnter }: { onEnter: () => void }) {
 
       {/* Hint / progress */}
       {(phase === 'scratch' || phase === 'typing') && (
-        <div className="pointer-events-none absolute inset-x-0 bottom-10 flex flex-col items-center gap-1 text-center">
+        <div className="pointer-events-none absolute inset-x-0 bottom-[max(1.5rem,env(safe-area-inset-bottom))] flex flex-col items-center gap-1 px-4 text-center sm:bottom-10">
           <p className="font-mono text-sm font-bold uppercase tracking-widest text-background">
-            Move your mouse to scratch
+            <span className="hidden sm:inline">Move your mouse to scratch</span>
+            <span className="sm:hidden">Swipe to scratch</span>
           </p>
           <p className="font-mono text-xs text-background/70">Scratched: {percent}%</p>
         </div>

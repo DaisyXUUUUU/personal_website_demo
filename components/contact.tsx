@@ -128,7 +128,7 @@ export function Contact() {
         </div>
 
         <motion.h2
-          className="text-pretty text-5xl font-black tracking-tighter text-hero-pink md:text-7xl"
+          className="section-title-fluid text-pretty font-black tracking-tighter text-hero-pink"
           style={{ clipPath: titleReveal, opacity: titleOpacity, y: titleY }}
         >
           Let&apos;s build something.
@@ -265,7 +265,7 @@ export function Contact() {
 
 function ChannelRow({ channel }: { channel: Channel }) {
   const inner = (
-    <div className="group flex items-center gap-5">
+    <div className="group grid min-w-0 grid-cols-[3.5rem_minmax(0,1fr)] items-center gap-x-4 gap-y-1 sm:flex sm:gap-5">
       <span className="flex size-14 shrink-0 items-center justify-center rounded-full bg-hero-card p-3 transition-transform group-hover:scale-105">
         <Image
           src={channel.logo || '/placeholder.svg'}
@@ -275,10 +275,10 @@ function ChannelRow({ channel }: { channel: Channel }) {
           className="size-full object-contain"
         />
       </span>
-      <span className="text-2xl font-black tracking-tight text-hero-card/70 transition-colors group-hover:text-hero-pink">
+      <span className="min-w-0 break-words text-[clamp(1.15rem,5vw,1.5rem)] font-black tracking-tight text-hero-card/70 transition-colors group-hover:text-hero-pink">
         {channel.label}
       </span>
-      <span className="rounded-full bg-hero-card/10 px-4 py-1.5 font-mono text-sm text-hero-card/60 transition-colors group-hover:bg-hero-pink group-hover:text-hero-card">
+      <span className="col-start-2 min-w-0 break-all rounded-xl bg-hero-card/10 px-3 py-1.5 font-mono text-xs text-hero-card/60 transition-colors group-hover:bg-hero-pink group-hover:text-hero-card sm:rounded-full sm:px-4 sm:text-sm">
         {channel.value}
       </span>
     </div>
@@ -286,7 +286,7 @@ function ChannelRow({ channel }: { channel: Channel }) {
 
   if (channel.href) {
     return (
-      <a href={channel.href} target="_blank" rel="noreferrer" className="inline-block">
+      <a href={channel.href} target="_blank" rel="noreferrer" className="block w-full">
         {inner}
       </a>
     )

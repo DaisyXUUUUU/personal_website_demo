@@ -7,9 +7,9 @@ export function LanguageBanner() {
   if (lang !== 'zh') return null
 
   return (
-    <div className="fixed inset-x-0 top-[57px] z-40 border-b border-primary/40 bg-primary text-primary-foreground">
-      <div className="mx-auto flex max-w-[1400px] items-center justify-between gap-4 px-5 py-2 md:px-10">
-        <p className="font-mono text-xs tracking-tight">
+    <div className="fixed inset-x-0 top-[calc(env(safe-area-inset-top,0px)+3.75rem)] z-40 border-b border-primary/40 bg-primary text-primary-foreground">
+      <div className="mx-auto flex min-h-[2.375rem] max-w-[1400px] items-center justify-between gap-3 px-5 py-1.5 md:px-10">
+        <p className="min-w-0 text-pretty font-mono text-[11px] leading-tight tracking-tight sm:text-xs">
           {'// 中文版本即将上线 — Chinese version coming soon. Showing English for now.'}
         </p>
         <button

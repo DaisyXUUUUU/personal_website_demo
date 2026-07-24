@@ -16,17 +16,17 @@ export function KeywordMarquee() {
 
   return (
     <div
-      className="overflow-hidden border-y-2 border-hero-pink/40 bg-hero-ink py-5"
+      className="overflow-hidden border-y-2 border-hero-pink/40 bg-hero-ink py-3 sm:py-5"
       role="marquee"
       aria-label="Keywords"
     >
       <div className="marquee-track flex w-max items-center whitespace-nowrap">
         {items.map((word, i) => (
           <span key={i} className="flex items-center" aria-hidden={i >= KEYWORDS.length}>
-            <span className="px-8 text-2xl font-black uppercase tracking-tight text-hero-pink md:text-3xl">
+            <span className="px-5 text-xl font-black uppercase tracking-tight text-hero-pink sm:px-8 sm:text-2xl md:text-3xl">
               {word}
             </span>
-            <span className="text-2xl text-hero-pink/40 md:text-3xl" aria-hidden="true">
+            <span className="text-xl text-hero-pink/40 sm:text-2xl md:text-3xl" aria-hidden="true">
               {'✦'}
             </span>
           </span>

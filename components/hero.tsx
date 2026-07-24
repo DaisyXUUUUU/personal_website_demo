@@ -160,13 +160,129 @@ export function Hero() {
     <section
       id="top"
       ref={sectionRef}
-      className="relative h-[200vh] bg-hero-bg text-hero-ink"
+      className="hero-responsive-section relative bg-hero-bg text-hero-ink"
     >
+      {/* Mobile and tablet: content-driven flow avoids viewport clipping. */}
+      <div className="hero-mobile pt-[calc(var(--site-header-offset,6rem)+1.5rem)]">
+        <div className="site-shell grid gap-10 pb-14 sm:gap-14 sm:pb-20">
+          <div className="relative mx-auto aspect-[4/5] w-full max-w-[34rem] overflow-hidden">
+            <motion.div
+              initial="hidden"
+              animate={introState}
+              variants={circleVariants}
+              className="absolute left-1/2 top-[48%] aspect-square w-[82%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-hero-pink"
+            />
+            <motion.div
+              initial="hidden"
+              animate={introState}
+              variants={portraitVariants}
+              className="absolute inset-x-[-10%] bottom-0 top-0"
+            >
+              <Image
+                src="/ziyue-portrait.png"
+                alt="Portrait of Ziyue Xu"
+                fill
+                priority
+                className="object-contain object-bottom"
+                sizes="(max-width: 1099px) 92vw, 0px"
+              />
+            </motion.div>
+          </div>
+
+          <div>
+            <div className="mb-5 flex items-center gap-4">
+              <span className="text-xs font-bold uppercase tracking-[0.25em] text-hero-pink sm:text-sm">
+                About Me
+              </span>
+              <span className="h-px flex-1 bg-hero-pink/40" />
+            </div>
+            <h1 className="text-balance text-[clamp(2.75rem,13vw,5rem)] font-black uppercase leading-[0.88] tracking-tighter text-hero-pink">
+              {TITLE_LINES.map((line) => (
+                <span key={line} className="block">
+                  {line}
+                </span>
+              ))}
+            </h1>
+            <div className="mt-6 max-w-2xl space-y-3 text-[clamp(1rem,2.4vw,1.125rem)] leading-relaxed text-hero-muted">
+              <p>
+                Hi, I&apos;m Ziyue Xu — an AI and data science explorer with a background in
+                applied mathematics and systems engineering.
+              </p>
+              <p>
+                I build analytical workflows, machine learning models, and visual prototypes
+                that connect technical depth with real-world execution — from healthcare
+                intelligence to logistics optimization.
+              </p>
+            </div>
+          </div>
+
+          <div className="flex flex-wrap gap-2 sm:gap-3">
+            {TAGLINE.map((word) => (
+              <span
+                key={word}
+                className="bg-hero-pink px-3 py-1 text-[clamp(1.75rem,8vw,3.75rem)] font-black uppercase leading-none tracking-tighter text-hero-ink"
+              >
+                {word}
+              </span>
+            ))}
+          </div>
+
+          <div>
+            <div className="mb-6 flex items-center gap-4">
+              <span className="text-xs font-bold uppercase tracking-[0.25em] text-hero-pink sm:text-sm">
+                Education
+              </span>
+              <span className="h-px flex-1 bg-hero-pink/40" />
+            </div>
+            <ul className="grid gap-7 md:grid-cols-2 md:gap-10">
+              {EDUCATION.map((edu) => (
+                <li key={edu.school}>
+                  <span className="font-mono text-xs uppercase tracking-widest text-hero-pink">
+                    {edu.year}
+                  </span>
+                  <p className="mt-1 text-[clamp(1.5rem,5vw,2rem)] font-black uppercase leading-tight tracking-tight text-hero-ink">
+                    {edu.school}
+                  </p>
+                  <p className="mt-2 text-sm leading-relaxed text-hero-muted sm:text-base">{edu.detail}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <div className="mb-6 flex items-center gap-4">
+              <span className="text-xs font-bold uppercase tracking-[0.25em] text-hero-pink sm:text-sm">
+                Skills &amp; Tools
+              </span>
+              <span className="h-px flex-1 bg-hero-pink/40" />
+            </div>
+            <div className="flex flex-wrap gap-2.5">
+              {SKILLS.map((skill) => (
+                <button
+                  key={skill}
+                  type="button"
+                  onClick={() => setActiveSkill(skill)}
+                  aria-pressed={activeSkill === skill}
+                  className={`rounded-full border px-3.5 py-2 font-mono text-sm font-semibold transition-colors ${
+                    activeSkill === skill
+                      ? 'border-hero-pink bg-hero-pink text-hero-card'
+                      : 'border-hero-pink/70 text-hero-pink'
+                  }`}
+                >
+                  {skill}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+        <KeywordMarquee />
+      </div>
+
       {/* nav anchor for the second (Education / Skills) view */}
-      <span id="about" className="absolute top-[100vh]" aria-hidden="true" />
+      <span id="about" className="hero-desktop absolute top-[100vh]" aria-hidden="true" />
 
       {/* pinned viewport */}
-      <div className="sticky top-0 h-screen overflow-hidden pt-24 md:pt-28">
+      <div className="hero-desktop screen-dynamic sticky top-0 h-screen overflow-hidden pt-24 md:pt-28">
         <div className="mx-auto grid h-[calc(100vh-6rem)] max-w-[1600px] items-center gap-8 px-5 md:px-10 lg:grid-cols-[0.7fr_1.6fr_0.7fr] lg:gap-2">
           {/* Left column — two panels: About Me → Education */}
           <div className="relative order-2 h-full overflow-x-visible overflow-y-hidden lg:order-1">
@@ -174,7 +290,7 @@ export function Hero() {
               {/* Panel 1 — About Me */}
               <div className="flex h-1/2 flex-col justify-center">
                 <div>
-                  <div className="mb-6 flex items-center gap-4">
+                  <div className="mb-4 flex items-center gap-4 xl:mb-6">
                     <motion.span
                       initial="hidden"
                       animate={introState}
@@ -190,7 +306,7 @@ export function Hero() {
                       className="h-px flex-1 origin-left bg-hero-pink/40"
                     />
                   </div>
-                  <h1 className="text-balance text-4xl font-black uppercase leading-[0.9] tracking-tighter text-hero-pink md:text-5xl xl:text-6xl">
+                  <h1 className="text-balance text-[clamp(2.35rem,3.7vw,3.75rem)] font-black uppercase leading-[0.9] tracking-tighter text-hero-pink">
                     {TITLE_LINES.map((line, index) => (
                       <motion.span
                         key={line}
@@ -208,7 +324,7 @@ export function Hero() {
                     initial="hidden"
                     animate={introState}
                     variants={introParagraphVariants}
-                    className="mt-6 max-w-md space-y-3 text-base leading-relaxed text-hero-muted lg:text-lg"
+                    className="mt-4 max-w-md space-y-2 text-sm leading-relaxed text-hero-muted min-[1440px]:mt-6 min-[1440px]:space-y-3 min-[1440px]:text-base min-[1600px]:text-lg"
                   >
                     <p>
                       Hi, I&apos;m Ziyue Xu — an AI and data science explorer with a background in
@@ -288,7 +404,7 @@ export function Hero() {
                       initial="hidden"
                       animate={introState}
                       variants={taglineVariants}
-                      className="bg-hero-pink px-4 py-1 text-5xl font-black uppercase leading-none tracking-tighter text-hero-ink md:text-6xl lg:text-7xl"
+                      className="bg-hero-pink px-3 py-1 text-[clamp(3rem,4.5vw,4.5rem)] font-black uppercase leading-none tracking-tighter text-hero-ink xl:px-4"
                     >
                       {word}
                     </motion.span>

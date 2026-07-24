@@ -127,7 +127,7 @@ export function WorkGlobe() {
         />
       </Canvas>
 
-      <div className="pointer-events-none absolute right-[4%] top-1/2 z-20 flex -translate-y-1/2 flex-col gap-5">
+      <div className="pointer-events-none absolute right-[2%] top-1/2 z-20 flex -translate-y-1/2 flex-col gap-2 sm:right-[4%] sm:gap-5">
         {MARKERS.map((marker) => (
           <div key={marker.label} className="flex items-center gap-2.5">
             <span
@@ -135,9 +135,9 @@ export function WorkGlobe() {
               style={{ backgroundColor: marker.color, boxShadow: `0 0 10px ${marker.color}` }}
               aria-hidden
             />
-            <span className="h-px w-7 bg-white/35" aria-hidden />
+            <span className="h-px w-3 bg-white/35 sm:w-7" aria-hidden />
             <span
-              className="inline-flex rounded-full px-4 py-2 text-[2.05rem] font-black leading-none text-white shadow-[0_10px_24px_rgba(0,0,0,0.45)] md:text-[2.15rem]"
+              className="inline-flex rounded-full px-2.5 py-1.5 text-[clamp(0.8rem,4.5vw,2.15rem)] font-black leading-none text-white shadow-[0_10px_24px_rgba(0,0,0,0.45)] sm:px-4 sm:py-2"
               style={{ backgroundColor: marker.color }}
             >
               {marker.label}

@@ -106,9 +106,18 @@ export function Experience() {
   const sectionRef = useRef<HTMLElement>(null)
   const [activeId, setActiveId] = useState<string | null>(null)
   const [scrollPhase, setScrollPhase] = useState(0)
+  const [canScatter, setCanScatter] = useState(false)
   const reduceMotion = useReducedMotion()
   const active = ITEMS.find((i) => i.id === activeId) ?? null
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start end', 'end start'] })
+
+  useEffect(() => {
+    const query = window.matchMedia('(min-width: 1100px) and (min-height: 720px)')
+    const update = () => setCanScatter(query.matches)
+    update()
+    query.addEventListener('change', update)
+    return () => query.removeEventListener('change', update)
+  }, [])
 
   useMotionValueEvent(scrollYProgress, 'change', (latest) => {
     setScrollPhase(latest)
@@ -125,7 +134,7 @@ export function Experience() {
     ['rgb(245 188 212)', 'rgb(245 188 212)', 'rgb(255 247 239)'],
   )
 
-  const scatterProgress = reduceMotion ? 0 : Math.min(1, Math.max(0, (scrollPhase - 0.76) / 0.24))
+  const scatterProgress = reduceMotion || !canScatter ? 0 : Math.min(1, Math.max(0, (scrollPhase - 0.76) / 0.24))
 
   return (
     <motion.section
@@ -146,7 +155,7 @@ export function Experience() {
         </motion.div>
 
         <motion.h2
-          className="text-pretty text-5xl font-black tracking-tighter text-hero-pink md:text-7xl"
+          className="section-title-fluid text-pretty font-black tracking-tighter text-hero-pink"
           style={{ y: introLift, opacity: introOpacity }}
         >
           What I&apos;ve built.
@@ -238,7 +247,7 @@ function ProjectCard({
         rotate: scatterRotate,
         scale: 1 - scatterProgress * 0.08,
       }}
-      className="group flex flex-col overflow-hidden rounded-3xl border border-hero-pink/40 bg-hero-card p-4 text-left text-hero-ink transition-all duration-300 hover:border-hero-pink hover:bg-hero-ink hover:text-hero-card hover:shadow-[0_24px_48px_rgba(222,89,143,0.22)]"
+      className="group flex min-w-0 flex-col overflow-hidden rounded-3xl border border-hero-pink/40 bg-hero-card p-4 text-left text-hero-ink transition-all duration-300 hover:border-hero-pink hover:bg-hero-ink hover:text-hero-card hover:shadow-[0_24px_48px_rgba(222,89,143,0.22)]"
     >
       <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl">
         <Image
@@ -259,7 +268,7 @@ function ProjectCard({
       </p>
 
       <div className="mt-4 flex items-center justify-between gap-3">
-        <span className="rounded-full bg-hero-pink px-3 py-1 font-mono text-[11px] font-medium text-hero-card">
+        <span className="min-w-0 break-words rounded-full bg-hero-pink px-3 py-1 font-mono text-[11px] font-medium text-hero-card">
           {item.tags.join(' | ')}
         </span>
         <span className="flex size-9 shrink-0 items-center justify-center rounded-full border border-hero-pink text-hero-pink transition-colors duration-300 group-hover:border-hero-card group-hover:bg-hero-card group-hover:text-hero-ink">
@@ -283,14 +292,14 @@ function ProjectModal({ item, onClose }: { item: Item; onClose: () => void }) {
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8"
+      className="fixed inset-0 z-[100] flex items-center justify-center px-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-[max(0.75rem,env(safe-area-inset-top))] sm:p-6 md:p-8"
       role="dialog"
       aria-modal="true"
       aria-label={item.org}
     >
       <div className="absolute inset-0 bg-hero-ink/50 backdrop-blur-sm" onClick={onClose} />
 
-      <div className="relative z-10 max-h-[88vh] w-full max-w-3xl overflow-y-auto rounded-3xl bg-hero-card text-hero-ink shadow-2xl">
+      <div className="relative z-10 max-h-[calc(100dvh-1.5rem)] w-full max-w-3xl overflow-y-auto overscroll-contain rounded-[1.5rem] bg-hero-card text-hero-ink shadow-2xl sm:max-h-[88dvh] sm:rounded-3xl">
         <button
           type="button"
           onClick={onClose}

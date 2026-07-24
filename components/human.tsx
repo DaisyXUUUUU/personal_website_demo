@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import { ChevronLeft, ChevronRight, Martini, Snowflake, Camera, Utensils, Trophy, Disc3 } from 'lucide-react'
 import { motion, useMotionValueEvent, useScroll, useTransform } from 'framer-motion'
@@ -55,8 +55,22 @@ export function Human() {
   const sectionRef = useRef<HTMLElement>(null)
   const [active, setActive] = useState(2)
   const [collapseProgress, setCollapseProgress] = useState(0)
+  const [layoutMode, setLayoutMode] = useState<'mobile' | 'tablet' | 'desktop'>('desktop')
   const count = HOBBIES.length
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start end', 'end start'] })
+
+  useEffect(() => {
+    const mobile = window.matchMedia('(max-width: 639px)')
+    const desktop = window.matchMedia('(min-width: 1100px) and (min-height: 720px)')
+    const updateLayout = () => setLayoutMode(mobile.matches ? 'mobile' : desktop.matches ? 'desktop' : 'tablet')
+    updateLayout()
+    mobile.addEventListener('change', updateLayout)
+    desktop.addEventListener('change', updateLayout)
+    return () => {
+      mobile.removeEventListener('change', updateLayout)
+      desktop.removeEventListener('change', updateLayout)
+    }
+  }, [])
 
   useMotionValueEvent(scrollYProgress, 'change', (latest) => {
     const collapse = Math.min(1, Math.max(0, (latest - 0.72) / 0.26))
@@ -118,7 +132,7 @@ export function Human() {
 
         <motion.div className="mb-4 max-w-2xl" style={{ opacity: titleFadeOut, y: titleY }}>
           <motion.h3
-            className="text-pretty text-5xl font-black tracking-tighter text-hero-pink md:text-7xl"
+            className="section-title-fluid text-pretty font-black tracking-tighter text-hero-pink"
             style={{ clipPath: titleReveal }}
           >
             Work is what I Do
@@ -133,7 +147,7 @@ export function Human() {
 
         {/* Fan / coverflow stage */}
         <motion.div
-          className="relative mx-auto flex h-[520px] w-full items-center justify-center [perspective:1400px]"
+          className="relative mx-auto flex h-[clamp(390px,62vw,520px)] w-full items-center justify-center [perspective:1400px]"
           style={{ scale: stageScale, opacity: stageOpacity, y: stageY }}
           onMouseMove={onMove}
           role="group"
@@ -143,7 +157,9 @@ export function Human() {
             const offset = i - active
             const abs = Math.abs(offset)
             const isCenter = offset === 0
-            const hidden = abs > 2
+            const hidden = layoutMode === 'mobile' ? abs > 0 : layoutMode === 'tablet' ? abs > 1 : abs > 2
+            const cardSpacing = layoutMode === 'desktop' ? 210 : layoutMode === 'tablet' ? 125 : 0
+            const cardScale = isCenter ? (layoutMode === 'mobile' ? 1 : 1.06) : layoutMode === 'tablet' ? 0.76 : 0.86
             return (
               <button
                 key={hobby.title}
@@ -151,9 +167,11 @@ export function Human() {
                 onClick={() => setActive(i)}
                 aria-label={`Show ${hobby.title}`}
                 aria-current={isCenter}
-                className="group absolute left-1/2 top-1/2 h-[420px] w-[340px] origin-center transition-all duration-500 ease-out focus:outline-none"
+                aria-hidden={hidden}
+                tabIndex={hidden ? -1 : 0}
+                className="group absolute left-1/2 top-1/2 h-[360px] w-[min(82vw,300px)] origin-center transition-all duration-500 ease-out focus:outline-none sm:h-[390px] sm:w-[280px] min-[1100px]:h-[420px] min-[1100px]:w-[340px]"
                 style={{
-                  transform: `translate(-50%, -50%) translateX(${offset * (210 * (1 - collapseProgress * 0.32))}px) translateY(${abs * (24 * (1 - collapseProgress * 0.4))}px) rotate(${offset * (7 * (1 - collapseProgress * 0.45))}deg) scale(${isCenter ? 1.06 : 0.86})`,
+                  transform: `translate(-50%, -50%) translateX(${offset * (cardSpacing * (1 - collapseProgress * 0.32))}px) translateY(${abs * (24 * (1 - collapseProgress * 0.4))}px) rotate(${offset * (7 * (1 - collapseProgress * 0.45))}deg) scale(${cardScale})`,
                   zIndex: 20 - abs,
                   opacity: hidden ? 0 : 1,
                   pointerEvents: hidden ? 'none' : 'auto',

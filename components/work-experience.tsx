@@ -82,7 +82,7 @@ export function WorkExperience() {
             <span className="h-px flex-1 bg-hero-pink/55" aria-hidden />
           </div>
 
-          <h2 className="text-pretty text-5xl font-black tracking-tighter text-hero-pink md:text-7xl">
+          <h2 className="section-title-fluid text-pretty font-black tracking-tighter text-hero-pink">
             Where I&apos;ve built.
           </h2>
 
@@ -121,7 +121,7 @@ export function WorkExperience() {
           </div>
         </div>
 
-        <div className="relative flex min-h-[520px] items-center justify-center overflow-hidden">
+        <div className="relative flex min-h-[360px] items-center justify-center overflow-hidden sm:min-h-[480px] lg:min-h-[520px]">
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(65%_55%_at_52%_52%,rgba(222,89,143,0.22),rgba(18,11,18,0)_72%)]" aria-hidden />
           <div className="pointer-events-none absolute inset-0 opacity-30 [background-image:repeating-linear-gradient(90deg,rgba(255,255,255,0.02)_0,rgba(255,255,255,0.02)_1px,transparent_1px,transparent_18px)]" aria-hidden />
           <div className="relative w-full max-w-[620px]">

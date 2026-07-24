@@ -133,7 +133,7 @@ function GlobeScene() {
             </mesh>
             <Html position={labelPos.toArray()} distanceFactor={8} center transform occlude={false}>
               <div
-                className="pointer-events-none inline-flex items-center gap-2 rounded-full px-4 py-2 text-[1.05rem] font-black leading-none text-white shadow-[0_12px_28px_rgba(0,0,0,0.42)] md:text-[1.1rem]"
+                className="pointer-events-none inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-2.5 py-1.5 text-[clamp(0.72rem,2.5vw,1.1rem)] font-black leading-none text-white shadow-[0_12px_28px_rgba(0,0,0,0.42)] sm:gap-2 sm:px-4 sm:py-2"
                 style={{ backgroundColor: location.color }}
               >
                 <span className="size-2 rounded-full bg-white/95" aria-hidden />
