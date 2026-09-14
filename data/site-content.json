@@ -43,9 +43,9 @@
       "location": "Ningbo, China",
       "summary": "Risk aware optimization and deep reinforcement learning research for stochastic scheduling systems.",
       "details": [
-        "Developed CTMC and phase type distribution models to represent uncertain processing times in multi stage flow shop scheduling systems.",
-        "Built Python and C++ workflows for state space construction, risk evaluation, simulation experiments, and visualization across multiple job and machine settings.",
-        "Designed a Transformer based PPO policy for schedule construction, achieving a 0.73% average CVaR reduction and 2.4x inference speedup compared with iterated greedy benchmarks."
+        "Built a risk modeling pipeline for multi stage production scheduling using Phase Type distributions and Continuous Time Markov Chains, achieving less than 3% average estimation error.",
+        "Integrated the risk model with a reinforcement learning framework using a Transformer policy and PPO to optimize scheduling under stochastic processing times.",
+        "Achieved 0.73% lower CVaR and 2.4× faster inference than Iterated Greedy on instances up to 20×6, with less than 0.5% mean optimality gap on small instances."
       ]
     },
     {
@@ -56,9 +56,9 @@
       "location": "Shanghai & Remote, China",
       "summary": "NLP driven healthcare social intelligence workflows for sentiment tracking, topic discovery, and client ready dashboards.",
       "details": [
-        "Built Python based NLP pipelines to collect, clean, and structure 50,000+ posts from TikTok, WeChat, and Xiaohongshu.",
-        "Applied sentiment analysis, keyword extraction, and K means clustering to classify healthcare content themes and user discussion patterns, improving topic classification accuracy by 22%.",
-        "Designed Tableau dashboards to visualize sentiment trends, channel performance, competitor dynamics, and model outputs for consultant and client facing presentations."
+        "Collected, cleaned, and structured 50,000+ social media posts across 3 major platforms, organizing volume, engagement, KOL, and HCP activity for downstream analysis.",
+        "Analyzed cross platform trends in Python, identifying engagement patterns and communication risks for pharmaceutical clients.",
+        "Delivered 10+ client facing research reports for Eli Lilly and Novo Nordisk, translating data findings into actionable recommendations for digital healthcare strategies."
       ]
     },
     {
@@ -66,12 +66,13 @@
       "period": "Jun 2024 to Aug 2024",
       "role": "Business Analysis Intern",
       "org": "Hangzhou Pinpianyi Network Technology",
-      "location": "Hangzhou, China",
+      "location": "Hangzhou & Wenzhou, China",
       "summary": "Operational analytics, forecasting, and dashboard prototyping for recycling logistics and regional performance decisions.",
       "details": [
-        "Processed 500,000+ operational records using Python, pandas, and MySQL to build standardized datasets for forecasting, retention analysis, and service efficiency evaluation.",
-        "Developed regression and time series models to forecast order volume and identify behavioral drivers of churn and customer retention.",
-        "Built Tableau dashboards and lightweight Streamlit prototypes to communicate predictive outputs and regional performance insights to non technical stakeholders."
+        "Worked on site with a project team on a municipal smart waste management platform in Cangnan, Wenzhou, mapping operational workflows, stakeholders, data sources, and system requirements.",
+        "Processed and analyzed 500K+ monthly operational records across 30+ entities using Python, defining data structures and key metrics for collection orders, service points, vehicles, and recycling operations.",
+        "Built Tableau dashboards and an interactive Axure prototype to visualize collection demand, site distribution, vehicle operations, alerts, and sorting center activity, supporting stakeholder review and final project delivery.",
+        "Project Case Study: https://github.com/DaisyXUUUUU/Cangnan-Smart-Waste-Management-Platform"
       ]
     },
     {
