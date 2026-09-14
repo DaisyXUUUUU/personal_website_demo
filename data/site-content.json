@@ -2,18 +2,23 @@
   "schemaVersion": 1,
   "skills": [
     "Python",
+    "JavaScript",
+    "TypeScript",
     "SQL",
-    "Machine Learning",
-    "NLP",
-    "Forecasting",
-    "Data Visualization",
-    "Streamlit",
-    "Tableau",
+    "Git",
     "PyTorch",
     "scikit-learn",
-    "Optimization",
-    "RAG Evaluation",
-    "Git"
+    "MediaPipe",
+    "LLMs",
+    "RAG",
+    "Machine Learning",
+    "Reinforcement Learning",
+    "Nest.js",
+    "React",
+    "React Native / Expo",
+    "Vercel",
+    "Streamlit",
+    "Tableau"
   ],
   "education": [
     {
@@ -98,8 +103,20 @@
         "Designed a Python automation framework to preprocess 10k+ export records and improve data consistency for logistics operations.",
         "Analyzed algorithm outputs to identify routing inefficiencies and support production scheduling and capacity planning decisions."
       ],
-      "tags": ["Optimization", "Logistics", "Data", "Algorithms"],
-      "skills": ["Python", "VRP", "CVRP", "Optimization", "Data Cleaning", "Decision Analytics"]
+      "tags": [
+        "Optimization",
+        "Logistics",
+        "Data",
+        "Algorithms"
+      ],
+      "skills": [
+        "Python",
+        "VRP",
+        "CVRP",
+        "Optimization",
+        "Data Cleaning",
+        "Decision Analytics"
+      ]
     },
     {
       "id": "clinical-ml-pcos",
@@ -115,8 +132,20 @@
         "Achieved 86.8% classification accuracy with the best performing SVM model.",
         "Produced heatmaps, boxplots, PCA plots, and feature importance visualizations to identify BMI, AMH, and follicle counts as key predictive features."
       ],
-      "tags": ["Machine Learning", "Healthcare", "Data", "Interpretability"],
-      "skills": ["Python", "SVM", "XGBoost", "Random Forest", "PCA", "Feature Engineering"]
+      "tags": [
+        "Machine Learning",
+        "Healthcare",
+        "Data",
+        "Interpretability"
+      ],
+      "skills": [
+        "Python",
+        "SVM",
+        "XGBoost",
+        "Random Forest",
+        "PCA",
+        "Feature Engineering"
+      ]
     },
     {
       "id": "turing-patterns",
@@ -132,8 +161,18 @@
         "Evaluated how model parameters affected system stability, long term behavior, and pattern formation thresholds.",
         "Visualized simulation results with Python heatmaps and parameter phase diagrams to support scientific interpretation."
       ],
-      "tags": ["Mathematical Modeling", "Simulation", "Research"],
-      "skills": ["MATLAB", "Python", "Reaction Diffusion Models", "Latin Hypercube Sampling", "Scientific Visualization"]
+      "tags": [
+        "Mathematical Modeling",
+        "Simulation",
+        "Research"
+      ],
+      "skills": [
+        "MATLAB",
+        "Python",
+        "Reaction Diffusion Models",
+        "Latin Hypercube Sampling",
+        "Scientific Visualization"
+      ]
     },
     {
       "id": "dtw-finance-publication",
@@ -149,8 +188,19 @@
         "Used Python and log return models to identify macroeconomic patterns and industry specific trends.",
         "Published the work at the 2023 International Conference on Finance, Trade and Business Management."
       ],
-      "tags": ["Data", "Finance", "Time Series", "Publication"],
-      "skills": ["Python", "DTW", "Time Series Analysis", "Financial Data", "Data Visualization"],
+      "tags": [
+        "Data",
+        "Finance",
+        "Time Series",
+        "Publication"
+      ],
+      "skills": [
+        "Python",
+        "DTW",
+        "Time Series Analysis",
+        "Financial Data",
+        "Data Visualization"
+      ],
       "link": {
         "label": "View publication DOI",
         "href": "https://doi.org/10.2991/978-94-6463-298-9_42"
