@@ -93,16 +93,15 @@
     {
       "id": "cross-border-logistics",
       "year": "2025",
-      "period": "May 2025 to Jul 2025",
+      "period": "May 2025 to Aug 2025",
       "role": "Researcher, Nottingham University Business School China and AOSOM E Commerce Inc.",
       "org": "Cross Border Logistics Optimization",
       "image": "/projects/network-optimization.png",
       "summary": "A vehicle routing optimization project for large scale cross border supply chain planning.",
       "bullets": [
-        "Developed VRP and CVRP models to optimize vehicle allocation across 100+ factories, 8 ports, and 3 distribution centers.",
-        "Reduced total transportation costs by 12% while improving on time delivery performance through data driven routing strategies.",
-        "Designed a Python automation framework to preprocess 10k+ export records and improve data consistency for logistics operations.",
-        "Analyzed algorithm outputs to identify routing inefficiencies and support production scheduling and capacity planning decisions."
+        "Developed and implemented a VRP/CVRP-based optimization model for overseas container pickup, delivery, unloading, and return, reducing logistics costs by >10% while generating optimized schedules within 10 seconds. ",
+        "Built a configurable Python optimization workflow incorporating port, warehouse, free-time, and rate constraints, supporting deployment across overseas warehouse networks in multiple countries. ",
+        "Selected for the 2026 World Internet Conference Cross-Border E-Commerce Practice Case Collection."
       ],
       "tags": [
         "Optimization",
@@ -117,7 +116,11 @@
         "Optimization",
         "Data Cleaning",
         "Decision Analytics"
-      ]
+      ],
+      "link": {
+        "label": "2026 World Internet Conference Cross-Border E-Commerce Practice Case Collection (CN)",
+        "href": "https://cn.wicinternet.org/2026-09/02/content_38980080.htm"
+      }
     },
     {
       "id": "clinical-ml-pcos",
@@ -205,6 +208,40 @@
       "link": {
         "label": "View publication DOI",
         "href": "https://doi.org/10.2991/978-94-6463-298-9_42"
+      }
+    },
+    {
+      "id": "project-1789416471415",
+      "year": "2026",
+      "period": "Sep 2026 - Present",
+      "role": "Designer & Developer, IPD 5340 LLMs for UX Prototyping, University of Pennsylvania",
+      "org": "Smart Bus Stop Interface for SEPTA",
+      "image": "/uploads/projects/project-1789416471415-1789416825244.png",
+      "summary": "A real time SEPTA bus stop interface combining live transit data, vehicle tracking, gesture interaction, and spoken arrival updates.",
+      "bullets": [
+        "Built and deployed a real time transit web application integrating SEPTA GTFS Realtime, TransitView, and schedule data through a Vercel serverless endpoint, refreshing vehicle and arrival information every 5 seconds.",
+        "Added retry, timeout, and schedule fallback handling, while building touchless interaction with MediaPipe gesture recognition and browser speech synthesis.",
+        "Designed the interface around three rider pain points: finding the correct stop, understanding route direction, and noticing approaching buses."
+      ],
+      "tags": [
+        "AI Application",
+        "Full Stack",
+        "Interaction Design"
+      ],
+      "skills": [
+        "React",
+        "Next.js",
+        "JavaScript",
+        "TypeScript",
+        "Vercel",
+        "REST APIs",
+        "GTFS Realtime",
+        "MediaPipe",
+        "Web Speech API"
+      ],
+      "link": {
+        "label": "Live demo",
+        "href": "https://penn-street-interface-demo.vercel.app"
       }
     }
   ],
