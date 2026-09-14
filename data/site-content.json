@@ -1,0 +1,204 @@
+{
+  "schemaVersion": 1,
+  "skills": [
+    "Python",
+    "SQL",
+    "Machine Learning",
+    "NLP",
+    "Forecasting",
+    "Data Visualization",
+    "Streamlit",
+    "Tableau",
+    "PyTorch",
+    "scikit-learn",
+    "Optimization",
+    "RAG Evaluation",
+    "Git"
+  ],
+  "education": [
+    {
+      "id": "nottingham-bsc",
+      "year": "2021 — 2025",
+      "school": "University of Nottingham",
+      "detail": "BSc Mathematics with Applied Mathematics · First-Class Honours · GPA 3.9/4.0 · Ningbo China & Nottingham UK"
+    },
+    {
+      "id": "upenn-mse",
+      "year": "2026 — 2028",
+      "school": "University of Pennsylvania",
+      "detail": "MSE in Systems Engineering · Focused on AI, data-driven systems, and real-world problem solving · Philadelphia USA"
+    }
+  ],
+  "workExperience": [
+    {
+      "id": "tail-risk-ra",
+      "period": "Jul 2025 to Apr 2026",
+      "role": "Research Assistant",
+      "org": "Nottingham University Business School China · Advisor: Dr. Liu Lei",
+      "location": "Ningbo, China",
+      "summary": "Risk aware optimization and deep reinforcement learning research for stochastic scheduling systems.",
+      "details": [
+        "Developed CTMC and phase type distribution models to represent uncertain processing times in multi stage flow shop scheduling systems.",
+        "Built Python and C++ workflows for state space construction, risk evaluation, simulation experiments, and visualization across multiple job and machine settings.",
+        "Designed a Transformer based PPO policy for schedule construction, achieving a 0.73% average CVaR reduction and 2.4x inference speedup compared with iterated greedy benchmarks."
+      ]
+    },
+    {
+      "id": "ipsos-intern",
+      "period": "Sep 2025 to Dec 2025",
+      "role": "Data Analysis & Social Intelligence Intern",
+      "org": "IPSOS China · Healthcare Team",
+      "location": "Shanghai & Remote, China",
+      "summary": "NLP driven healthcare social intelligence workflows for sentiment tracking, topic discovery, and client ready dashboards.",
+      "details": [
+        "Built Python based NLP pipelines to collect, clean, and structure 50,000+ posts from TikTok, WeChat, and Xiaohongshu.",
+        "Applied sentiment analysis, keyword extraction, and K means clustering to classify healthcare content themes and user discussion patterns, improving topic classification accuracy by 22%.",
+        "Designed Tableau dashboards to visualize sentiment trends, channel performance, competitor dynamics, and model outputs for consultant and client facing presentations."
+      ]
+    },
+    {
+      "id": "pinpianyi-intern",
+      "period": "Jun 2024 to Aug 2024",
+      "role": "Business Analysis Intern",
+      "org": "Hangzhou Pinpianyi Network Technology",
+      "location": "Hangzhou, China",
+      "summary": "Operational analytics, forecasting, and dashboard prototyping for recycling logistics and regional performance decisions.",
+      "details": [
+        "Processed 500,000+ operational records using Python, pandas, and MySQL to build standardized datasets for forecasting, retention analysis, and service efficiency evaluation.",
+        "Developed regression and time series models to forecast order volume and identify behavioral drivers of churn and customer retention.",
+        "Built Tableau dashboards and lightweight Streamlit prototypes to communicate predictive outputs and regional performance insights to non technical stakeholders."
+      ]
+    },
+    {
+      "id": "changjiang-intern",
+      "period": "Jun 2023 to Aug 2023",
+      "role": "Capital Markets Data Intern",
+      "org": "Changjiang Financing Services Co., Ltd.",
+      "location": "Shanghai, China",
+      "summary": "Financial data analysis and visual reporting for capital markets research, investor communication, and market trend interpretation.",
+      "details": [
+        "Processed and analyzed 15,000+ financial data points using Wind and iFinD Financial Services Terminals for a 90 page semi annual capital markets report.",
+        "Created statistical summaries and data visualizations covering macroeconomics, IPOs, equity refinancing, and bond markets.",
+        "Supported roadshow preparation by translating market data into clear materials for investment opportunity analysis and stakeholder communication."
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "id": "cross-border-logistics",
+      "year": "2025",
+      "period": "May 2025 to Jul 2025",
+      "role": "Researcher, Nottingham University Business School China and AOSOM E Commerce Inc.",
+      "org": "Cross Border Logistics Optimization",
+      "image": "/projects/network-optimization.png",
+      "summary": "A vehicle routing optimization project for large scale cross border supply chain planning.",
+      "bullets": [
+        "Developed VRP and CVRP models to optimize vehicle allocation across 100+ factories, 8 ports, and 3 distribution centers.",
+        "Reduced total transportation costs by 12% while improving on time delivery performance through data driven routing strategies.",
+        "Designed a Python automation framework to preprocess 10k+ export records and improve data consistency for logistics operations.",
+        "Analyzed algorithm outputs to identify routing inefficiencies and support production scheduling and capacity planning decisions."
+      ],
+      "tags": ["Optimization", "Logistics", "Data", "Algorithms"],
+      "skills": ["Python", "VRP", "CVRP", "Optimization", "Data Cleaning", "Decision Analytics"]
+    },
+    {
+      "id": "clinical-ml-pcos",
+      "year": "2025",
+      "period": "Nov 2024 to Apr 2025",
+      "role": "Independent Researcher",
+      "org": "Clinical Machine Learning Screening",
+      "image": "/projects/analytics-dashboard.png",
+      "summary": "An interpretable machine learning pipeline for early screening analysis using clinical patient data.",
+      "bullets": [
+        "Built an end to end machine learning workflow for a clinical dataset of 272 patients, including preprocessing, missing value handling, feature selection, training, and evaluation.",
+        "Benchmarked 13 classification models including Naive Bayes, Logistic Regression, Random Forest, XGBoost, and SVM.",
+        "Achieved 86.8% classification accuracy with the best performing SVM model.",
+        "Produced heatmaps, boxplots, PCA plots, and feature importance visualizations to identify BMI, AMH, and follicle counts as key predictive features."
+      ],
+      "tags": ["Machine Learning", "Healthcare", "Data", "Interpretability"],
+      "skills": ["Python", "SVM", "XGBoost", "Random Forest", "PCA", "Feature Engineering"]
+    },
+    {
+      "id": "turing-patterns",
+      "year": "2024",
+      "period": "Feb 2024 to May 2024",
+      "role": "Research Assistant, Advisor: Prof. Mainul Haque, UNNC",
+      "org": "Turing Pattern Simulation",
+      "image": "/projects/scientific-viz.png",
+      "summary": "A mathematical simulation project studying pattern formation in infectious disease inspired predator prey systems.",
+      "bullets": [
+        "Developed nonlinear reaction diffusion models to study how local interaction rules generate system level spatial patterns.",
+        "Conducted 1,000+ parameter set simulations in MATLAB using Latin Hypercube Sampling.",
+        "Evaluated how model parameters affected system stability, long term behavior, and pattern formation thresholds.",
+        "Visualized simulation results with Python heatmaps and parameter phase diagrams to support scientific interpretation."
+      ],
+      "tags": ["Mathematical Modeling", "Simulation", "Research"],
+      "skills": ["MATLAB", "Python", "Reaction Diffusion Models", "Latin Hypercube Sampling", "Scientific Visualization"]
+    },
+    {
+      "id": "dtw-finance-publication",
+      "year": "2023",
+      "period": "Jan 2023 to May 2023",
+      "role": "Researcher, Advisor: Prof. Zhang Jinting, National University of Singapore",
+      "org": "Financial Time Series with DTW",
+      "image": "/projects/dtw-finance-publication.png",
+      "summary": "A published financial data analysis project using Dynamic Time Warping to study stock index and trade volume relationships.",
+      "bullets": [
+        "Applied Dynamic Time Warping to analyze correlations between 10 United States stock industry indexes and import export volume trends.",
+        "Processed and visualized 53 months of financial time series data from January 2019 to May 2023.",
+        "Used Python and log return models to identify macroeconomic patterns and industry specific trends.",
+        "Published the work at the 2023 International Conference on Finance, Trade and Business Management."
+      ],
+      "tags": ["Data", "Finance", "Time Series", "Publication"],
+      "skills": ["Python", "DTW", "Time Series Analysis", "Financial Data", "Data Visualization"],
+      "link": {
+        "label": "View publication DOI",
+        "href": "https://doi.org/10.2991/978-94-6463-298-9_42"
+      }
+    }
+  ],
+  "hobbies": [
+    {
+      "id": "squash",
+      "title": "Squash",
+      "quote": "“Every rally is a lesson in patience, precision, and adaptation.”",
+      "image": "/hobby-squash.png",
+      "icon": "trophy"
+    },
+    {
+      "id": "vinyl",
+      "title": "Vinyl",
+      "quote": "“Collecting timeless stories, one record at a time.”",
+      "image": "/hobby-music.png",
+      "icon": "disc"
+    },
+    {
+      "id": "skiing",
+      "title": "Skiing",
+      "quote": "“Finding balance between speed, control, and the unknown.”",
+      "image": "/hobby-skiing.png",
+      "icon": "snowflake"
+    },
+    {
+      "id": "cocktails",
+      "title": "Cocktails",
+      "quote": "“A little chemistry, a little creativity, and a story in every glass.”",
+      "image": "/hobby-cocktails.png",
+      "icon": "martini"
+    },
+    {
+      "id": "photography",
+      "title": "Photography",
+      "quote": "“Collecting moments, perspectives, and stories through a lens.”",
+      "image": "/hobby-photography.png",
+      "icon": "camera"
+    },
+    {
+      "id": "cooking",
+      "title": "Cooking",
+      "quote": "“Turning simple ingredients into something meaningful.”",
+      "image": "/hobby-cooking.png",
+      "icon": "utensils"
+    }
+  ]
+}

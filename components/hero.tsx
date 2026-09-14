@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 import { KeywordMarquee } from '@/components/keyword-marquee'
+import { useSiteContent } from '@/components/site-content-provider'
 
 const TAGLINE = ['From', 'Messy', 'Data', 'To', 'Useful', 'System']
 const TITLE_LINES = ['Curious', 'mind.', 'Data', 'hands.', 'Systems', 'heart.']
@@ -11,42 +12,12 @@ const TITLE_LINES = ['Curious', 'mind.', 'Data', 'hands.', 'Systems', 'heart.']
 const EASE_OUT = [0.22, 1, 0.36, 1] as const
 const INTRO_HOLD_MS = 220
 
-const EDUCATION = [
-  {
-    year: '2021 — 2025',
-    school: 'University of Nottingham',
-    detail:
-      'BSc Mathematics with Applied Mathematics · First-Class Honours · GPA 3.9/4.0 · Ningbo China & Nottingham UK',
-  },
-  {
-    year: '2026 — 2028',
-    school: 'University of Pennsylvania',
-    detail:
-      'MSE in Systems Engineering · Focused on AI, data-driven systems, and real-world problem solving · Philadelphia USA',
-  },
-]
-
-const SKILLS = [
-  'Python',
-  'SQL',
-  'Machine Learning',
-  'NLP',
-  'Forecasting',
-  'Data Visualization',
-  'Streamlit',
-  'Tableau',
-  'PyTorch',
-  'scikit-learn',
-  'Optimization',
-  'RAG Evaluation',
-  'Git',
-]
-
 export function Hero() {
+  const { education, skills } = useSiteContent()
   const sectionRef = useRef<HTMLElement>(null)
   const [progress, setProgress] = useState(0)
   const [introReady, setIntroReady] = useState(false)
-  const [activeSkill, setActiveSkill] = useState('Python')
+  const [activeSkill, setActiveSkill] = useState(skills[0] ?? '')
   const reduceMotion = useReducedMotion()
 
   useEffect(() => {
@@ -235,8 +206,8 @@ export function Hero() {
               <span className="h-px flex-1 bg-hero-pink/40" />
             </div>
             <ul className="grid gap-7 md:grid-cols-2 md:gap-10">
-              {EDUCATION.map((edu) => (
-                <li key={edu.school}>
+              {education.map((edu) => (
+                <li key={edu.id}>
                   <span className="font-mono text-xs uppercase tracking-widest text-hero-pink">
                     {edu.year}
                   </span>
@@ -257,7 +228,7 @@ export function Hero() {
               <span className="h-px flex-1 bg-hero-pink/40" />
             </div>
             <div className="flex flex-wrap gap-2.5">
-              {SKILLS.map((skill) => (
+              {skills.map((skill) => (
                 <button
                   key={skill}
                   type="button"
@@ -348,8 +319,8 @@ export function Hero() {
                   <span className="h-px flex-1 bg-hero-pink/40" />
                 </div>
                 <ul className="space-y-8">
-                  {EDUCATION.map((edu) => (
-                    <li key={edu.school}>
+                  {education.map((edu) => (
+                    <li key={edu.id}>
                       <span className="font-mono text-xs uppercase tracking-widest text-hero-pink">
                         {edu.year}
                       </span>
@@ -421,7 +392,7 @@ export function Hero() {
                   <span className="h-px flex-1 bg-hero-pink/40" />
                 </div>
                 <div className="flex flex-wrap gap-2.5 lg:justify-end">
-                  {SKILLS.map((skill) => {
+                  {skills.map((skill) => {
                     const isActive = activeSkill === skill
                     return (
                       <button

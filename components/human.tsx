@@ -4,60 +4,21 @@ import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import { ChevronLeft, ChevronRight, Martini, Snowflake, Camera, Utensils, Trophy, Disc3 } from 'lucide-react'
 import { motion, useMotionValueEvent, useScroll, useTransform } from 'framer-motion'
-
-type Hobby = {
-  title: string
-  quote: string
-  image: string
-  Icon: typeof Martini
-}
-
-const HOBBIES: Hobby[] = [
-  {
-    title: 'Squash',
-    quote: '“Every rally is a lesson in patience, precision, and adaptation.”',
-    image: '/hobby-squash.png',
-    Icon: Trophy,
-  },
-   {
-    title: 'Vinyl',
-    quote: '“Collecting timeless stories, one record at a time.”',
-    image: '/hobby-music.png',
-    Icon: Disc3,
-  },
-  {
-    title: 'Skiing',
-    quote: '“Finding balance between speed, control, and the unknown.”',
-    image: '/hobby-skiing.png',
-    Icon: Snowflake,
-  },
-  {
-    title: 'Cocktails',
-    quote: '“A little chemistry, a little creativity, and a story in every glass.”',
-    image: '/hobby-cocktails.png',
-    Icon: Martini,
-  },
-  {
-    title: 'Photography',
-    quote: '“Collecting moments, perspectives, and stories through a lens.”',
-    image: '/hobby-photography.png',
-    Icon: Camera,
-  },
-  {
-    title: 'Cooking',
-    quote: '“Turning simple ingredients into something meaningful.”',
-    image: '/hobby-cooking.png',
-    Icon: Utensils,
-  },
-]
+import { useSiteContent } from '@/components/site-content-provider'
+import type { HobbyItem } from '@/lib/site-content'
 
 export function Human() {
+  const { hobbies } = useSiteContent()
   const sectionRef = useRef<HTMLElement>(null)
   const [active, setActive] = useState(2)
   const [collapseProgress, setCollapseProgress] = useState(0)
   const [layoutMode, setLayoutMode] = useState<'mobile' | 'tablet' | 'desktop'>('desktop')
-  const count = HOBBIES.length
+  const count = hobbies.length
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start end', 'end start'] })
+
+  useEffect(() => {
+    if (active >= count) setActive(Math.max(0, count - 1))
+  }, [active, count])
 
   useEffect(() => {
     const mobile = window.matchMedia('(max-width: 639px)')
@@ -153,7 +114,7 @@ export function Human() {
           role="group"
           aria-label="Hobbies carousel"
         >
-          {HOBBIES.map((hobby, i) => {
+          {hobbies.map((hobby, i) => {
             const offset = i - active
             const abs = Math.abs(offset)
             const isCenter = offset === 0
@@ -194,7 +155,7 @@ export function Human() {
             <ChevronLeft className="size-5" />
           </button>
           <div className="flex items-center gap-2" role="tablist" aria-label="Select hobby">
-            {HOBBIES.map((h, i) => (
+            {hobbies.map((h, i) => (
               <button
                 key={h.title}
                 type="button"
@@ -222,8 +183,15 @@ export function Human() {
   )
 }
 
-function HobbyCard({ hobby, active }: { hobby: Hobby; active: boolean }) {
-  const { Icon } = hobby
+function HobbyCard({ hobby, active }: { hobby: HobbyItem; active: boolean }) {
+  const Icon = {
+    trophy: Trophy,
+    disc: Disc3,
+    snowflake: Snowflake,
+    martini: Martini,
+    camera: Camera,
+    utensils: Utensils,
+  }[hobby.icon]
   // Center card is dark by default; any card also darkens on hover.
   return (
     <div

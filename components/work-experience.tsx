@@ -1,76 +1,10 @@
 'use client'
 
 import { ExperienceGlobeFallback } from '@/components/experience-globe-fallback'
-
-type WorkItem = {
-  id: string
-  period: string
-  role: string
-  org: string
-  location: string
-  summary: string
-  details: string[]
-}
-const WORK_ITEMS: WorkItem[] = [
-  {
-    id: 'tail-risk-ra',
-    period: 'Jul 2025 to Apr 2026',
-    role: 'Research Assistant',
-    org: 'Nottingham University Business School China · Advisor: Dr. Liu Lei',
-    location: 'Ningbo, China',
-    summary:
-      'Risk aware optimization and deep reinforcement learning research for stochastic scheduling systems.',
-    details: [
-      'Developed CTMC and phase type distribution models to represent uncertain processing times in multi stage flow shop scheduling systems.',
-      'Built Python and C++ workflows for state space construction, risk evaluation, simulation experiments, and visualization across multiple job and machine settings.',
-      'Designed a Transformer based PPO policy for schedule construction, achieving a 0.73% average CVaR reduction and 2.4x inference speedup compared with iterated greedy benchmarks.',
-    ],
-  },
-  {
-    id: 'ipsos-intern',
-    period: 'Sep 2025 to Dec 2025',
-    role: 'Data Analysis & Social Intelligence Intern',
-    org: 'IPSOS China · Healthcare Team',
-    location: 'Shanghai & Remote, China',
-    summary:
-      'NLP driven healthcare social intelligence workflows for sentiment tracking, topic discovery, and client ready dashboards.',
-    details: [
-      'Built Python based NLP pipelines to collect, clean, and structure 50,000+ posts from TikTok, WeChat, and Xiaohongshu.',
-      'Applied sentiment analysis, keyword extraction, and K means clustering to classify healthcare content themes and user discussion patterns, improving topic classification accuracy by 22%.',
-      'Designed Tableau dashboards to visualize sentiment trends, channel performance, competitor dynamics, and model outputs for consultant and client facing presentations.',
-    ],
-  },
-  {
-    id: 'pinpianyi-intern',
-    period: 'Jun 2024 to Aug 2024',
-    role: 'Business Analysis Intern',
-    org: 'Hangzhou Pinpianyi Network Technology',
-    location: 'Hangzhou, China',
-    summary:
-      'Operational analytics, forecasting, and dashboard prototyping for recycling logistics and regional performance decisions.',
-    details: [
-      'Processed 500,000+ operational records using Python, pandas, and MySQL to build standardized datasets for forecasting, retention analysis, and service efficiency evaluation.',
-      'Developed regression and time series models to forecast order volume and identify behavioral drivers of churn and customer retention.',
-      'Built Tableau dashboards and lightweight Streamlit prototypes to communicate predictive outputs and regional performance insights to non technical stakeholders.',
-    ],
-  },
-  {
-    id: 'changjiang-intern',
-    period: 'Jun 2023 to Aug 2023',
-    role: 'Capital Markets Data Intern',
-    org: 'Changjiang Financing Services Co., Ltd.',
-    location: 'Shanghai, China',
-    summary:
-      'Financial data analysis and visual reporting for capital markets research, investor communication, and market trend interpretation.',
-    details: [
-      'Processed and analyzed 15,000+ financial data points using Wind and iFinD Financial Services Terminals for a 90 page semi annual capital markets report.',
-      'Created statistical summaries and data visualizations covering macroeconomics, IPOs, equity refinancing, and bond markets.',
-      'Supported roadshow preparation by translating market data into clear materials for investment opportunity analysis and stakeholder communication.',
-    ],
-  },
-]
+import { useSiteContent } from '@/components/site-content-provider'
 
 export function WorkExperience() {
+  const { workExperience } = useSiteContent()
   return (
     <section id="experience" className="scroll-mt-24 border-t-2 border-hero-pink/30 bg-[#120b12] py-20 text-hero-card md:py-28">
       <div className="mx-auto grid max-w-[1500px] gap-12 px-5 md:px-10 lg:grid-cols-[1.3fr_0.9fr] lg:gap-8">
@@ -87,7 +21,7 @@ export function WorkExperience() {
           </h2>
 
           <div className="mt-10 space-y-4">
-            {WORK_ITEMS.map((item) => (
+            {workExperience.map((item) => (
               <article
                 key={item.id}
                 tabIndex={0}

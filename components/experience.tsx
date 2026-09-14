@@ -4,111 +4,18 @@ import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import { ArrowUpRight, X } from 'lucide-react'
 import { motion, useMotionValueEvent, useReducedMotion, useScroll, useTransform } from 'framer-motion'
-
-type Item = {
-  id: string
-  year: string
-  period: string
-  role: string
-  org: string
-  featured?: boolean
-  image: string
-  summary: string
-  bullets: string[]
-  tags: string[]
-  skills: string[]
-  link?: { label: string; href: string }
-}
-
-const ITEMS: Item[] = [
-  {
-    id: 'cross-border-logistics',
-    year: '2025',
-    period: 'May 2025 to Jul 2025',
-    role: 'Researcher, Nottingham University Business School China and AOSOM E Commerce Inc.',
-    org: 'Cross Border Logistics Optimization',
-    image: '/projects/network-optimization.png',
-    summary:
-      'A vehicle routing optimization project for large scale cross border supply chain planning.',
-    bullets: [
-      'Developed VRP and CVRP models to optimize vehicle allocation across 100+ factories, 8 ports, and 3 distribution centers.',
-      'Reduced total transportation costs by 12% while improving on time delivery performance through data driven routing strategies.',
-      'Designed a Python automation framework to preprocess 10k+ export records and improve data consistency for logistics operations.',
-      'Analyzed algorithm outputs to identify routing inefficiencies and support production scheduling and capacity planning decisions.',
-    ],
-    tags: ['Optimization', 'Logistics', 'Data', 'Algorithms'],
-    skills: ['Python', 'VRP', 'CVRP', 'Optimization', 'Data Cleaning', 'Decision Analytics'],
-  },
-  {
-    id: 'clinical-ml-pcos',
-    year: '2025',
-    period: 'Nov 2024 to Apr 2025',
-    role: 'Independent Researcher',
-    org: 'Clinical Machine Learning Screening',
-    image: '/projects/analytics-dashboard.png',
-    summary:
-      'An interpretable machine learning pipeline for early screening analysis using clinical patient data.',
-    bullets: [
-      'Built an end to end machine learning workflow for a clinical dataset of 272 patients, including preprocessing, missing value handling, feature selection, training, and evaluation.',
-      'Benchmarked 13 classification models including Naive Bayes, Logistic Regression, Random Forest, XGBoost, and SVM.',
-      'Achieved 86.8% classification accuracy with the best performing SVM model.',
-      'Produced heatmaps, boxplots, PCA plots, and feature importance visualizations to identify BMI, AMH, and follicle counts as key predictive features.',
-    ],
-    tags: ['Machine Learning', 'Healthcare', 'Data', 'Interpretability'],
-    skills: ['Python', 'SVM', 'XGBoost', 'Random Forest', 'PCA', 'Feature Engineering'],
-  },
-  {
-    id: 'turing-patterns',
-    year: '2024',
-    period: 'Feb 2024 to May 2024',
-    role: 'Research Assistant, Advisor: Prof. Mainul Haque, UNNC',
-    org: 'Turing Pattern Simulation',
-    image: '/projects/scientific-viz.png',
-    summary:
-      'A mathematical simulation project studying pattern formation in infectious disease inspired predator prey systems.',
-    bullets: [
-      'Developed nonlinear reaction diffusion models to study how local interaction rules generate system level spatial patterns.',
-      'Conducted 1,000+ parameter set simulations in MATLAB using Latin Hypercube Sampling.',
-      'Evaluated how model parameters affected system stability, long term behavior, and pattern formation thresholds.',
-      'Visualized simulation results with Python heatmaps and parameter phase diagrams to support scientific interpretation.',
-    ],
-    tags: ['Mathematical Modeling', 'Simulation', 'Research'],
-    skills: ['MATLAB', 'Python', 'Reaction Diffusion Models', 'Latin Hypercube Sampling', 'Scientific Visualization'],
-  },
-  {
-    id: 'dtw-finance-publication',
-    year: '2023',
-    period: 'Jan 2023 to May 2023',
-    role: 'Researcher, Advisor: Prof. Zhang Jinting, National University of Singapore',
-    org: 'Financial Time Series with DTW',
-    image: '/projects/dtw-finance-publication.png',
-    summary:
-      'A published financial data analysis project using Dynamic Time Warping to study stock index and trade volume relationships.',
-    bullets: [
-      'Applied Dynamic Time Warping to analyze correlations between 10 United States stock industry indexes and import export volume trends.',
-      'Processed and visualized 53 months of financial time series data from January 2019 to May 2023.',
-      'Used Python and log return models to identify macroeconomic patterns and industry specific trends.',
-      'Published the work at the 2023 International Conference on Finance, Trade and Business Management.',
-    ],
-    tags: ['Data', 'Finance', 'Time Series', 'Publication'],
-    skills: ['Python', 'DTW', 'Time Series Analysis', 'Financial Data', 'Data Visualization'],
-    link: {
-      label: 'View publication DOI',
-      href: 'https://doi.org/10.2991/978-94-6463-298-9_42',
-    },
-  },
-]
-
-// Reverse-chronological year groups (newest first)
-const YEARS = Array.from(new Set(ITEMS.map((i) => i.year))).sort((a, b) => Number(b) - Number(a))
+import { useSiteContent } from '@/components/site-content-provider'
+import type { ProjectItem } from '@/lib/site-content'
 
 export function Experience() {
+  const { projects } = useSiteContent()
   const sectionRef = useRef<HTMLElement>(null)
   const [activeId, setActiveId] = useState<string | null>(null)
   const [scrollPhase, setScrollPhase] = useState(0)
   const [canScatter, setCanScatter] = useState(false)
   const reduceMotion = useReducedMotion()
-  const active = ITEMS.find((i) => i.id === activeId) ?? null
+  const active = projects.find((i) => i.id === activeId) ?? null
+  const years = Array.from(new Set(projects.map((item) => item.year))).sort((a, b) => Number(b) - Number(a))
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start end', 'end start'] })
 
   useEffect(() => {
@@ -171,7 +78,7 @@ export function Experience() {
             aria-hidden
           />
 
-          {YEARS.map((year) => (
+          {years.map((year) => (
             <div key={year} className="flex gap-6 md:gap-10">
               {/* Left — sticky year that follows the scroll within this group */}
               <motion.div
@@ -195,11 +102,11 @@ export function Experience() {
                   {year}
                 </span>
                 <div className="grid gap-5 sm:grid-cols-2">
-                  {ITEMS.filter((i) => i.year === year).map((item, idx) => (
+                  {projects.filter((i) => i.year === year).map((item, idx) => (
                     <ProjectCard
                       key={item.id}
                       item={item}
-                      cardIndex={idx + ITEMS.findIndex((entry) => entry.id === item.id)}
+                      cardIndex={idx + projects.findIndex((entry) => entry.id === item.id)}
                       scatterProgress={scatterProgress}
                       onOpen={() => setActiveId(item.id)}
                     />
@@ -222,7 +129,7 @@ function ProjectCard({
   scatterProgress,
   onOpen,
 }: {
-  item: Item
+  item: ProjectItem
   cardIndex: number
   scatterProgress: number
   onOpen: () => void
@@ -279,7 +186,7 @@ function ProjectCard({
   )
 }
 
-function ProjectModal({ item, onClose }: { item: Item; onClose: () => void }) {
+function ProjectModal({ item, onClose }: { item: ProjectItem; onClose: () => void }) {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose()
     document.addEventListener('keydown', onKey)

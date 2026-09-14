@@ -150,6 +150,26 @@
     margin-inline: auto;
   }
 
+  .admin-label {
+    @apply block text-sm font-bold text-hero-card/80;
+  }
+
+  .admin-input {
+    @apply block w-full rounded-xl border border-hero-pink/25 bg-black/20 px-3.5 py-3 text-sm text-hero-card outline-none transition-colors placeholder:text-hero-card/30 focus:border-hero-pink;
+  }
+
+  .admin-button-primary {
+    @apply inline-flex min-h-10 items-center justify-center gap-2 rounded-xl bg-hero-pink px-4 py-2 text-sm font-black text-hero-ink transition-transform hover:-translate-y-0.5;
+  }
+
+  .admin-button-secondary {
+    @apply inline-flex min-h-10 items-center justify-center gap-2 rounded-xl border border-hero-pink/35 px-4 py-2 text-sm font-bold text-hero-card transition-colors hover:border-hero-pink hover:text-hero-pink;
+  }
+
+  .admin-icon-button {
+    @apply inline-flex size-10 items-center justify-center rounded-xl border border-white/15 text-hero-card transition-colors hover:border-hero-pink hover:text-hero-pink;
+  }
+
   .section-title-fluid {
     font-size: clamp(2.75rem, 7vw, 4.5rem);
     line-height: 0.96;
