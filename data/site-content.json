@@ -209,40 +209,6 @@
         "label": "View publication DOI",
         "href": "https://doi.org/10.2991/978-94-6463-298-9_42"
       }
-    },
-    {
-      "id": "project-1789416471415",
-      "year": "2026",
-      "period": "Sep 2026 - Present",
-      "role": "Designer & Developer, IPD 5340 LLMs for UX Prototyping, University of Pennsylvania",
-      "org": "Smart Bus Stop Interface for SEPTA",
-      "image": "/uploads/projects/project-1789416471415-1789416825244.png",
-      "summary": "A real time SEPTA bus stop interface combining live transit data, vehicle tracking, gesture interaction, and spoken arrival updates.",
-      "bullets": [
-        "Built and deployed a real time transit web application integrating SEPTA GTFS Realtime, TransitView, and schedule data through a Vercel serverless endpoint, refreshing vehicle and arrival information every 5 seconds.",
-        "Added retry, timeout, and schedule fallback handling, while building touchless interaction with MediaPipe gesture recognition and browser speech synthesis.",
-        "Designed the interface around three rider pain points: finding the correct stop, understanding route direction, and noticing approaching buses."
-      ],
-      "tags": [
-        "AI Application",
-        "Full Stack",
-        "Interaction Design"
-      ],
-      "skills": [
-        "React",
-        "Next.js",
-        "JavaScript",
-        "TypeScript",
-        "Vercel",
-        "REST APIs",
-        "GTFS Realtime",
-        "MediaPipe",
-        "Web Speech API"
-      ],
-      "link": {
-        "label": "Live demo",
-        "href": "https://penn-street-interface-demo.vercel.app"
-      }
     }
   ],
   "hobbies": [
