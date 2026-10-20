@@ -326,23 +326,33 @@
     },
     {
       "id": "lab-1792508817292",
-      "slug": "prototype-1792508817292",
-      "title": "New prototype",
-      "date": "Oct 2026",
-      "context": "Course, hackathon or side project",
+      "slug": "septa-bus-stop",
+      "title": "Smart Bus Stop Interface for SEPTA",
+      "date": "Sep 2026 - Oct 2026",
+      "context": "UPenn · IPD 5340 LLMs for UX Prototyping",
       "highlight": "",
-      "tagline": "One sentence that makes people want to click",
-      "prompt": "the natural-language idea this started from",
-      "problem": "What problem does it solve?",
-      "built": "What did you build?",
-      "learned": "What did you learn from real users?",
+      "tagline": "What if a bus stop could be more than just a place to wait?",
+      "prompt": "design a bus stop screen that shows live SEPTA arrivals and turns waiting into a small act of kindness",
+      "problem": "Riders at a bus stop struggle to find the right stop, read route direction and notice approaching buses, and the wait itself is dead time.",
+      "built": "An iPad bus-stop display for 38th & Chestnut with live SEPTA arrivals for Routes 40 and 79, touchless gesture controls and spoken alerts. Today's Kindness Tree uses an LLM to suggest a small act of kindness riders can do while they wait, then lets them plant a flower on a shared tree.",
+      "learned": "Field tests showed sudden audio alerts distracted people and screen brightness mattered. A feature that works isn't always an experience that works.",
       "cover": "",
-      "videoUrl": "",
-      "demoUrl": "",
-      "repoUrl": "",
-      "tools": [],
+      "videoUrl": "https://youtu.be/6ahJEoM1lSo",
+      "demoUrl": "https://penn-street-interface-demo.vercel.app",
+      "repoUrl": "https://github.com/DaisyXUUUUU/Penn-Street-Interface-Demo",
+      "tools": [
+        "JavaScript",
+        "Vercel Serverless",
+        "SEPTA GTFS Realtime",
+        "MediaPipe",
+        "Web Speech API",
+        "Claude API",
+        "Open-Meteo"
+      ],
       "tags": [
-        "AI Product"
+        "UX Prototyping",
+        "AI Application",
+        "Interaction Design"
       ]
     }
   ]
