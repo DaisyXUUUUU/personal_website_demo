@@ -39,7 +39,7 @@ function isRateLimited(key: string, succeeded: boolean) {
 }
 
 function validTargetPath(path: string) {
-  return /^public\/uploads\/(projects|hobbies)\/[a-z0-9][a-z0-9._-]*\.(png|jpe?g|webp|gif)$/i.test(path)
+  return /^public\/uploads\/(projects|lab|hobbies)\/[a-z0-9][a-z0-9._-]*\.(png|jpe?g|webp|gif)$/i.test(path)
 }
 
 function contentHasTemporaryImages(value: unknown) {

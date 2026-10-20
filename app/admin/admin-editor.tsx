@@ -6,6 +6,7 @@ import {
   ArrowUp,
   CheckCircle2,
   Eye,
+  FlaskConical,
   ImagePlus,
   Laptop,
   LogOut,
@@ -15,12 +16,15 @@ import {
   Smartphone,
   Tablet,
   Trash2,
+  TriangleAlert,
   X,
 } from 'lucide-react'
-import type { EducationItem, HobbyItem, ProjectItem, SiteContent, WorkItem } from '@/lib/site-content'
-import { validateSiteContent } from '@/lib/site-content'
+import type { HobbyItem, LabItem, ProjectItem, SiteContent } from '@/lib/site-content'
+import { LAB_SLUG_PATTERN, labItems, validateSiteContent } from '@/lib/site-content'
+import { resolveVideo } from '@/lib/video'
 
-type Section = 'skills' | 'education' | 'workExperience' | 'projects' | 'hobbies'
+type Section = 'skills' | 'education' | 'workExperience' | 'projects' | 'lab' | 'hobbies'
+type ImageKind = 'projects' | 'lab' | 'hobbies'
 type Device = 'desktop' | 'tablet' | 'mobile'
 type UploadDraft = { file: File; previewUrl: string; targetPath: string; publicPath: string }
 
@@ -29,6 +33,7 @@ const SECTION_LABELS: Record<Section, string> = {
   education: 'Education',
   workExperience: 'Work Experience',
   projects: 'Projects',
+  lab: 'AI Lab',
   hobbies: 'Hobbies',
 }
 
@@ -37,7 +42,7 @@ const DEVICE_WIDTH: Record<Device, string> = { desktop: '100%', tablet: '768px',
 export function AdminEditor({ initialContent, login }: { initialContent: SiteContent; login: string }) {
   const [content, setContent] = useState(initialContent)
   const [publishedSnapshot, setPublishedSnapshot] = useState(() => JSON.stringify(initialContent))
-  const [section, setSection] = useState<Section>('projects')
+  const [section, setSection] = useState<Section>('lab')
   const [uploads, setUploads] = useState<Record<string, UploadDraft>>({})
   const [hydrated, setHydrated] = useState(false)
   const [previewOpen, setPreviewOpen] = useState(false)
@@ -114,7 +119,7 @@ export function AdminEditor({ initialContent, login }: { initialContent: SiteCon
     return () => window.removeEventListener('message', onMessage)
   }, [previewContent])
 
-  const setImage = (kind: 'projects' | 'hobbies', id: string, file: File) => {
+  const setImage = (kind: ImageKind, id: string, file: File) => {
     const extension = imageExtension(file)
     if (!extension || file.size > 8 * 1024 * 1024) {
       setStatus('error')
@@ -122,6 +127,11 @@ export function AdminEditor({ initialContent, login }: { initialContent: SiteCon
       return
     }
     const key = `${kind}:${id}`
+    if (kind === 'lab' && file.size > 4 * 1024 * 1024) {
+      setStatus('error')
+      setMessage('Cover images must be smaller than 4 MB so publishing stays fast.')
+      return
+    }
     const safeId = id.toLowerCase().replace(/[^a-z0-9-]+/g, '-').replace(/^-|-$/g, '') || 'image'
     const targetPath = `public/uploads/${kind}/${safeId}-${Date.now()}.${extension}`
     const previous = uploads[key]
@@ -139,6 +149,20 @@ export function AdminEditor({ initialContent, login }: { initialContent: SiteCon
     setMessage('')
   }
 
+  const clearImage = (kind: ImageKind, id: string) => {
+    const key = `${kind}:${id}`
+    const previous = uploads[key]
+    if (!previous) return
+    URL.revokeObjectURL(previous.previewUrl)
+    setUploads((current) => {
+      const next = { ...current }
+      delete next[key]
+      return next
+    })
+  }
+
+  const draftValid = useMemo(() => validateSiteContent(publishContent), [publishContent])
+
   const resetDraft = () => {
     if (!window.confirm('Discard all unpublished changes and restore the deployed content?')) return
     Object.values(uploads).forEach((upload) => URL.revokeObjectURL(upload.previewUrl))
@@ -151,6 +175,12 @@ export function AdminEditor({ initialContent, login }: { initialContent: SiteCon
   }
 
   const publish = async () => {
+    if (!draftValid) {
+      setStatus('error')
+      setMessage('Some fields are empty or invalid. Fix the items marked with a warning, then publish again.')
+      setPublishOpen(false)
+      return
+    }
     if (!command.trim()) {
       setStatus('error')
       setMessage('Enter your private publish command.')
@@ -253,6 +283,7 @@ export function AdminEditor({ initialContent, login }: { initialContent: SiteCon
           {section === 'education' && <EducationEditor content={content} setContent={setContent} />}
           {section === 'workExperience' && <WorkEditor content={content} setContent={setContent} />}
           {section === 'projects' && <ProjectsEditor content={content} setContent={setContent} uploads={uploads} setImage={setImage} />}
+          {section === 'lab' && <LabEditor content={content} setContent={setContent} uploads={uploads} setImage={setImage} clearImage={clearImage} />}
           {section === 'hobbies' && <HobbiesEditor content={content} setContent={setContent} uploads={uploads} setImage={setImage} />}
         </section>
       </div>
@@ -389,16 +420,24 @@ function HobbiesEditor({ content, setContent, uploads, setImage }: EditorProps &
 }
 
 type EditorProps = { content: SiteContent; setContent: (content: SiteContent) => void }
-type ImageEditorProps = { uploads: Record<string, UploadDraft>; setImage: (kind: 'projects' | 'hobbies', id: string, file: File) => void }
+type ImageEditorProps = { uploads: Record<string, UploadDraft>; setImage: (kind: ImageKind, id: string, file: File) => void }
 
-function ItemList<T extends { id: string }>({ items, setItems, title, render }: { items: T[]; setItems: (items: T[]) => void; title: (item: T) => string; render: (item: T, update: (item: T) => void) => React.ReactNode }) {
+function ItemList<T extends { id: string }>({ items, setItems, title, render, issues }: { items: T[]; setItems: (items: T[]) => void; title: (item: T) => string; render: (item: T, update: (item: T) => void) => React.ReactNode; issues?: (item: T) => string[] }) {
   return <div className="grid gap-4">{items.map((item, index) => (
     <details key={item.id} className="group rounded-2xl border border-white/10 bg-white/5" open={index === 0}>
       <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-4 sm:p-5">
         <span className="min-w-0 truncate font-black text-hero-card">{title(item) || 'Untitled item'}</span>
-        <span className="font-mono text-xs text-hero-pink">EDIT</span>
+        <span className="flex shrink-0 items-center gap-3">
+          {(issues?.(item).length ?? 0) > 0 && <TriangleAlert className="size-4 text-amber-300" aria-label="Needs attention" />}
+          <span className="font-mono text-xs text-hero-pink">EDIT</span>
+        </span>
       </summary>
       <div className="grid gap-4 border-t border-white/10 p-4 sm:p-5">
+        {(issues?.(item).length ?? 0) > 0 && (
+          <ul className="grid gap-1 rounded-xl border border-amber-300/30 bg-amber-300/10 p-3 text-sm text-amber-100">
+            {issues!(item).map((issue) => <li key={issue}>• {issue}</li>)}
+          </ul>
+        )}
         {render(item, (next) => setItems(items.map((current) => current.id === item.id ? next : current)))}
         <div className="flex flex-wrap justify-between gap-2 border-t border-white/10 pt-4">
           <div className="flex gap-2"><button type="button" disabled={index === 0} onClick={() => setItems(moveItem(items, index, -1))} className="admin-icon-button disabled:opacity-30" aria-label="Move up"><ArrowUp className="size-4" /></button><button type="button" disabled={index === items.length - 1} onClick={() => setItems(moveItem(items, index, 1))} className="admin-icon-button disabled:opacity-30" aria-label="Move down"><ArrowDown className="size-4" /></button></div>
@@ -409,8 +448,8 @@ function ItemList<T extends { id: string }>({ items, setItems, title, render }: 
   ))}</div>
 }
 
-function Field({ label, value, onChange, multiline = false }: { label: string; value: string; onChange: (value: string) => void; multiline?: boolean }) {
-  return <label className="admin-label">{label}{multiline ? <textarea className="admin-input mt-2 min-h-24 resize-y" value={value} onChange={(event) => onChange(event.target.value)} /> : <input className="admin-input mt-2" value={value} onChange={(event) => onChange(event.target.value)} />}</label>
+function Field({ label, value, onChange, multiline = false, hint, placeholder }: { label: string; value: string; onChange: (value: string) => void; multiline?: boolean; hint?: string; placeholder?: string }) {
+  return <label className="admin-label">{label}{hint && <span className="ml-2 font-normal text-hero-card/40">{hint}</span>}{multiline ? <textarea className="admin-input mt-2 min-h-24 resize-y" value={value} placeholder={placeholder} onChange={(event) => onChange(event.target.value)} /> : <input className="admin-input mt-2" value={value} placeholder={placeholder} onChange={(event) => onChange(event.target.value)} />}</label>
 }
 
 function ListField({ label, values, onChange }: { label: string; values: string[]; onChange: (values: string[]) => void }) {
@@ -427,12 +466,12 @@ function ImageField({ current, onSelect }: { current: string; onSelect: (file: F
 
 function AddButton({ section, onAdd }: { section: Section; onAdd: () => void }) {
   if (section === 'skills') return null
-  const singular = section === 'workExperience' ? 'experience' : section === 'hobbies' ? 'hobby' : section === 'education' ? 'education' : 'project'
+  const singular = section === 'workExperience' ? 'experience' : section === 'hobbies' ? 'hobby' : section === 'education' ? 'education' : section === 'lab' ? 'prototype' : 'project'
   return <button type="button" onClick={onAdd} className="admin-button-primary"><Plus className="size-4" /> Add {singular}</button>
 }
 
 function collectionLength(content: SiteContent, section: Section) {
-  return content[section].length
+  return section === 'lab' ? labItems(content).length : content[section].length
 }
 
 function moveItem<T>(items: T[], index: number, direction: -1 | 1) {
@@ -451,6 +490,11 @@ function addItem(content: SiteContent, section: Section): SiteContent {
   if (section === 'education') return { ...content, education: [...content.education, { id: newId('education'), year: 'Add dates', school: 'New school', detail: 'Add degree and details' }] }
   if (section === 'workExperience') return { ...content, workExperience: [...content.workExperience, { id: newId('work'), period: 'Add dates', role: 'New role', org: 'Add organization', location: 'Add location', summary: 'Add a short summary', details: ['Add an achievement'] }] }
   if (section === 'projects') return { ...content, projects: [...content.projects, { id: newId('project'), year: String(new Date().getFullYear()), period: 'Add dates', role: 'Add your role', org: 'New project', image: '/placeholder.jpg', summary: 'Add a short summary', bullets: ['Add a project achievement'], tags: ['New'], skills: ['Add a skill'] }] }
+  if (section === 'lab') {
+    const stamp = Date.now()
+    const item: LabItem = { id: `lab-${stamp}`, slug: `prototype-${stamp}`, title: 'New prototype', date: new Date().toLocaleDateString('en-US', { month: 'short', year: 'numeric' }), context: 'Course, hackathon or side project', highlight: '', tagline: 'One sentence that makes people want to click', prompt: 'the natural-language idea this started from', problem: 'What problem does it solve?', built: 'What did you build?', learned: 'What did you learn from real users?', cover: '', videoUrl: '', demoUrl: '', repoUrl: '', tools: [], tags: ['AI Product'] }
+    return { ...content, lab: [item, ...labItems(content)] }
+  }
   if (section === 'hobbies') return { ...content, hobbies: [...content.hobbies, { id: newId('hobby'), title: 'New hobby', quote: 'Add a short quote', image: '/placeholder.jpg', icon: 'trophy' }] }
   return content
 }
@@ -461,6 +505,10 @@ function contentWithUploadPaths(content: SiteContent, uploads: Record<string, Up
     projects: content.projects.map((item) => {
       const upload = uploads[`projects:${item.id}`]
       return upload ? { ...item, image: mode === 'preview' ? upload.previewUrl : upload.publicPath } : item
+    }),
+    lab: content.lab?.map((item) => {
+      const upload = uploads[`lab:${item.id}`]
+      return upload ? { ...item, cover: mode === 'preview' ? upload.previewUrl : upload.publicPath } : item
     }),
     hobbies: content.hobbies.map((item) => {
       const upload = uploads[`hobbies:${item.id}`]
@@ -477,4 +525,83 @@ function imageExtension(file: File) {
 function updateProjectLink(item: ProjectItem, update: (item: ProjectItem) => void, label: string, href: string) {
   if (!label.trim() && !href.trim()) update({ ...item, link: undefined })
   else update({ ...item, link: { label, href } })
+}
+
+function LabEditor({ content, setContent, uploads, setImage, clearImage }: EditorProps & ImageEditorProps & { clearImage: (kind: ImageKind, id: string) => void }) {
+  const items = labItems(content)
+  if (items.length === 0) {
+    return <div className="flex flex-col items-center gap-3 rounded-2xl border border-dashed border-hero-pink/35 p-10 text-center text-hero-card/60"><FlaskConical className="size-8 text-hero-pink" /><p>No prototypes yet. Use “Add prototype” to create the first one.</p></div>
+  }
+  return <ItemList
+    items={items}
+    setItems={(lab) => setContent({ ...content, lab })}
+    title={(item) => item.title}
+    issues={(item) => labIssues(item, items)}
+    render={(item, update) => {
+      const coverUpload = uploads[`lab:${item.id}`]
+      const cover = coverUpload?.previewUrl ?? item.cover ?? ''
+      return <>
+        <p className="font-mono text-[11px] uppercase tracking-widest text-hero-pink">Basics</p>
+        <Field label="Title" value={item.title} onChange={(title) => update({ ...item, title })} />
+        <div className="grid gap-4 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end">
+          <Field label="Page address" hint={`ziyue.space/lab/${item.slug || '…'}`} value={item.slug} onChange={(slug) => update({ ...item, slug: slug.toLowerCase().replace(/\s+/g, '-') })} />
+          <button type="button" onClick={() => update({ ...item, slug: slugify(item.title) })} className="admin-button-secondary">Use title</button>
+        </div>
+        <div className="grid gap-4 sm:grid-cols-3">
+          <Field label="Date" value={item.date} placeholder="Oct 2026" onChange={(date) => update({ ...item, date })} />
+          <Field label="Context" value={item.context} placeholder="UPenn · IPD 5900" onChange={(context) => update({ ...item, context })} />
+          <Field label="Badge (optional)" value={item.highlight ?? ''} placeholder="🥉 3rd place" onChange={(highlight) => update({ ...item, highlight })} />
+        </div>
+        <Field label="One-line hook" value={item.tagline} multiline onChange={(tagline) => update({ ...item, tagline })} />
+        <Field label="Founding prompt" hint="typed out in the AI Lab terminal" value={item.prompt} multiline onChange={(prompt) => update({ ...item, prompt })} />
+
+        <p className="mt-2 font-mono text-[11px] uppercase tracking-widest text-hero-pink">Story · keep each to 1–2 sentences</p>
+        <Field label="Problem" value={item.problem} multiline onChange={(problem) => update({ ...item, problem })} />
+        <Field label="What I built" value={item.built} multiline onChange={(built) => update({ ...item, built })} />
+        <Field label="What I learned" value={item.learned} multiline onChange={(learned) => update({ ...item, learned })} />
+
+        <p className="mt-2 font-mono text-[11px] uppercase tracking-widest text-hero-pink">Media & links</p>
+        <div>
+          <p className="admin-label">Cover image <span className="ml-2 font-normal text-hero-card/40">optional · a poster is generated if empty</span></p>
+          <div className="mt-2 flex flex-col gap-3 rounded-xl border border-dashed border-hero-pink/35 p-3 sm:flex-row sm:items-center">
+            <div className="lab-poster aspect-video w-full overflow-hidden rounded-lg sm:w-44">{cover && <img src={cover} alt="Cover preview" className="h-full w-full object-cover" />}</div>
+            <div className="flex flex-wrap gap-2">
+              <label className="admin-button-secondary cursor-pointer"><ImagePlus className="size-4" /> Choose image<input type="file" accept="image/png,image/jpeg,image/webp,image/gif" className="sr-only" onChange={(event) => { const file = event.target.files?.[0]; if (file) setImage('lab', item.id, file); event.target.value = '' }} /></label>
+              {cover && <button type="button" onClick={() => { clearImage('lab', item.id); update({ ...item, cover: '' }) }} className="admin-button-secondary text-red-200"><Trash2 className="size-4" /> Remove</button>}
+            </div>
+          </div>
+        </div>
+        <Field label="Walkthrough video link" hint="YouTube (unlisted is fine), Vimeo, Bilibili or Loom" value={item.videoUrl ?? ''} placeholder="https://youtu.be/…" onChange={(videoUrl) => update({ ...item, videoUrl: videoUrl.trim() })} />
+        <VideoCheck url={item.videoUrl} />
+        <div className="grid gap-4 sm:grid-cols-2">
+          <Field label="Live demo URL" value={item.demoUrl ?? ''} placeholder="https://…" onChange={(demoUrl) => update({ ...item, demoUrl: demoUrl.trim() })} />
+          <Field label="GitHub repo URL" value={item.repoUrl ?? ''} placeholder="https://github.com/…" onChange={(repoUrl) => update({ ...item, repoUrl: repoUrl.trim() })} />
+        </div>
+        <CommaField label="Tags" values={item.tags} onChange={(tags) => update({ ...item, tags })} />
+        <CommaField label="Tools & stack" values={item.tools} onChange={(tools) => update({ ...item, tools })} />
+      </>
+    }}
+  />
+}
+
+function VideoCheck({ url }: { url?: string }) {
+  if (!url) return null
+  const video = resolveVideo(url)
+  if (!video) return <p className="-mt-2 text-sm text-amber-200">This link can’t be played on the site. Use a YouTube, Vimeo, Bilibili or Loom link, or a direct .mp4 file.</p>
+  return <div className="-mt-1 w-full max-w-md overflow-hidden rounded-xl border border-white/10"><div className="relative aspect-video bg-black">{video.kind === 'embed' ? <iframe src={video.src} title="Video preview" className="absolute inset-0 h-full w-full border-0" allow="fullscreen; picture-in-picture" /> : <video src={video.src} controls className="absolute inset-0 h-full w-full" />}</div></div>
+}
+
+function slugify(value: string) {
+  return value.toLowerCase().normalize('NFKD').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 80) || 'prototype'
+}
+
+function labIssues(item: LabItem, all: LabItem[]) {
+  const issues: string[] = []
+  const required: [keyof LabItem, string][] = [['title', 'Title'], ['date', 'Date'], ['context', 'Context'], ['tagline', 'One-line hook'], ['prompt', 'Founding prompt'], ['problem', 'Problem'], ['built', 'What I built'], ['learned', 'What I learned']]
+  required.forEach(([key, label]) => { if (!String(item[key] ?? '').trim()) issues.push(`${label} is empty.`) })
+  if (!LAB_SLUG_PATTERN.test(item.slug)) issues.push('Page address may only use lowercase letters, numbers and single dashes.')
+  else if (all.some((other) => other.id !== item.id && other.slug === item.slug)) issues.push('Another prototype already uses this page address.')
+  const urls: [string | undefined, string][] = [[item.videoUrl, 'Video link'], [item.demoUrl, 'Live demo URL'], [item.repoUrl, 'GitHub repo URL']]
+  urls.forEach(([value, label]) => { if (value && !/^https?:\/\/\S+$/.test(value)) issues.push(`${label} must start with https://`) })
+  return issues
 }
