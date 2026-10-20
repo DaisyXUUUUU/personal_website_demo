@@ -8,6 +8,7 @@ import { SiteNav } from '@/components/site-nav'
 import { Hero } from '@/components/hero'
 import { WorkExperience } from '@/components/work-experience'
 import { Experience } from '@/components/experience'
+import { AiLab } from '@/components/ai-lab'
 import { Human } from '@/components/human'
 import { Contact } from '@/components/contact'
 import { SiteFooter } from '@/components/site-footer'
@@ -42,6 +43,7 @@ export function DraftPreview({ initialContent }: { initialContent: SiteContent }
         <main>
           <Hero />
           <WorkExperience />
+          <AiLab />
           <Experience />
           <Human />
           <Contact />

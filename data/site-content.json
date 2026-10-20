@@ -209,40 +209,66 @@
         "label": "View publication DOI",
         "href": "https://doi.org/10.2991/978-94-6463-298-9_42"
       }
-    },
+    }
+  ],
+  "lab": [
     {
-      "id": "project-1789416471415",
-      "year": "2026",
-      "period": "Sep 2026 - Present",
-      "role": "Designer & Developer, IPD 5340 LLMs for UX Prototyping, University of Pennsylvania",
-      "org": "Smart Bus Stop Interface for SEPTA",
-      "image": "/uploads/projects/project-1789416471415-1789416825244.png",
-      "summary": "A real time SEPTA bus stop interface combining live transit data, vehicle tracking, gesture interaction, and spoken arrival updates.",
-      "bullets": [
-        "Built and deployed a real time transit web application integrating SEPTA GTFS Realtime, TransitView, and schedule data through a Vercel serverless endpoint, refreshing vehicle and arrival information every 5 seconds.",
-        "Added retry, timeout, and schedule fallback handling, while building touchless interaction with MediaPipe gesture recognition and browser speech synthesis.",
-        "Designed the interface around three rider pain points: finding the correct stop, understanding route direction, and noticing approaching buses."
+      "id": "lab-aws-clinical-trial-agent",
+      "slug": "clinical-trial-agent",
+      "title": "AI Agent for Clinical Trial Pre-Screening",
+      "date": "Oct 2026",
+      "context": "AWS Agentic AI Hackathon · with Ming Lin",
+      "highlight": "🥉 3rd place",
+      "tagline": "An agentic assistant that makes trial eligibility understandable, with humans kept in control.",
+      "prompt": "build an agent that tells a patient whether they might qualify for a clinical trial — and explains why",
+      "problem": "Clinical trial eligibility criteria are long and complicated, so working out whether a patient might qualify is slow, manual work.",
+      "built": "An agentic AI tool that pre-screens a patient profile against trial criteria and explains the result in plain language, leaving the final decision to people.",
+      "learned": "Getting the AI to work was the easy part. The real design work was making results understandable and deciding where humans stay in control.",
+      "cover": "",
+      "videoUrl": "",
+      "demoUrl": "",
+      "repoUrl": "",
+      "tools": [
+        "Agentic AI",
+        "AWS",
+        "LLMs"
       ],
       "tags": [
-        "AI Application",
-        "Full Stack",
-        "Interaction Design"
-      ],
-      "skills": [
+        "AI Product",
+        "Healthcare AI",
+        "Hackathon"
+      ]
+    },
+    {
+      "id": "lab-septa-bus-stop",
+      "slug": "septa-bus-stop",
+      "title": "Smart Bus Stop Interface for SEPTA",
+      "date": "Sep 2026",
+      "context": "UPenn · IPD 5900 LLMs for UX Prototyping",
+      "highlight": "",
+      "tagline": "What if a bus stop could be more than just a place to wait?",
+      "prompt": "design an interactive street interface that makes waiting at a bus stop feel human",
+      "problem": "Waiting at a bus stop is dead time, and riders struggle to find the right stop, read route direction and notice approaching buses.",
+      "built": "A real-time street interface for 38th & Chestnut with live SEPTA arrivals, touchless gestures, spoken updates and Today's Kindness Tree, where riders grow a shared digital tree.",
+      "learned": "Field tests showed sudden audio alerts distracted people and screen brightness mattered. A feature that works isn't always an experience that works.",
+      "cover": "/uploads/projects/project-1789416471415-1789416825244.png",
+      "videoUrl": "",
+      "demoUrl": "https://penn-street-interface-demo.vercel.app",
+      "repoUrl": "",
+      "tools": [
         "React",
         "Next.js",
-        "JavaScript",
         "TypeScript",
         "Vercel",
-        "REST APIs",
         "GTFS Realtime",
         "MediaPipe",
         "Web Speech API"
       ],
-      "link": {
-        "label": "Live demo",
-        "href": "https://penn-street-interface-demo.vercel.app"
-      }
+      "tags": [
+        "UX Prototyping",
+        "AI Application",
+        "Interaction Design"
+      ]
     }
   ],
   "hobbies": [
