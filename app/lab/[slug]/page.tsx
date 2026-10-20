@@ -2,9 +2,8 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
-import { BrowserFrame, LabLinks, VideoPlayer } from '@/components/lab-shared'
+import { BrowserFrame, LabLinks } from '@/components/lab-shared'
 import { labItems, siteContent } from '@/lib/site-content'
-import { resolveVideo } from '@/lib/video'
 
 type Params = { params: Promise<{ slug: string }> }
 
@@ -32,7 +31,6 @@ export default async function LabCaseStudy({ params }: Params) {
   if (index === -1) notFound()
   const item = items[index]
   const next = items.length > 1 ? items[(index + 1) % items.length] : null
-  const hasVideo = Boolean(resolveVideo(item.videoUrl))
 
   const sections = [
     { label: 'The problem', text: item.problem },
@@ -61,7 +59,7 @@ export default async function LabCaseStudy({ params }: Params) {
         </div>
 
         <div className="mt-12">
-          {hasVideo ? <VideoPlayer url={item.videoUrl} title={item.title} /> : <BrowserFrame item={item} />}
+          <BrowserFrame item={item} />
         </div>
 
         <div className="mt-8 rounded-2xl border border-hero-pink/30 bg-black/40 p-5 font-mono text-sm md:p-6">

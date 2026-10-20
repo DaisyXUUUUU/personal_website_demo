@@ -43,8 +43,8 @@ export function DraftPreview({ initialContent }: { initialContent: SiteContent }
         <main>
           <Hero />
           <WorkExperience />
-          <Experience />
           <AiLab />
+          <Experience />
           <Human />
           <Contact />
         </main>

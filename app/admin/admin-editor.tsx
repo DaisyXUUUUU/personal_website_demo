@@ -562,7 +562,7 @@ function LabEditor({ content, setContent, uploads, setImage, clearImage }: Edito
 
         <p className="mt-2 font-mono text-[11px] uppercase tracking-widest text-hero-pink">Media & links</p>
         <div>
-          <p className="admin-label">Cover image <span className="ml-2 font-normal text-hero-card/40">optional · a poster is generated if empty</span></p>
+          <p className="admin-label">Cover image <span className="ml-2 font-normal text-hero-card/40">optional · shown only when there is no video; a poster is generated if both are empty</span></p>
           <div className="mt-2 flex flex-col gap-3 rounded-xl border border-dashed border-hero-pink/35 p-3 sm:flex-row sm:items-center">
             <div className="lab-poster aspect-video w-full overflow-hidden rounded-lg sm:w-44">{cover && <img src={cover} alt="Cover preview" className="h-full w-full object-cover" />}</div>
             <div className="flex flex-wrap gap-2">
@@ -571,7 +571,7 @@ function LabEditor({ content, setContent, uploads, setImage, clearImage }: Edito
             </div>
           </div>
         </div>
-        <Field label="Walkthrough video link" hint="YouTube (unlisted is fine), Vimeo, Bilibili or Loom" value={item.videoUrl ?? ''} placeholder="https://youtu.be/…" onChange={(videoUrl) => update({ ...item, videoUrl: videoUrl.trim() })} />
+        <Field label="Walkthrough video link" hint="plays as the cover · YouTube (unlisted is fine), Vimeo, Bilibili or Loom" value={item.videoUrl ?? ''} placeholder="https://youtu.be/…" onChange={(videoUrl) => update({ ...item, videoUrl: videoUrl.trim() })} />
         <VideoCheck url={item.videoUrl} />
         <div className="grid gap-4 sm:grid-cols-2">
           <Field label="Live demo URL" value={item.demoUrl ?? ''} placeholder="https://…" onChange={(demoUrl) => update({ ...item, demoUrl: demoUrl.trim() })} />

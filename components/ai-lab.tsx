@@ -2,16 +2,15 @@
 
 import { useEffect, useState, type PointerEvent as ReactPointerEvent } from 'react'
 import Link from 'next/link'
-import { ArrowRight, Play } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import { motion, useMotionValue, useReducedMotion, useSpring, useTransform } from 'framer-motion'
 import { useSiteContent } from '@/components/site-content-provider'
-import { BrowserFrame, LabLinks, VideoModal } from '@/components/lab-shared'
+import { BrowserFrame, LabLinks } from '@/components/lab-shared'
 import { labItems, type LabItem } from '@/lib/site-content'
 import { resolveVideo } from '@/lib/video'
 
 export function AiLab() {
   const items = labItems(useSiteContent())
-  const [watching, setWatching] = useState<LabItem | null>(null)
 
   if (items.length === 0) return null
 
@@ -49,12 +48,11 @@ export function AiLab() {
 
         <div className="mt-16 space-y-24 md:mt-24 md:space-y-32">
           {items.map((item, index) => (
-            <LabCard key={item.id} item={item} index={index} total={items.length} onWatch={() => setWatching(item)} />
+            <LabCard key={item.id} item={item} index={index} total={items.length} />
           ))}
         </div>
       </div>
 
-      <VideoModal item={watching} onClose={() => setWatching(null)} />
     </section>
   )
 }
@@ -122,7 +120,7 @@ function PromptTerminal({ items }: { items: LabItem[] }) {
   )
 }
 
-function LabCard({ item, index, total, onWatch }: { item: LabItem; index: number; total: number; onWatch: () => void }) {
+function LabCard({ item, index, total }: { item: LabItem; index: number; total: number }) {
   const reverse = index % 2 === 1
   const hasVideo = Boolean(resolveVideo(item.videoUrl))
   const reduceMotion = useReducedMotion()
@@ -164,28 +162,21 @@ function LabCard({ item, index, total, onWatch }: { item: LabItem; index: number
         <span aria-hidden className={`lab-index pointer-events-none absolute -top-14 select-none text-[7rem] font-black leading-none tracking-tighter md:-top-20 md:text-[10rem] ${reverse ? 'right-0' : 'left-0'}`}>
           {String(index + 1).padStart(2, '0')}
         </span>
-        <motion.div
-          onPointerMove={onMove}
-          onPointerLeave={onLeave}
-          style={{ rotateX, rotateY, transformStyle: 'preserve-3d' }}
-          className="relative"
-        >
-          <button
-            type="button"
-            onClick={hasVideo ? onWatch : undefined}
-            disabled={!hasVideo}
-            aria-label={hasVideo ? `Play ${item.title} walkthrough` : `${item.title} preview`}
-            className="relative block w-full text-left disabled:cursor-default"
+        {hasVideo ? (
+          <BrowserFrame item={item} />
+        ) : (
+          <motion.div
+            onPointerMove={onMove}
+            onPointerLeave={onLeave}
+            style={{ rotateX, rotateY, transformStyle: 'preserve-3d' }}
+            className="relative"
           >
-            <BrowserFrame item={item} />
-            <motion.span aria-hidden className="pointer-events-none absolute inset-0 rounded-2xl" style={{ background: glare }} />
-            {hasVideo && (
-              <span className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center gap-2 rounded-full bg-hero-pink py-3 pl-4 pr-5 font-black text-hero-ink shadow-2xl transition-transform duration-300 [transform:translateZ(60px)] group-hover:scale-110">
-                <Play className="size-5 fill-current" /> 2 min
-              </span>
-            )}
-          </button>
-        </motion.div>
+            <Link href={`/lab/${item.slug}`} aria-label={`${item.title} case study`} className="relative block">
+              <BrowserFrame item={item} />
+              <motion.span aria-hidden className="pointer-events-none absolute inset-0 rounded-2xl" style={{ background: glare }} />
+            </Link>
+          </motion.div>
+        )}
         {item.highlight && (
           <motion.span
             className={`absolute -bottom-5 rounded-full border-2 border-[#120b12] bg-hero-card px-4 py-2 text-sm font-black text-hero-ink shadow-xl ${reverse ? 'left-4' : 'right-4'}`}
@@ -239,7 +230,7 @@ function LabCard({ item, index, total, onWatch }: { item: LabItem; index: number
         )}
 
         <div className="mt-7 flex flex-wrap items-center gap-x-5 gap-y-3">
-          <LabLinks item={item} onWatch={onWatch} />
+          <LabLinks item={item} />
           <Link href={`/lab/${item.slug}`} className="inline-flex items-center gap-1.5 font-mono text-xs font-bold uppercase tracking-widest text-hero-card/60 transition-colors hover:text-hero-pink">
             Case study <ArrowRight className="size-4" />
           </Link>

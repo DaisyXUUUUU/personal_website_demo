@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
-import { ArrowUpRight, X } from 'lucide-react'
-import { motion, useMotionValueEvent, useReducedMotion, useScroll, useTransform } from 'framer-motion'
+import { ArrowUpRight, ChevronDown, X } from 'lucide-react'
+import { motion, useInView, useMotionValueEvent, useReducedMotion, useScroll, useTransform, type MotionStyle } from 'framer-motion'
 import { useSiteContent } from '@/components/site-content-provider'
 import type { ProjectItem } from '@/lib/site-content'
 
@@ -78,48 +78,108 @@ export function Experience() {
             aria-hidden
           />
 
-          {years.map((year) => (
-            <div key={year} className="flex gap-6 md:gap-10">
-              {/* Left — sticky year that follows the scroll within this group */}
-              <motion.div
-                className="relative hidden shrink-0 md:block"
-                style={{ opacity: timelineFade, y: timelineRise }}
-              >
-                <div className="sticky top-24 pb-10 pl-10">
-                  <span
-                    className="absolute left-1 top-4 size-4 rounded-full border-2 border-hero-pink bg-hero-card"
-                    aria-hidden
-                  />
-                  <span className="text-5xl font-black tracking-tighter text-hero-ink lg:text-6xl">
-                    {year}
-                  </span>
-                </div>
-              </motion.div>
-
-              {/* Right — project cards for this year */}
-              <div className="mb-10 flex-1">
-                <span className="mb-4 block text-4xl font-black tracking-tighter text-hero-ink md:hidden">
-                  {year}
-                </span>
-                <div className="grid gap-5 sm:grid-cols-2">
-                  {projects.filter((i) => i.year === year).map((item, idx) => (
-                    <ProjectCard
-                      key={item.id}
-                      item={item}
-                      cardIndex={idx + projects.findIndex((entry) => entry.id === item.id)}
-                      scatterProgress={scatterProgress}
-                      onOpen={() => setActiveId(item.id)}
-                    />
-                  ))}
-                </div>
-              </div>
-            </div>
+          {years.map((year, yearIndex) => (
+            <YearGroup
+              key={year}
+              year={year}
+              items={projects.filter((i) => i.year === year)}
+              defaultOpen={yearIndex === 0}
+              railStyle={{ opacity: timelineFade, y: timelineRise }}
+              renderCard={(item, idx) => (
+                <ProjectCard
+                  key={item.id}
+                  item={item}
+                  cardIndex={idx + projects.findIndex((entry) => entry.id === item.id)}
+                  scatterProgress={scatterProgress}
+                  onOpen={() => setActiveId(item.id)}
+                />
+              )}
+            />
           ))}
         </div>
       </div>
 
       {active && <ProjectModal item={active} onClose={() => setActiveId(null)} />}
     </motion.section>
+  )
+}
+
+/** A year of projects that stays folded until the visitor hovers it, taps it, or scrolls down to it. */
+function YearGroup({
+  year,
+  items,
+  defaultOpen,
+  railStyle,
+  renderCard,
+}: {
+  year: string
+  items: ProjectItem[]
+  defaultOpen: boolean
+  railStyle: MotionStyle
+  renderCard: (item: ProjectItem, idx: number) => React.ReactNode
+}) {
+  const groupRef = useRef<HTMLDivElement>(null)
+  const reached = useInView(groupRef, { once: true, margin: '0px 0px -45% 0px' })
+  const [open, setOpen] = useState(defaultOpen)
+  const [settled, setSettled] = useState(defaultOpen)
+  const panelId = `projects-${year}`
+
+  useEffect(() => {
+    if (reached) setOpen(true)
+  }, [reached])
+
+  useEffect(() => {
+    if (!open) setSettled(false)
+  }, [open])
+
+  return (
+    <div ref={groupRef} className="flex gap-6 md:gap-10" onMouseEnter={() => setOpen(true)}>
+      {/* Left — sticky year that follows the scroll within this group */}
+      <motion.div className="relative hidden shrink-0 md:block" style={railStyle}>
+        <div className="sticky top-24 pb-10 pl-10">
+          <span
+            className={`absolute left-1 top-4 size-4 rounded-full border-2 border-hero-pink transition-colors duration-300 ${open ? 'bg-hero-pink' : 'bg-hero-card'}`}
+            aria-hidden
+          />
+          <span className="text-5xl font-black tracking-tighter text-hero-ink lg:text-6xl">{year}</span>
+        </div>
+      </motion.div>
+
+      {/* Right — a folded summary that opens into the project cards for this year */}
+      <div className="mb-10 min-w-0 flex-1">
+        <button
+          type="button"
+          onClick={() => setOpen((value) => !value)}
+          aria-expanded={open}
+          aria-controls={panelId}
+          className="group flex w-full items-center gap-4 rounded-2xl border border-hero-pink/35 bg-hero-card/60 px-4 py-3 text-left text-hero-ink transition-colors hover:border-hero-pink hover:bg-hero-card md:px-5"
+        >
+          <span className="text-3xl font-black tracking-tighter md:hidden">{year}</span>
+          <span className="min-w-0 flex-1">
+            <span className="block font-mono text-xs font-bold uppercase tracking-widest text-hero-pink">
+              {items.length} {items.length === 1 ? 'project' : 'projects'}
+            </span>
+            <span className={`block truncate text-sm text-hero-muted transition-opacity duration-300 ${open ? 'opacity-0' : 'opacity-100'}`}>
+              {items.map((item) => item.org).join(' · ')}
+            </span>
+          </span>
+          <ChevronDown className={`size-5 shrink-0 text-hero-pink transition-transform duration-500 ${open ? 'rotate-180' : ''}`} />
+        </button>
+
+        <div
+          id={panelId}
+          className="grid transition-[grid-template-rows] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
+          style={{ gridTemplateRows: open ? '1fr' : '0fr' }}
+          onTransitionEnd={(event) => {
+            if (event.target === event.currentTarget && open) setSettled(true)
+          }}
+        >
+          <div className={`min-h-0 ${settled ? 'overflow-visible' : 'overflow-hidden'}`} inert={!open}>
+            <div className="grid gap-5 pt-5 sm:grid-cols-2">{items.map((item, idx) => renderCard(item, idx))}</div>
+          </div>
+        </div>
+      </div>
+    </div>
   )
 }
 
